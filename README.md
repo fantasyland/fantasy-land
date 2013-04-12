@@ -19,6 +19,11 @@ under and some laws it must obey.
 
 1. "value" is any JavaScript value, including any which have the
    structures defined below.
+2. "equals" is an appropriate definition of equality for the given value. For example:
+    - Two lists are equal if they are equal at all indices.
+    - Two plain old JavaScript objects, interpreted as dictionaries, are equal when they are equal for all keys.
+    - Two promises are equal when they yield equal values.
+    - Two functions are equal if they yield equal outputs for equal inputs.
 
 ## Algebras
 
