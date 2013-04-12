@@ -82,8 +82,11 @@ argument:
 
 ## Notes
 
-1. It's discouraged to overload the specified methods. It can easily
+1. If there's more than a single way to implement the methods and
+   laws, the implementation should choose one and provide wrappers for
+   other uses.
+2. It's discouraged to overload the specified methods. It can easily
    result in broken and buggy behaviour.
-2. It is recommended to throw an exception on unspecified behaviour.
-3. An `Id` container which implements all methods is provided in
+3. It is recommended to throw an exception on unspecified behaviour.
+4. An `Id` container which implements all methods is provided in
    `id.js`.
