@@ -19,18 +19,19 @@ under and some laws it must obey.
 
 1. "value" is any JavaScript value, including any which have the
    structures defined below.
-2. "equals" is an appropriate definition of equality for the given value. For example:
-    - Two lists are equal if they are equal at all indices.
-    - Two plain old JavaScript objects, interpreted as dictionaries, are equal when they are equal for all keys.
-    - Two promises are equal when they yield equal values.
-    - Two functions are equal if they yield equal outputs for equal inputs.
+2. "equivalent" is an appropriate definition of equivalence for the given value. 
+    The definition should ensure that the two values can be safely swapped out in a program that respects abstractions. For example:
+    - Two lists are equivalent if they are equivalent at all indices.
+    - Two plain old JavaScript objects, interpreted as dictionaries, are equivalent when they are equivalent for all keys.
+    - Two promises are equivalent when they yield equivalent values.
+    - Two functions are equivalent if they yield equivalent outputs for equivalent inputs.
 
 ## Algebras
 
 ### Functor
 
-1. `u.map(function(a) { return a; }))` equals `u`
-2. `u.map(function(x) { return f(g(x)); })` equals `u.map(g).map(f)`
+1. `u.map(function(a) { return a; }))` is equivalent to `u`
+2. `u.map(function(x) { return f(g(x)); })` is equivalent to `u.map(g).map(f)`
 
 #### `map` method
 
@@ -54,9 +55,9 @@ A value which satisfies the specification of a monad do not need to implement:
 * Functor's `map`; derivable as `function(f) { var m = this; return
   m.then(function(a) { return m.constructor.of(f(a)); })}`
 
-1. `of(a).then(f)` equals `f(a)`
-2. `m.then(of)` equals `m`
-3. `m.then(f).then(g)` equals `m.then(function(x) { return f(x).then(g); })`
+1. `of(a).then(f)` is equivalent to `f(a)`
+2. `m.then(of)` is equivalent to `m`
+3. `m.then(f).then(g)` is equivalent to `m.then(function(x) { return f(x).then(g); })`
 
 #### `then` method
 
