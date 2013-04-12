@@ -25,7 +25,7 @@ under and some laws it must obey.
 ### Functor
 
 1. `u.map(function(a) { return a; }))` equals `u`
-2. `u.map(function(a) { return f(g(x)); })` equals `u.map(g).map(f)`
+2. `u.map(function(x) { return f(g(x)); })` equals `u.map(g).map(f)`
 
 #### `map` method
 
