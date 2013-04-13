@@ -34,6 +34,24 @@ implemented and how they can be derived from new methods.
 
 ## Algebras
 
+### Semigroup
+
+1. `a.concat(b).concat(c)` is equivalent to `a.concat(b.concat(c))`
+
+#### `concat` method
+
+A value which has a Semigroup must provide a `concat` method. The
+`concat` method takes one argument:
+
+    s.concat(b)
+
+1. `b` must be a value of the same Semigroup
+
+    1. If `b` is not the same semigroup, behaviour of `concat` is
+       unspecified.
+
+2. `concat` must return a value of the same Semigroup.
+
 ### Functor
 
 1. `u.map(function(a) { return a; }))` is equivalent to `u`
