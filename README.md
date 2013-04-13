@@ -53,6 +53,24 @@ A value which has a Semigroup must provide a `concat` method. The
 
 2. `concat` must return a value of the same Semigroup.
 
+### Monoid
+
+A value that implements the Monoid specification must also implement
+the Semigroup specficiation.
+
+1. `m.concat(m.zero())` is equivalent to `m`
+2. `m.zero().concat(m)` is equivalent to `m`
+
+#### `zero` method
+
+A value which has a Monad must provide an `zero` method on itself or its
+`constructor` object. The `zero` method takes one argument:
+
+    m.zero()
+    m.constructor.zero()
+
+1. `zero` must return a value of the same Monoid
+
 ### Functor
 
 1. `u.map(function(a) { return a; }))` is equivalent to `u`
