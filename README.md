@@ -8,6 +8,7 @@ This project specifies interoperability of common algebraic
 structures:
 
 * Functor
+* Semigroup
 * Chain
 * Monad
 
