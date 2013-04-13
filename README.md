@@ -7,8 +7,8 @@
 This project specifies interoperability of common algebraic
 structures:
 
-* Functor
 * Semigroup
+* Functor
 * Chain
 * Monad
 
@@ -100,17 +100,17 @@ the Chain specficiation.
 A value which satisfies the specification of a Monad does not need to
 implement:
 
-* Functor's `map`; derivable as `function(f) { var m = this; return m.chain(function(a) { return m.constructor.of(f(a)); })}`
+* Functor's `map`; derivable as `function(f) { var m = this; return m.chain(function(a) { return m.of(f(a)); })}`
 
-1. `of(a).chain(f)` is equivalent to `f(a)`
-2. `m.chain(of)` is equivalent to `m`
+1. `m.of(a).chain(f)` is equivalent to `f(a)`
+2. `m.chain(m.of)` is equivalent to `m`
 
-#### `constructor.of` method
+#### `of` method
 
-A value which has a Monad must provide a `constructor` object. The
-`constructor` object must have an `of` method which takes one
-argument:
+A value which has a Monad must provide an `of` method on itself or its
+`constructor` object. The `of` method takes one argument:
 
+    m.of(a)
     m.constructor.of(a)
 
 1. `of` must provide a value of the same Monad
