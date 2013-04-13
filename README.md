@@ -60,7 +60,7 @@ method takes one argument:
 
 #### `chain` method
 
-A value which has a bind must provide a `chain` method. The `chain`
+A value which has a Chain must provide a `chain` method. The `chain`
 method takes one argument:
 
     m.chain(f)
