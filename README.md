@@ -8,12 +8,18 @@ This project specifies interoperability of common algebraic
 structures:
 
 * Functor
+* Chain
 * Monad
 
 ## General
 
 An algebra is a set of values, a set of operators that it is closed
 under and some laws it must obey.
+
+Each Fantasy Land algebra is a separate specification. An algebra may
+have dependencies on other algebras which must be implemented. An
+algebra may also state other algebra methods which do not need to be
+implemented and how they can be derived from new methods.
 
 ## Terminology
 
@@ -35,7 +41,7 @@ under and some laws it must obey.
 
 #### `map` method
 
-A value which has a functor must provide a `map` method. The `map`
+A value which has a Functor must provide a `map` method. The `map`
 method takes one argument:
 
     u.map(f)
@@ -46,43 +52,49 @@ method takes one argument:
        unspecified.
     2. `f` can return any value.
 
-2. `map` must return a value of the same functor
+2. `map` must return a value of the same Functor
 
-### Monad
+### Chain
 
-A value which satisfies the specification of a monad do not need to implement:
+1. `m.chain(f).chain(g)` is equivalent to `m.chain(function(x) { return f(x).chain(g); })`
 
-* Functor's `map`; derivable as `function(f) { var m = this; return
-  m.then(function(a) { return m.constructor.of(f(a)); })}`
+#### `chain` method
 
-1. `of(a).then(f)` is equivalent to `f(a)`
-2. `m.then(of)` is equivalent to `m`
-3. `m.then(f).then(g)` is equivalent to `m.then(function(x) { return f(x).then(g); })`
-
-#### `then` method
-
-A value which has a monad must provide a `then` method. The `then`
+A value which has a bind must provide a `chain` method. The `chain`
 method takes one argument:
 
-    m.then(f)
+    m.chain(f)
 
 1. `f` must be a function which returns a value
 
-    1. If `f` is not a function, the behaviour of `then` is
+    1. If `f` is not a function, the behaviour of `chain` is
        unspecified.
-    2. `f` must return a value of the same monad
+    2. `f` must return a value of the same Chain
 
-2. `then` must return a value of the same monad
+2. `chain` must return a value of the same Chain
+
+### Monad
+
+A value that implements the Monad specification must also implement
+the Chain specficiation.
+
+A value which satisfies the specification of a Monad does not need to
+implement:
+
+* Functor's `map`; derivable as `function(f) { var m = this; return m.chain(function(a) { return m.constructor.of(f(a)); })}`
+
+1. `of(a).chain(f)` is equivalent to `f(a)`
+2. `m.chain(of)` is equivalent to `m`
 
 #### `constructor.of` method
 
-A value which has a monad must provide a `constructor` object. The
+A value which has a Monad must provide a `constructor` object. The
 `constructor` object must have an `of` method which takes one
 argument:
 
     m.constructor.of(a)
 
-1. `of` must provide a value of the same monad
+1. `of` must provide a value of the same Monad
 
     1. No parts of `a` should be checked
 

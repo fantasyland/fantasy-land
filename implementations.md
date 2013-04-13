@@ -1,6 +1,6 @@
 # Conformant Implementations
 
-Here are a list of implementations of the Fantasy Land specification:
+Here are a list of implementations that live in Fantasy Land:
 
 * [bacon.js](https://github.com/raimohanska/bacon.js) implements a
   Monad for EventStream and Property on the "fantasy-land" branch
