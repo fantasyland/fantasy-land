@@ -64,8 +64,8 @@ the Semigroup specficiation.
 
 #### `zero` method
 
-A value which has a Monad must provide an `zero` method on itself or its
-`constructor` object. The `zero` method takes one argument:
+A value which has a Monoid must provide an `zero` method on itself or
+its `constructor` object. The `zero` method takes no arguments:
 
     m.zero()
     m.constructor.zero()
