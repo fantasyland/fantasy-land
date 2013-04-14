@@ -8,8 +8,8 @@ Id.prototype.concat = function(b) {
 };
 
 // Monoid (value must also be a Monoid)
-Id.prototype.empty = function() {
-    return new Id(this.value.empty ? this.value.empty() : this.value.constructor.empty());
+Id.prototype.zero = function() {
+    return new Id(this.value.zero ? this.value.zero() : this.value.constructor.zero());
 };
 
 // Functor
