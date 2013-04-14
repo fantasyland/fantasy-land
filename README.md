@@ -27,7 +27,7 @@ implemented and how they can be derived from new methods.
 
 1. "value" is any JavaScript value, including any which have the
    structures defined below.
-2. "equivalent" is an appropriate definition of equivalence for the given value. 
+2. "equivalent" is an appropriate definition of equivalence for the given value.
     The definition should ensure that the two values can be safely swapped out in a program that respects abstractions. For example:
     - Two lists are equivalent if they are equivalent at all indices.
     - Two plain old JavaScript objects, interpreted as dictionaries, are equivalent when they are equivalent for all keys.
@@ -59,8 +59,8 @@ A value which has a Semigroup must provide a `concat` method. The
 A value that implements the Monoid specification must also implement
 the Semigroup specficiation.
 
-1. `m.concat(m.zero())` is equivalent to `m` (left identity)
-2. `m.zero().concat(m)` is equivalent to `m` (right identity)
+1. `m.concat(m.zero())` is equivalent to `m` (right identity)
+2. `m.zero().concat(m)` is equivalent to `m` (left identity)
 
 #### `zero` method
 
