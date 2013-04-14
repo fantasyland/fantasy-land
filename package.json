@@ -1,0 +1,23 @@
+{
+    "name": "fantasy-land",
+    "author": "Brian McKenna",
+    "version": "0.0.1",
+    "description": "Specification for interoperability of common algebraic structures in JavaScript",
+    "license": "XXX",
+    "homepage": "https://github.com/pufuwozu/fantasy-land",
+    "keywords": [ 
+        "algebraic",
+        "monad", 
+        "functor",
+        "monoid",
+        "semigroup" 
+    ],
+    "issues": {
+        "url": "https://github.com/pufuwozu/fantasy-land/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/pufuwozu/fantasy-land.git"
+    },
+    "files": ["id.js"]
+}
