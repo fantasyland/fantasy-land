@@ -38,7 +38,7 @@ implemented and how they can be derived from new methods.
 
 ### Semigroup
 
-1. `a.concat(b).concat(c)` is equivalent to `a.concat(b.concat(c))`
+1. `a.concat(b).concat(c)` is equivalent to `a.concat(b.concat(c))` (associativity)
 
 #### `concat` method
 
@@ -59,8 +59,8 @@ A value which has a Semigroup must provide a `concat` method. The
 A value that implements the Monoid specification must also implement
 the Semigroup specficiation.
 
-1. `m.concat(m.zero())` is equivalent to `m`
-2. `m.zero().concat(m)` is equivalent to `m`
+1. `m.concat(m.zero())` is equivalent to `m` (left identity)
+2. `m.zero().concat(m)` is equivalent to `m` (right identity)
 
 #### `zero` method
 
@@ -74,8 +74,8 @@ its `constructor` object. The `zero` method takes no arguments:
 
 ### Functor
 
-1. `u.map(function(a) { return a; }))` is equivalent to `u`
-2. `u.map(function(x) { return f(g(x)); })` is equivalent to `u.map(g).map(f)`
+1. `u.map(function(a) { return a; }))` is equivalent to `u` (identity)
+2. `u.map(function(x) { return f(g(x)); })` is equivalent to `u.map(g).map(f)` (composition)
 
 #### `map` method
 
@@ -94,7 +94,7 @@ method takes one argument:
 
 ### Chain
 
-1. `m.chain(f).chain(g)` is equivalent to `m.chain(function(x) { return f(x).chain(g); })`
+1. `m.chain(f).chain(g)` is equivalent to `m.chain(function(x) { return f(x).chain(g); })` (associativity)
 
 #### `chain` method
 
@@ -121,8 +121,8 @@ implement:
 
 * Functor's `map`; derivable as `function(f) { var m = this; return m.chain(function(a) { return m.of(f(a)); })}`
 
-1. `m.of(a).chain(f)` is equivalent to `f(a)`
-2. `m.chain(m.of)` is equivalent to `m`
+1. `m.of(a).chain(f)` is equivalent to `f(a)` (left identity)
+2. `m.chain(m.of)` is equivalent to `m` (right identity)
 
 #### `of` method
 
