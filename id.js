@@ -7,6 +7,11 @@ Id.prototype.concat = function(b) {
     return new Id(this.value.concat(b.value));
 };
 
+// Monoid (value must also be a Monoid)
+Id.prototype.empty = function() {
+    return new Id(this.value.empty ? this.value.empty() : this.value.constructor.empty());
+};
+
 // Functor
 Id.prototype.map = function(f) {
     return new Id(f(this.value));
