@@ -28,8 +28,8 @@ implemented and how they can be derived from new methods.
 1. "value" is any JavaScript value, including any which have the
    structures defined below.
 2. "equivalent" is an appropriate definition of equivalence for the given value.
-    The definition should ensure that the two values can be safely swapped out in a program that respects abstractions. For example:
-    - Two lists are equivalent if they are equivalent at all indices.
+    The definition should ensure that the two values can be safely swapped in a program without any side effects. For example:
+    - Two lists are equivalent if they contain equivallent items in the same locations
     - Two plain old JavaScript objects, interpreted as dictionaries, are equivalent when they are equivalent for all keys.
     - Two promises are equivalent when they yield equivalent values.
     - Two functions are equivalent if they yield equivalent outputs for equivalent inputs.
