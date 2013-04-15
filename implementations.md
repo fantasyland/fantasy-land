@@ -6,6 +6,8 @@ Here are a list of implementations that live in Fantasy Land:
   Monad and Functor for EventStream and Property on the "fantasy-land" branch
 * [aljebra](https://github.com/markandrus/aljebra) implements common
   Monoid structures from Haskell
+* [Fantasy Promises](https://github.com/pufuwozu/fantasy-promises)
+  implements Monad and Functor for Promise
 * ECMAScript 5 provides a Semigroup and Functor for Array
 
 Conforming implementations are encouraged to promote the Fantasy Land logo:
