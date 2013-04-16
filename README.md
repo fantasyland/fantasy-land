@@ -10,6 +10,7 @@ structures:
 * Semigroup
 * Monoid
 * Functor
+* Applicative
 * Chain
 * Monad
 
@@ -92,6 +93,45 @@ method takes one argument:
 
 2. `map` must return a value of the same Functor
 
+### Applicative
+
+A value that implements the Applicative specficiation must also
+implement the Functor specficiation.
+
+1. `a.of(function(a) { return a; }).ap(v)` is equivalent to `v` (identity)
+2. `a.of(function(f) { return function(g) { return function(x) { return f(g(x))}; }; }).ap(u).ap(v).ap(w)` is equivalent to `u.ap(v.ap(w))` (composition)
+3. `a.of(f).ap(a.of(x))` is equivalent to `a.of(f(x))` (homomorphism)
+4. `u.ap(a.of(y))` is equivalent to `a.of(function(f) { return f(y); }).ap(u)` (interchange)
+
+#### `ap` method
+
+A value which has an Applicative must provide an `ap` method. The `ap`
+method takes one argument:
+
+    a.ap(b)
+
+1. `a` must be an Applicative of a function,
+
+    1. If `a` does not represent a function, the behaviour of `ap` is
+       unspecified.
+
+2. `b` must be an Applicative of any value
+
+3. `ap` must and apply the value in Applicative `b` to the function in
+   Applicative `a`
+
+#### `of` method
+
+A value which has an Applicative must provide an `of` method on itself
+or its `constructor` object. The `of` method takes one argument:
+
+    a.of(b)
+    a.constructor.of(b)
+
+1. `of` must provide a value of the same Applicative
+
+    1. No parts of `b` should be checked
+
 ### Chain
 
 1. `m.chain(f).chain(g)` is equivalent to `m.chain(function(x) { return f(x).chain(g); })` (associativity)
@@ -114,27 +154,21 @@ method takes one argument:
 ### Monad
 
 A value that implements the Monad specification must also implement
-the Chain specficiation.
+the Applicative and Chain specficiations.
 
 A value which satisfies the specification of a Monad does not need to
 implement:
 
+* Applicative's `ap`; derivable as `function(m) { return this.chain(function(f) { return m.map(f); }); }`
 * Functor's `map`; derivable as `function(f) { var m = this; return m.chain(function(a) { return m.of(f(a)); })}`
 
 1. `m.of(a).chain(f)` is equivalent to `f(a)` (left identity)
 2. `m.chain(m.of)` is equivalent to `m` (right identity)
 
-#### `of` method
 
-A value which has a Monad must provide an `of` method on itself or its
-`constructor` object. The `of` method takes one argument:
 
-    m.of(a)
-    m.constructor.of(a)
 
-1. `of` must provide a value of the same Monad
 
-    1. No parts of `a` should be checked
 
 ## Notes
 
