@@ -17,6 +17,11 @@ Id.prototype.map = function(f) {
     return new Id(f(this.value));
 };
 
+// Applicative (value must be a function)
+Id.prototype.ap = function(b) {
+  return this.value(b.value);
+};
+
 // Chain
 Id.prototype.chain = function(f) {
     return f(this.value);
