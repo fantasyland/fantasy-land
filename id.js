@@ -31,3 +31,5 @@ Id.prototype.chain = function(f) {
 Id.of = function(a) {
     return new Id(a);
 };
+
+module.exports = Id;
