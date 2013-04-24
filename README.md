@@ -60,18 +60,18 @@ A value which has a Semigroup must provide a `concat` method. The
 A value that implements the Monoid specification must also implement
 the Semigroup specficiation.
 
-1. `m.concat(m.zero())` is equivalent to `m` (right identity)
-2. `m.zero().concat(m)` is equivalent to `m` (left identity)
+1. `m.concat(m.empty())` is equivalent to `m` (right identity)
+2. `m.empty().concat(m)` is equivalent to `m` (left identity)
 
-#### `zero` method
+#### `empty` method
 
-A value which has a Monoid must provide an `zero` method on itself or
-its `constructor` object. The `zero` method takes no arguments:
+A value which has a Monoid must provide an `empty` method on itself or
+its `constructor` object. The `empty` method takes no arguments:
 
-    m.zero()
-    m.constructor.zero()
+    m.empty()
+    m.constructor.empty()
 
-1. `zero` must return a value of the same Monoid
+1. `empty` must return a value of the same Monoid
 
 ### Functor
 
