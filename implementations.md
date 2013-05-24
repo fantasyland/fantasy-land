@@ -15,6 +15,7 @@ Here are a list of implementations that live in Fantasy Land:
 * [Fantasy Sorcery](https://github.com/pufuwozu/fantasy-sorcery)
   provides common functions that work for Fantasy Land structures
 * ECMAScript 5 provides a Semigroup and Functor for Array
+* [lz](https://github.com/goatslacker/lz) implements Semigroup, Monoid, Functor, and Monad for lazy Array and String
 
 Conforming implementations are encouraged to promote the Fantasy Land logo:
 
