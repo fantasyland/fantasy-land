@@ -95,8 +95,8 @@ method takes one argument:
 
 ### Applicative
 
-A value that implements the Applicative specficiation must also
-implement the Functor specficiation.
+A value that implements the Applicative specification must also
+implement the Functor specification.
 
 1. `a.of(function(a) { return a; }).ap(v)` is equivalent to `v` (identity)
 2. `a.of(function(f) { return function(g) { return function(x) { return f(g(x))}; }; }).ap(u).ap(v).ap(w)` is equivalent to `u.ap(v.ap(w))` (composition)
