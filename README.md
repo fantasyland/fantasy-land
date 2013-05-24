@@ -117,7 +117,7 @@ method takes one argument:
 
 2. `b` must be an Applicative of any value
 
-3. `ap` must and apply the value in Applicative `b` to the function in
+3. `ap` must apply the value in Applicative `b` to the function in
    Applicative `a`
 
 #### `of` method
