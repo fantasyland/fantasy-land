@@ -154,7 +154,7 @@ method takes one argument:
 ### Monad
 
 A value that implements the Monad specification must also implement
-the Applicative and Chain specficiations.
+the Applicative and Chain specifications.
 
 A value which satisfies the specification of a Monad does not need to
 implement:
