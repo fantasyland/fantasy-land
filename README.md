@@ -98,6 +98,11 @@ method takes one argument:
 A value that implements the Applicative specification must also
 implement the Functor specification.
 
+A value which satisfies the specification of a Applicative does not
+need to implement:
+
+* Functor's `map`; derivable as `function(f) { return this.of(f).ap(this); })}`
+
 1. `a.of(function(a) { return a; }).ap(v)` is equivalent to `v` (identity)
 2. `a.of(function(f) { return function(g) { return function(x) { return f(g(x))}; }; }).ap(u).ap(v).ap(w)` is equivalent to `u.ap(v.ap(w))` (composition)
 3. `a.of(f).ap(a.of(x))` is equivalent to `a.of(f(x))` (homomorphism)
