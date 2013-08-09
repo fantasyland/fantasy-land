@@ -19,6 +19,7 @@ Here are a list of implementations that live in Fantasy Land:
 * [Pacta](https://github.com/mudge/pacta) is an algebraic implementation of
   Promises that implements Semigroup, Monoid, Functor, Applicative, Chain and
   Monad
+* [fantasy-streams](http://github.com/quarterto/fantasy-streams) implements MonadPlus (Monad & Monoid) for node's Readable streams
 
 Conforming implementations are encouraged to promote the Fantasy Land logo:
 
