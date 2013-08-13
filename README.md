@@ -122,8 +122,8 @@ method takes one argument:
 
 2. `b` must be an Applicative of any value
 
-3. `ap` must apply the value in Applicative `b` to the function in
-   Applicative `a`
+3. `ap` must apply the function in Applicative `a` to the value in
+   Applicative `b`
 
 #### `of` method
 
