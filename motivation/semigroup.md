@@ -208,5 +208,25 @@ Plus, this is only supposed to be motivation.
 
 To answer the first question: that example is the point. A very simple abstraction, which says "Provide some way to take two values of the same type and combine then" and only require this operation to be associative, has allowed us to model a much more complicated problem in simple terms of the operation.
 
+The other important thing to see here is how simple it is to find a Semigroup.
+
+Working with The DOM?
+Can you combine elements such that the operation holds under associativity?
+Then it's a Semigroup.
+
+Working with Dates?
+Can you combine Dates such that the operation holds under associativity?
+Then it's a Semigroup.
+
+Working with an MVC library?
+Can you combine Models or Collections or Views or whatever such that the operation holds under associativity?
+Then it's a Semigroup.
+
+Working with Streams?
+Can you combine streams such that the operation holds under associativity?
+Then it's a Semigroup.
+
+There's plenty of these things out there, and viewing them as Semigroups allows us to reason a bit more about how they operate.
+
 [1]: This comes with a caveat.
 If your `Semigroup` performs side-effects during concat (which we all hope it doesn't, but there's not much we can really do to restrict it from happening), then the order of the side-effects may not reflect your intentions.
