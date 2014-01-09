@@ -20,6 +20,7 @@ Here are a list of implementations that live in Fantasy Land:
   Promises that implements Semigroup, Monoid, Functor, Applicative, Chain and
   Monad
 * [Pirandello](https://github.com/quarterto/Pirandello) better streams, with a MonadPlus
+* [Parsimmon](https://github.com/jayferd/parsimmon) implements parsers that are semigroups, applicative functors, and monads.
 
 Conforming implementations are encouraged to promote the Fantasy Land logo:
 
