@@ -10,6 +10,7 @@ structures:
 * Semigroup
 * Monoid
 * Functor
+* Apply
 * Applicative
 * Chain
 * Monad
@@ -93,37 +94,43 @@ method takes one argument:
 
 2. `map` must return a value of the same Functor
 
+### Apply
+
+A value that implements the Apply specification must also
+implement the Functor specification.
+
+1. `a.map(function(f) { return function(g) { return function(x) { return f(g(x))}; }; }).ap(u).ap(v)` is equivalent to `a.ap(u.ap(v))` (composition)
+
+#### `ap` method
+
+A value which has an Apply must provide an `ap` method. The `ap`
+method takes one argument:
+
+    a.ap(b)
+
+1. `a` must be an Apply of a function,
+
+    1. If `a` does not represent a function, the behaviour of `ap` is
+       unspecified.
+
+2. `b` must be an Apply of any value
+
+3. `ap` must apply the function in Apply `a` to the value in
+   Apply `b`
+
 ### Applicative
 
 A value that implements the Applicative specification must also
-implement the Functor specification.
+implement the Apply specification.
 
-A value which satisfies the specification of a Applicative does not
+A value which satisfies the specification of an Applicative does not
 need to implement:
 
 * Functor's `map`; derivable as `function(f) { return this.of(f).ap(this); })}`
 
 1. `a.of(function(a) { return a; }).ap(v)` is equivalent to `v` (identity)
-2. `a.of(function(f) { return function(g) { return function(x) { return f(g(x))}; }; }).ap(u).ap(v).ap(w)` is equivalent to `u.ap(v.ap(w))` (composition)
-3. `a.of(f).ap(a.of(x))` is equivalent to `a.of(f(x))` (homomorphism)
-4. `u.ap(a.of(y))` is equivalent to `a.of(function(f) { return f(y); }).ap(u)` (interchange)
-
-#### `ap` method
-
-A value which has an Applicative must provide an `ap` method. The `ap`
-method takes one argument:
-
-    a.ap(b)
-
-1. `a` must be an Applicative of a function,
-
-    1. If `a` does not represent a function, the behaviour of `ap` is
-       unspecified.
-
-2. `b` must be an Applicative of any value
-
-3. `ap` must apply the function in Applicative `a` to the value in
-   Applicative `b`
+2. `a.of(f).ap(a.of(x))` is equivalent to `a.of(f(x))` (homomorphism)
+3. `u.ap(a.of(y))` is equivalent to `a.of(function(f) { return f(y); }).ap(u)` (interchange)
 
 #### `of` method
 
@@ -138,6 +145,14 @@ or its `constructor` object. The `of` method takes one argument:
     1. No parts of `b` should be checked
 
 ### Chain
+
+A value that implements the Chain specification must also
+implement the Apply specification.
+
+A value which satisfies the specification of a Chain does not
+need to implement:
+
+* Apply's `ap`; derivable as `m.chain(function(f) { return m.map(f); })`
 
 1. `m.chain(f).chain(g)` is equivalent to `m.chain(function(x) { return f(x).chain(g); })` (associativity)
 
@@ -164,7 +179,7 @@ the Applicative and Chain specifications.
 A value which satisfies the specification of a Monad does not need to
 implement:
 
-* Applicative's `ap`; derivable as `function(m) { return this.chain(function(f) { return m.map(f); }); }`
+* Apply's `ap`; derivable as `function(m) { return this.chain(function(f) { return m.map(f); }); }`
 * Functor's `map`; derivable as `function(f) { var m = this; return m.chain(function(a) { return m.of(f(a)); })}`
 
 1. `m.of(a).chain(f)` is equivalent to `f(a)` (left identity)
