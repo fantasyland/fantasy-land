@@ -10,6 +10,7 @@ structures:
 * Semigroup
 * Monoid
 * Functor
+* Pointed
 * Apply
 * Applicative
 * Chain
@@ -37,6 +38,8 @@ implemented and how they can be derived from new methods.
     - Two functions are equivalent if they yield equivalent outputs for equivalent inputs.
 
 ## Algebras
+
+![algebra dependencies](deps.png)
 
 ### Semigroup
 
@@ -94,6 +97,24 @@ method takes one argument:
 
 2. `map` must return a value of the same Functor
 
+### Pointed
+
+If a value implements Functor specification, it must obey following specification:
+
+1. `a.of(x).map(f)` is equivalent to `a.of(f(x))` (natural transformation)
+
+#### `of` method
+
+A value which has an Applicative must provide an `of` method on itself
+or its `constructor` object. The `of` method takes one argument:
+
+    a.of(b)
+    a.constructor.of(b)
+
+1. `of` must provide a value of the same Applicative
+
+    1. No parts of `b` should be checked
+
 ### Apply
 
 A value that implements the Apply specification must also
@@ -121,7 +142,7 @@ method takes one argument:
 ### Applicative
 
 A value that implements the Applicative specification must also
-implement the Apply specification.
+implement the Pointed and Apply specifications.
 
 A value which satisfies the specification of an Applicative does not
 need to implement:
@@ -132,18 +153,6 @@ need to implement:
 2. `a.of(f).ap(a.of(x))` is equivalent to `a.of(f(x))` (homomorphism)
 3. `u.ap(a.of(y))` is equivalent to `a.of(function(f) { return f(y); }).ap(u)` (interchange)
 
-#### `of` method
-
-A value which has an Applicative must provide an `of` method on itself
-or its `constructor` object. The `of` method takes one argument:
-
-    a.of(b)
-    a.constructor.of(b)
-
-1. `of` must provide a value of the same Applicative
-
-    1. No parts of `b` should be checked
-
 ### Chain
 
 A value that implements the Chain specification must also
@@ -152,7 +161,7 @@ implement the Apply specification.
 A value which satisfies the specification of a Chain does not
 need to implement:
 
-* Apply's `ap`; derivable as `m.chain(function(f) { return m.map(f); })`
+* Apply's `ap`; derivable as `function(m) { return this.chain(function(f) { return m.map(f); }); }`
 
 1. `m.chain(f).chain(g)` is equivalent to `m.chain(function(x) { return f(x).chain(g); })` (associativity)
 
@@ -174,12 +183,11 @@ method takes one argument:
 ### Monad
 
 A value that implements the Monad specification must also implement
-the Applicative and Chain specifications.
+the Pointed and Chain specifications.
 
 A value which satisfies the specification of a Monad does not need to
 implement:
 
-* Apply's `ap`; derivable as `function(m) { return this.chain(function(f) { return m.map(f); }); }`
 * Functor's `map`; derivable as `function(f) { var m = this; return m.chain(function(a) { return m.of(f(a)); })}`
 
 1. `m.of(a).chain(f)` is equivalent to `f(a)` (left identity)

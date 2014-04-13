@@ -10,6 +10,7 @@
     "monad",
     "applicative",
     "functor",
+    "pointed",
     "monoid",
     "semigroup",
     "chain",
