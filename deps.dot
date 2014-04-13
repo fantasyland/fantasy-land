@@ -1,0 +1,13 @@
+# Apply -> Applicative;
+
+digraph fantasyland {
+    Semigroup -> Monoid;
+
+    Functor -> Apply -> Chain;
+
+    Pointed -> Applicative
+    Apply -> Applicative;
+
+    Pointed -> Monad;
+    Chain -> Monad;
+}
