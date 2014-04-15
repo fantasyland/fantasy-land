@@ -154,7 +154,7 @@ implement the Apply specification.
 A value which satisfies the specification of a Chain does not
 need to implement:
 
-* Apply's `ap`; derivable as `m.chain(function(f) { return m.map(f); })`
+* Apply's `ap`; derivable as `function(m) { return this.chain(function(f) { return m.map(f); }); }`
 
 1. `m.chain(f).chain(g)` is equivalent to `m.chain(function(x) { return f(x).chain(g); })` (associativity)
 
@@ -181,7 +181,6 @@ the Applicative and Chain specifications.
 A value which satisfies the specification of a Monad does not need to
 implement:
 
-* Apply's `ap`; derivable as `function(m) { return this.chain(function(f) { return m.map(f); }); }`
 * Functor's `map`; derivable as `function(f) { var m = this; return m.chain(function(a) { return m.of(f(a)); })}`
 
 1. `m.of(a).chain(f)` is equivalent to `f(a)` (left identity)
