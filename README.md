@@ -15,6 +15,8 @@ structures:
 * Chain
 * Monad
 
+![](figures/dependencies.png)
+
 ## General
 
 An algebra is a set of values, a set of operators that it is closed
