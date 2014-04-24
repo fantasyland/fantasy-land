@@ -187,9 +187,21 @@ implement:
 1. `m.of(a).chain(f)` is equivalent to `f(a)` (left identity)
 2. `m.chain(m.of)` is equivalent to `m` (right identity)
 
+### MonadFail
 
+A value that implements the MonadFail specification must also implement
+the Monad specification.
 
+#### `fail` method
 
+A value which has an MonadFail must provide an `fail` method on itself
+or its `constructor` object. The `fail` method takes one argument:
+
+    m.fail(a)
+
+1. `a` is a string denoting the reason for failure
+2. `fail` must return a value of the same MonadFail
+3. `m.fail(a).chain(f)` is equivalent to `m.fail(a)`
 
 
 ## Notes
