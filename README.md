@@ -192,7 +192,16 @@ implement:
 A value that implements the MonadFail specification must also implement
 the Monad specification.
 
-1. `m.fail(a).chain(f)` is equivalent to `m.fail(a)`
+#### `fail` method
+
+A value which has an MonadFail must provide an `fail` method on itself
+or its `constructor` object. The `fail` method takes one argument:
+
+    m.fail(a)
+
+1. `a` is a string denoting the reason for failure
+2. `fail` must return a value of the same MonadFail
+3. `m.fail(a).chain(f)` is equivalent to `m.fail(a)`
 
 
 ## Notes
