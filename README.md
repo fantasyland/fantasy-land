@@ -92,12 +92,12 @@ the Monoid specficiation.
 A value which has a Foldable must provide a `reduce` method. The `reduce`
 method takes two arguments:
 
-    u.reduce(f, x) :: (b -> a -> b) -> b -> u a -> b
+    u.reduce(f, x)
 
 1. `f` must be a binary function
 
     1. if `f` is not a function, the behaviour of `reduce` is unspecified.
-    2. `f` must take a value of the same type as `x` as it's first argument.
+    2. The first argument to `f` must be the same type as `x`.
     3. `f` must return a value of the same type as `x`
 
 ### Functor
@@ -172,15 +172,15 @@ or its `constructor` object. The `of` method takes one argument:
 
 ### Traversable
 
+A value that implements the Traversable specification must also implement
+the Foldable and Functor specficiations.
+
 1. `t(u.traverse(f, of))` is equivalent to `u.traverse(function(y){ return t(f(y)) }, of)`
 where `t :: (Applicative f, Applicative g) => f a -> g a` (naturality)
 
 2. `u.traverse(Identity, Identity.of)` is equivalent to `Identity` (identity)
 
 3. `u.traverse(function(x){ return new Compose(f(x).map(g)); }, of)` is equivalent to `Compose(u.traverse(f, of).map(function(v){ return v.traverse(g, of) }))` (composition)
-
-A value that implements the Traversable specification must also implement
-the Foldable and Functor specficiations.
 
 #### `traverse` method
 
