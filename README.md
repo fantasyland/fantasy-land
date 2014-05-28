@@ -9,9 +9,11 @@ structures:
 
 * Semigroup
 * Monoid
+* Foldable
 * Functor
 * Apply
 * Applicative
+* Traversable
 * Chain
 * Monad
 
