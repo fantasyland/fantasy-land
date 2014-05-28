@@ -76,6 +76,28 @@ its `constructor` object. The `empty` method takes no arguments:
 
 1. `empty` must return a value of the same Monoid
 
+### Foldable
+
+A value that implements the Foldable specification must also implement
+the Monoid specficiation.
+
+1. `u.reduce(f)` is equivalent to `u.toArray().reduce(f)`
+
+* `toArray`; derivable as `function(m) { return this.reduce(function(acc, x) { return acc.concat(x); }, []); }`
+
+#### `reduce` method
+
+A value which has a Foldable must provide a `reduce` method. The `reduce`
+method takes two arguments:
+
+    u.reduce(f, x) :: (b -> a -> b) -> b -> u a -> b
+
+1. `f` must be a binary function
+
+    1. if `f` is not a function, the behaviour of `reduce` is unspecified.
+    2. `f` must take a value of the same type as `x` as it's first argument.
+    3. `f` must return a value of the same type as `x`
+
 ### Functor
 
 1. `u.map(function(a) { return a; }))` is equivalent to `u` (identity)
@@ -90,11 +112,11 @@ method takes one argument:
 
 1. `f` must be a function,
 
-    1. If `f` is not a function, the behaviour of `map` is
+    1. if `f` is not a function, the behaviour of `map` is
        unspecified.
     2. `f` can return any value.
 
-2. `map` must return a value of the same Functor
+2. `map` must return a value of the same functor
 
 ### Apply
 
@@ -128,7 +150,7 @@ implement the Apply specification.
 A value which satisfies the specification of an Applicative does not
 need to implement:
 
-* Functor's `map`; derivable as `function(f) { return this.of(f).ap(this); })}`
+* functor's `map`; derivable as `function(f) { return this.of(f).ap(this); })}`
 
 1. `a.of(function(a) { return a; }).ap(v)` is equivalent to `v` (identity)
 2. `a.of(f).ap(a.of(x))` is equivalent to `a.of(f(x))` (homomorphism)
@@ -145,6 +167,32 @@ or its `constructor` object. The `of` method takes one argument:
 1. `of` must provide a value of the same Applicative
 
     1. No parts of `b` should be checked
+
+### Traversable
+
+1. `t(u.traverse(f, of))` is equivalent to `u.traverse(function(y){ return t(f(y)) }, of)`
+where `t :: (Applicative f, Applicative g) => f a -> g a` (naturality)
+
+2. `u.traverse(Identity, Identity.of)` is equivalent to `Identity` (identity)
+
+3. `u.traverse(function(x){ return new Compose(f(x).map(g)); }, of)` is equivalent to `Compose(u.traverse(f, of).map(function(v){ return v.traverse(g, of) }))` (composition)
+
+A value that implements the Traversable specification must also implement
+the Foldable and Functor specficiations.
+
+#### `traverse` method
+
+A value which has a Traversable must provide a `traverse` method. The `traverse`
+method takes two arguments:
+
+    u.traverse(f, of) :: Applicative f => (a -> f b) -> t a -> f (t b)
+
+1. `f` must be a function,
+
+    1. if `f` is not a function, the behaviour of `traverse` is unspecified.
+    2. `f` must return an Applicative value.
+
+2. `of` must provide a value of the same Applicative that `f` returns 
 
 ### Chain
 
