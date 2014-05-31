@@ -9,10 +9,10 @@ structures:
 
 * Semigroup
 * Monoid
-* Foldable
 * Functor
 * Apply
 * Applicative
+* Foldable
 * Traversable
 * Chain
 * Monad
@@ -77,25 +77,6 @@ its `constructor` object. The `empty` method takes no arguments:
     m.constructor.empty()
 
 1. `empty` must return a value of the same Monoid
-
-### Foldable
-
-1. `u.reduce(f)` is equivalent to `u.toArray().reduce(f)`
-
-* `toArray`; derivable as `function(m) { return this.reduce(function(acc, x) { return acc.concat(x); }, []); }`
-
-#### `reduce` method
-
-A value which has a Foldable must provide a `reduce` method. The `reduce`
-method takes two arguments:
-
-    u.reduce(f, x)
-
-1. `f` must be a binary function
-
-    1. if `f` is not a function, the behaviour of `reduce` is unspecified.
-    2. The first argument to `f` must be the same type as `x`.
-    3. `f` must return a value of the same type as `x`
 
 ### Functor
 
@@ -166,6 +147,25 @@ or its `constructor` object. The `of` method takes one argument:
 1. `of` must provide a value of the same Applicative
 
     1. No parts of `b` should be checked
+
+### Foldable
+
+1. `u.reduce(f)` is equivalent to `u.toArray().reduce(f)`
+
+* `toArray`; derivable as `function(m) { return this.reduce(function(acc, x) { return acc.concat(x); }, []); }`
+
+#### `reduce` method
+
+A value which has a Foldable must provide a `reduce` method. The `reduce`
+method takes two arguments:
+
+    u.reduce(f, x)
+
+1. `f` must be a binary function
+
+    1. if `f` is not a function, the behaviour of `reduce` is unspecified.
+    2. The first argument to `f` must be the same type as `x`.
+    3. `f` must return a value of the same type as `x`
 
 ### Traversable
 
