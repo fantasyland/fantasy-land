@@ -80,9 +80,6 @@ its `constructor` object. The `empty` method takes no arguments:
 
 ### Foldable
 
-A value that implements the Foldable specification must also implement
-the Monoid specficiation.
-
 1. `u.reduce(f)` is equivalent to `u.toArray().reduce(f)`
 
 * `toArray`; derivable as `function(m) { return this.reduce(function(acc, x) { return acc.concat(x); }, []); }`
@@ -114,11 +111,11 @@ method takes one argument:
 
 1. `f` must be a function,
 
-    1. if `f` is not a function, the behaviour of `map` is
+    1. If `f` is not a function, the behaviour of `map` is
        unspecified.
     2. `f` can return any value.
 
-2. `map` must return a value of the same functor
+2. `map` must return a value of the same Functor
 
 ### Apply
 
@@ -152,7 +149,7 @@ implement the Apply specification.
 A value which satisfies the specification of an Applicative does not
 need to implement:
 
-* functor's `map`; derivable as `function(f) { return this.of(f).ap(this); })}`
+* Functor's `map`; derivable as `function(f) { return this.of(f).ap(this); })}`
 
 1. `a.of(function(a) { return a; }).ap(v)` is equivalent to `v` (identity)
 2. `a.of(f).ap(a.of(x))` is equivalent to `a.of(f(x))` (homomorphism)
@@ -175,23 +172,24 @@ or its `constructor` object. The `of` method takes one argument:
 A value that implements the Traversable specification must also implement
 the Foldable and Functor specficiations.
 
-1. `t(u.traverse(f, of))` is equivalent to `u.traverse(function(y){ return t(f(y)) }, of)`
-where `t :: (Applicative f, Applicative g) => f a -> g a` (naturality)
+1. `t(u.traverse(f, of))` is equivalent to `u.traverse(function(y){ return t(f(y)); }, of)`
+where `t` is a natural transformation (naturality)
 
 2. `u.traverse(Identity, Identity.of)` is equivalent to `Identity` (identity)
 
-3. `u.traverse(function(x){ return new Compose(f(x).map(g)); }, of)` is equivalent to `Compose(u.traverse(f, of).map(function(v){ return v.traverse(g, of) }))` (composition)
+3. `u.traverse(function(x){ return f(x).map(g); }, of)` is equivalent to
+   `u.traverse(f, of).map(function(v){ return v.traverse(g, of); })` (composition)
 
 #### `traverse` method
 
 A value which has a Traversable must provide a `traverse` method. The `traverse`
 method takes two arguments:
 
-    u.traverse(f, of) :: Applicative f => (a -> f b) -> t a -> f (t b)
+    u.traverse(f, of) 
 
 1. `f` must be a function,
 
-    1. if `f` is not a function, the behaviour of `traverse` is unspecified.
+    1. If `f` is not a function, the behaviour of `traverse` is unspecified.
     2. `f` must return an Applicative value.
 
 2. `of` must provide a value of the same Applicative that `f` returns 
