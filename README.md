@@ -150,9 +150,9 @@ or its `constructor` object. The `of` method takes one argument:
 
 ### Foldable
 
-1. `u.reduce(f)` is equivalent to `u.toArray().reduce(f)`
+1. `u.reduce` is equivalent to `u.toArray().reduce`
 
-* `toArray`; derivable as `function(m) { return this.reduce(function(acc, x) { return acc.concat(x); }, []); }`
+* `toArray`; derivable as `function() { return this.reduce(function(acc, x) { return acc.concat(x); }, []); }`
 
 #### `reduce` method
 
@@ -172,10 +172,15 @@ method takes two arguments:
 A value that implements the Traversable specification must also implement
 the Foldable and Functor specficiations.
 
+A value which satisfies the specification of a Traversable does not need to
+implement:
+
+* Functor's `map`; derivable as `function(f){ return this.traverse(function(x){ return new Id(f(x)) }, Id.of).value; }`
+
 1. `t(u.traverse(f, of))` is equivalent to `u.traverse(function(y){ return t(f(y)); }, of)`
 where `t` is a natural transformation (naturality)
 
-2. `u.traverse(Identity, Identity.of)` is equivalent to `Identity` (identity)
+2. `u.traverse(Id, Id.of)` is equivalent to `Id` (identity)
 
 3. `u.traverse(function(x){ return f(x).map(g); }, of)` is equivalent to
    `u.traverse(f, of).map(function(v){ return v.traverse(g, of); })` (composition)
