@@ -196,7 +196,7 @@ method takes one argument:
      
      w.extend(f)
 
-1. `f` much be a function which returns a value
+1. `f` must be a function which returns a value
 
     1. If `f` is not a function, the behaviour of `extend` is
        unspecified.
