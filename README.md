@@ -14,6 +14,8 @@ structures:
 * Applicative
 * Chain
 * Monad
+* Extend
+* Comonad
 
 ![](figures/dependencies.png)
 
@@ -186,6 +188,40 @@ implement:
 
 1. `m.of(a).chain(f)` is equivalent to `f(a)` (left identity)
 2. `m.chain(m.of)` is equivalent to `m` (right identity)
+
+### Extend
+
+An Extend must provide an `extend` method. The `extend`
+method takes one argument:
+     
+     w.extend(f)
+
+1. `f` much be a function which returns a value
+
+    1. If `f` is not a function, the behaviour of `extend` is
+       unspecified.
+    2. `f` must return a value of type `v`, for some variable `v` contained in `w`.
+
+2. `extend` must return a value of the same Extend.
+
+### Comonad
+A value which has a Comonad must provide a `from` method on itself or its constructor object. 
+The `from` method takes one argument:
+
+A value that implements the Comonad specification must also implement the Extend specification.
+    
+    c.from(a)
+    c.constructor.from(a)
+
+1. `a` must be a value of the same Comonad.
+2. `from` must return a value of type `v`, for some variable `v` contained in `w`.
+    1. `v` must have the same type that `f` returns in `extend`.
+
+1. w.extend(function(x){ return c.from(x) }) is equivalent to w
+2. c.from(w.extend(f)) is equivalent to f
+3. w.extend(f) ( function(w){ return w.extend(g); } );
+   is equivalent to
+   w.extend(f ( function(w){ return w.extend(g); } ) );
 
 
 
