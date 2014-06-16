@@ -211,7 +211,7 @@ method takes one argument:
 A value that implements the Comonad specification must also implement the Extend specification.
 
 1. `w.extend(function(x){ return c.from(x); })` is equivalent to `w`
-2. `c.from(w.extend(f))` is equivalent to `f`
+2. `c.from(w.extend(f))` is equivalent to `f(w)`
 3. `w.extend(f) ( function(w){ return w.extend(g); } );`
    is equivalent to
    `w.extend(f ( function(w){ return w.extend(g); } ) );`
@@ -227,6 +227,8 @@ The `from` method takes one argument:
 1. `a` must be a value of the same Comonad.
 2. `from` must return a value of type `v`, for some variable `v` contained in `w`.
     1. `v` must have the same type that `f` returns in `extend`.
+
+
 
 
 

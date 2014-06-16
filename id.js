@@ -29,7 +29,7 @@ Id.prototype.chain = function(f) {
 
 // Extend
 Id.prototype.extend = function(f){
-  return new Id(f(this.value));
+  return new Id(f(this));
 }
 
 // Monad
