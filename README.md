@@ -205,10 +205,11 @@ method takes one argument:
 2. `extend` must return a value of the same Extend.
 
 ### Comonad
-A value which has a Comonad must provide a `from` method on itself or its constructor object. 
-The `from` method takes one argument:
 
 A value that implements the Comonad specification must also implement the Extend specification.
+
+A value which has a Comonad must provide a `from` method on itself or its constructor object. 
+The `from` method takes one argument:
     
     c.from(a)
     c.constructor.from(a)
