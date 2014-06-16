@@ -15,6 +15,7 @@
     "issues": {
         "url": "https://github.com/pufuwozu/fantasy-land/issues"
     },
+    "main": "index.js",
     "repository": {
         "type": "git",
         "url": "https://github.com/pufuwozu/fantasy-land.git"
