@@ -7,6 +7,7 @@
 This project specifies interoperability of common algebraic
 structures:
 
+* Setoid
 * Semigroup
 * Monoid
 * Functor
@@ -39,6 +40,26 @@ implemented and how they can be derived from new methods.
     - Two functions are equivalent if they yield equivalent outputs for equivalent inputs.
 
 ## Algebras
+
+### Setoid
+
+1. `a.equals(a) === true` (reflexivity)
+2. `a.equals(b) === b.equals(a)` (symmetry)
+3. If `a.equals(b)` and `b.equals(c)`, then `a.equals(c)` (transitivity)
+
+#### `equals` method
+
+A value which has a Setoid must provide an `equals` method. The
+`equals` method takes one argument:
+
+    a.equals(b)
+
+1. `b` must be a value of the same Setoid
+
+    1. If `b` is not the same Setoid, behaviour of `equals` is
+       unspecified (returning `false` is recommended).
+
+2. `equals` must return a boolean (`true` or `false`).
 
 ### Semigroup
 

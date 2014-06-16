@@ -2,6 +2,11 @@ function Id(a) {
     this.value = a;
 }
 
+// Setoid
+Id.prototype.equals = function (b) {
+    return typeof this.value.equals === "function" ? this.value.equals(b.value) : this.value === b.value;
+};
+
 // Semigroup (value must also be a Semigroup)
 Id.prototype.concat = function(b) {
     return new Id(this.value.concat(b.value));
