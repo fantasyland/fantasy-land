@@ -218,11 +218,12 @@ The `from` method takes one argument:
 2. `from` must return a value of type `v`, for some variable `v` contained in `w`.
     1. `v` must have the same type that `f` returns in `extend`.
 
-1. w.extend(function(x){ return c.from(x) }) is equivalent to w
-2. c.from(w.extend(f)) is equivalent to f
-3. w.extend(f) ( function(w){ return w.extend(g); } );
+
+1. `w.extend(function(x){ return c.from(x); })` is equivalent to `w`
+2. `c.from(w.extend(f))` is equivalent to `f`
+3. `w.extend(f) ( function(w){ return w.extend(g); } );`
    is equivalent to
-   w.extend(f ( function(w){ return w.extend(g); } ) );
+   `w.extend(f ( function(w){ return w.extend(g); } ) );`
 
 
 
