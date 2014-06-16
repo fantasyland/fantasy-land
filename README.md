@@ -208,7 +208,7 @@ method takes one argument:
 
 ### Comonad
 
-A value that implements the Comonad specification must also implement the Extend specification.
+A value that implements the Comonad specification must also implement the Functor and Extend specifications.
 
 1. `w.extend(function(x){ return c.from(x); })` is equivalent to `w`
 2. `c.from(w.extend(f))` is equivalent to `f(w)`
