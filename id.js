@@ -27,9 +27,19 @@ Id.prototype.chain = function(f) {
     return f(this.value);
 };
 
+// Extend
+Id.prototype.extend = function(f){
+  return new Id(f(this.value));
+}
+
 // Monad
 Id.of = function(a) {
     return new Id(a);
 };
+
+// Comonad
+Id.from = function(a){
+  return a.value;
+}
 
 if(typeof module == 'object') module.exports = Id;
