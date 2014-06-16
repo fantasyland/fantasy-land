@@ -20,7 +20,10 @@ Here are a list of implementations that live in Fantasy Land:
   Promises that implements Semigroup, Monoid, Functor, Applicative, Chain and
   Monad
 * [Pirandello](https://github.com/quarterto/Pirandello) better streams, with a MonadPlus
-
+* [Parsimmon](https://github.com/jayferd/parsimmon) implements parsers that are semigroups, applicative functors, and monads.
+* [Bennu](https://github.com/mattbierner/bennu/) parsec style parser combinators implement monad, monoid, functor, and applicative functor.
+* [Akh](https://github.com/mattbierner/akh/) is a collection of monad transformers and common structures that implement Fantasy Land interfaces. 
+ 
 Conforming implementations are encouraged to promote the Fantasy Land logo:
 
 ![](logo.png)
