@@ -191,6 +191,10 @@ implement:
 
 ### Extend
 
+1. `w.extend(f) ( function(w){ return w.extend(g); } );`
+   is equivalent to
+   `w.extend(f ( function(w){ return w.extend(g); } ) );`
+
 #### `extend` method
 
 An Extend must provide an `extend` method. The `extend`
@@ -212,9 +216,6 @@ A value that implements the Comonad specification must also implement the Functo
 
 1. `w.extend(function(x){ return c.from(x); })` is equivalent to `w`
 2. `c.from(w.extend(f))` is equivalent to `f(w)`
-3. `w.extend(f) ( function(w){ return w.extend(g); } );`
-   is equivalent to
-   `w.extend(f ( function(w){ return w.extend(g); } ) );`
 
 #### `from` method
 
