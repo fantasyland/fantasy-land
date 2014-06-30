@@ -38,7 +38,7 @@ Id.of = function(a) {
 };
 
 // Comonad
-Id.from = function(a){
+Id.prototype.from = function(a){
   return a.value;
 }
 
