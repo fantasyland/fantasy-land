@@ -216,7 +216,7 @@ A value that implements the Comonad specification must also implement the Functo
 
 1. `w.extend(function(x){ return c.from(x); })` is equivalent to `w`
 2. `c.from(w.extend(f))` is equivalent to `f(w)`
-3. w.extend(f) is equivalent to w.extend(function(x) { return x; }).map(f)
+3. `w.extend(f)` is equivalent to `w.extend(function(x) { return x; }).map(f)`
 
 #### `from` method
 
