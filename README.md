@@ -221,12 +221,11 @@ A value that implements the Comonad specification must also implement the Functo
 #### `from` method
 
 A value which has a Comonad must provide a `from` method on itself. 
-The `from` method takes one argument:
+The `from` method takes no arguments:
     
-    c.from(a)
+    c.from()
 
-1. `a` must be a value of the same Comonad.
-2. `from` must return a value of type `v`, for some variable `v` contained in `w`.
+1. `from` must return a value of type `v`, for some variable `v` contained in `w`.
     1. `v` must have the same type that `f` returns in `extend`.
 
 
