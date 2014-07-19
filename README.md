@@ -235,19 +235,18 @@ method takes one argument:
 
 A value that implements the Comonad specification must also implement the Functor and Extend specifications.
 
-1. `w.extend(function(x){ return c.from(x); })` is equivalent to `w`
+1. `w.extend(function(c){ return c.from(); })` is equivalent to `w`
 2. `c.from(w.extend(f))` is equivalent to `f(w)`
 3. `w.extend(f)` is equivalent to `w.extend(function(x) { return x; }).map(f)`
 
 #### `from` method
 
 A value which has a Comonad must provide a `from` method on itself. 
-The `from` method takes one argument:
+The `from` method takes no arguments:
     
-    c.from(a)
+    c.from()
 
-1. `a` must be a value of the same Comonad.
-2. `from` must return a value of type `v`, for some variable `v` contained in `w`.
+1. `from` must return a value of type `v`, for some variable `v` contained in `w`.
     1. `v` must have the same type that `f` returns in `extend`.
 
 
