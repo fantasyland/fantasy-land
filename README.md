@@ -235,8 +235,8 @@ method takes one argument:
 
 A value that implements the Comonad specification must also implement the Functor and Extend specifications.
 
-1. `w.extend(function(c){ return c.from(); })` is equivalent to `w`
-2. `c.from(w.extend(f))` is equivalent to `f(w)`
+1. `w.extend(function(_w){ return _w.from(); })` is equivalent to `w`
+2. `w.extend(f).from()` is equivalent to `f(w)`
 3. `w.extend(f)` is equivalent to `w.extend(function(x) { return x; }).map(f)`
 
 #### `from` method
