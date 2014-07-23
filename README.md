@@ -212,9 +212,9 @@ implement:
 
 ### Extend
 
-1. `w.extend(f) ( function(w){ return w.extend(g); } );`
-   is equivalent to
-   `w.extend(f ( function(w){ return w.extend(g); } ) );`
+1. `w.extend(g).extend(f)`
+   is equivalent to 
+   `w.extend( function(_w){ return f( _w.extend(g) ); } )`
 
 #### `extend` method
 
