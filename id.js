@@ -2,6 +2,11 @@ function Id(a) {
     this.value = a;
 }
 
+// Setoid
+Id.prototype.equals = function (b) {
+    return typeof this.value.equals === "function" ? this.value.equals(b.value) : this.value === b.value;
+};
+
 // Semigroup (value must also be a Semigroup)
 Id.prototype.concat = function(b) {
     return new Id(this.value.concat(b.value));
@@ -37,9 +42,19 @@ Id.prototype.chain = function(f) {
     return f(this.value);
 };
 
+// Extend
+Id.prototype.extend = function(f){
+  return new Id(f(this));
+}
+
 // Monad
 Id.of = function(a) {
     return new Id(a);
 };
+
+// Comonad
+Id.prototype.from = function(a){
+  return a.value;
+}
 
 if(typeof module == 'object') module.exports = Id;

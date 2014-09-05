@@ -7,6 +7,7 @@
 This project specifies interoperability of common algebraic
 structures:
 
+* Setoid
 * Semigroup
 * Monoid
 * Functor
@@ -16,6 +17,8 @@ structures:
 * Traversable
 * Chain
 * Monad
+* Extend
+* Comonad
 
 ![](figures/dependencies.png)
 
@@ -41,6 +44,26 @@ implemented and how they can be derived from new methods.
     - Two functions are equivalent if they yield equivalent outputs for equivalent inputs.
 
 ## Algebras
+
+### Setoid
+
+1. `a.equals(a) === true` (reflexivity)
+2. `a.equals(b) === b.equals(a)` (symmetry)
+3. If `a.equals(b)` and `b.equals(c)`, then `a.equals(c)` (transitivity)
+
+#### `equals` method
+
+A value which has a Setoid must provide an `equals` method. The
+`equals` method takes one argument:
+
+    a.equals(b)
+
+1. `b` must be a value of the same Setoid
+
+    1. If `b` is not the same Setoid, behaviour of `equals` is
+       unspecified (returning `false` is recommended).
+
+2. `equals` must return a boolean (`true` or `false`).
 
 ### Semigroup
 
@@ -239,6 +262,47 @@ implement:
 
 1. `m.of(a).chain(f)` is equivalent to `f(a)` (left identity)
 2. `m.chain(m.of)` is equivalent to `m` (right identity)
+
+### Extend
+
+1. `w.extend(g).extend(f)`
+   is equivalent to 
+   `w.extend( function(_w){ return f( _w.extend(g) ); } )`
+
+#### `extend` method
+
+An Extend must provide an `extend` method. The `extend`
+method takes one argument:
+     
+     w.extend(f)
+
+1. `f` must be a function which returns a value
+
+    1. If `f` is not a function, the behaviour of `extend` is
+       unspecified.
+    2. `f` must return a value of type `v`, for some variable `v` contained in `w`.
+
+2. `extend` must return a value of the same Extend.
+
+### Comonad
+
+A value that implements the Comonad specification must also implement the Functor and Extend specifications.
+
+1. `w.extend(function(_w){ return _w.from(); })` is equivalent to `w`
+2. `w.extend(f).from()` is equivalent to `f(w)`
+3. `w.extend(f)` is equivalent to `w.extend(function(x) { return x; }).map(f)`
+
+#### `from` method
+
+A value which has a Comonad must provide a `from` method on itself. 
+The `from` method takes no arguments:
+    
+    c.from()
+
+1. `from` must return a value of type `v`, for some variable `v` contained in `w`.
+    1. `v` must have the same type that `f` returns in `extend`.
+
+
 
 
 
