@@ -43,8 +43,8 @@ Id.of = function(a) {
 };
 
 // Comonad
-Id.prototype.from = function(a){
-  return a.value;
+Id.prototype.from = function(){
+  return this.value;
 }
 
 if(typeof module == 'object') module.exports = Id;
