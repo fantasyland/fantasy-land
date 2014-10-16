@@ -190,37 +190,31 @@ method takes two arguments:
     2. The first argument to `f` must be the same type as `x`.
     3. `f` must return a value of the same type as `x`
 
+1. `x` is the initial accumulator value for the reduction
+
 ### Traversable
 
-A value that implements the Traversable specification must also implement
-the Foldable and Functor specficiations.
+A value that implements the Applicative specification must also
+implement the Functor specification.
 
-A value which satisfies the specification of a Traversable does not need to
-implement:
+1. `t(u.sequence(f.of))` is equivalent to `u.map(t).sequence(g.of)`
+where `t` is a natural transformation from `f` to `g` (naturality)
 
-* Functor's `map`; derivable as `function(f){ return this.traverse(function(x){ return new Id(f(x)) }, Id.of).value; }`
+2. `u.map(function(x){ return Id(x); }).sequence(Id.of)` is equivalent to `Id.of` (identity)
 
-1. `t(u.traverse(f, of))` is equivalent to `u.traverse(function(y){ return t(f(y)); }, of)`
-where `t` is a natural transformation (naturality)
+3. `u.map(Compose).sequence(Compose.of)` is equivalent to
+   `Compose(u.sequence(f.of).map(function(x) { return x.sequence(g.of); }))` (composition)
 
-2. `u.traverse(Id, Id.of)` is equivalent to `Id` (identity)
+* `traverse`; derivable as `function(f, of) { return this.map(f).sequence(of); }`
 
-3. `u.traverse(function(x){ return f(x).map(g); }, of)` is equivalent to
-   `u.traverse(f, of).map(function(v){ return v.traverse(g, of); })` (composition)
+#### `sequence` method
 
-#### `traverse` method
+A value which has a Traversable must provide a `sequence` method. The `sequence`
+method takes one argument:
 
-A value which has a Traversable must provide a `traverse` method. The `traverse`
-method takes two arguments:
+    u.sequence(of) 
 
-    u.traverse(f, of) 
-
-1. `f` must be a function,
-
-    1. If `f` is not a function, the behaviour of `traverse` is unspecified.
-    2. `f` must return an Applicative value.
-
-2. `of` must provide a value of the same Applicative that `f` returns 
+1. `of` must return the Applicative that `u` contains.
 
 ### Chain
 
