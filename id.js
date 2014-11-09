@@ -3,7 +3,7 @@ function Id(a) {
 }
 
 // Setoid
-Id.prototype.equals = function (b) {
+Id.prototype.equals = function(b) {
     return typeof this.value.equals === "function" ? this.value.equals(b.value) : this.value === b.value;
 };
 
@@ -33,8 +33,8 @@ Id.prototype.chain = function(f) {
 };
 
 // Extend
-Id.prototype.extend = function(f){
-  return new Id(f(this));
+Id.prototype.extend = function(f) {
+    return new Id(f(this));
 }
 
 // Monad
@@ -43,8 +43,8 @@ Id.of = function(a) {
 };
 
 // Comonad
-Id.prototype.from = function(){
-  return this.value;
+Id.prototype.from = function() {
+    return this.value;
 }
 
-if(typeof module == 'object') module.exports = Id;
+if (typeof module == 'object') module.exports = Id;
