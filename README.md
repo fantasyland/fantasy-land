@@ -101,7 +101,7 @@ its `constructor` object. The `empty` method takes no arguments:
 
 ### Functor
 
-1. `u.map(function(a) { return a; }))` is equivalent to `u` (identity)
+1. `u.map(function(a) { return a; })` is equivalent to `u` (identity)
 2. `u.map(function(x) { return f(g(x)); })` is equivalent to `u.map(g).map(f)` (composition)
 
 #### `map` method
