@@ -84,7 +84,7 @@ A value which has a Semigroup must provide a `concat` method. The
 ### Monoid
 
 A value that implements the Monoid specification must also implement
-the Semigroup specficiation.
+the Semigroup specification.
 
 1. `m.concat(m.empty())` is equivalent to `m` (right identity)
 2. `m.empty().concat(m)` is equivalent to `m` (left identity)
