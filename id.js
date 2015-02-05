@@ -32,10 +32,15 @@ Id.prototype.chain = function(f) {
     return f(this.value);
 };
 
+// Then
+Id.prototype.then = function (m) {
+  return this.chain (function (x) { return m; });
+};
+
 // Extend
 Id.prototype.extend = function(f) {
     return new Id(f(this));
-}
+};
 
 // Monad
 Id.of = function(a) {
@@ -45,6 +50,6 @@ Id.of = function(a) {
 // Comonad
 Id.prototype.from = function() {
     return this.value;
-}
+};
 
 if (typeof module == 'object') module.exports = Id;
