@@ -237,18 +237,18 @@ method takes one argument:
 
 A value that implements the Comonad specification must also implement the Functor and Extend specifications.
 
-1. `w.extend(function(_w){ return _w.from(); })` is equivalent to `w`
-2. `w.extend(f).from()` is equivalent to `f(w)`
+1. `w.extend(function(_w){ return _w.extract(); })` is equivalent to `w`
+2. `w.extend(f).extract()` is equivalent to `f(w)`
 3. `w.extend(f)` is equivalent to `w.extend(function(x) { return x; }).map(f)`
 
-#### `from` method
+#### `extract` method
 
-A value which has a Comonad must provide a `from` method on itself. 
-The `from` method takes no arguments:
+A value which has a Comonad must provide an `extract` method on itself. 
+The `extract` method takes no arguments:
     
-    c.from()
+    c.extract()
 
-1. `from` must return a value of type `v`, for some variable `v` contained in `w`.
+1. `extract` must return a value of type `v`, for some variable `v` contained in `w`.
     1. `v` must have the same type that `f` returns in `extend`.
 
 
