@@ -43,7 +43,7 @@ Id.of = function(a) {
 };
 
 // Comonad
-Id.prototype.from = function() {
+Id.prototype.extract = function() {
     return this.value;
 }
 
