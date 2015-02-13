@@ -103,15 +103,15 @@ its `constructor` object. The `empty` method takes no arguments:
 
 ### Functor
 
-1. `u.map(function(a) { return a; })` is equivalent to `u` (identity)
-2. `u.map(function(x) { return f(g(x)); })` is equivalent to `u.map(g).map(f)` (composition)
+1. `a.map(function(x) { return x; })` is equivalent to `a` (identity)
+2. `a.map(function(x) { return f(g(x)); })` is equivalent to `a.map(g).map(f)` (composition)
 
 #### `map` method
 
 A value which has a Functor must provide a `map` method. The `map`
 method takes one argument:
 
-    u.map(f)
+    a.map(f)
 
 1. `f` must be a function,
 
@@ -126,7 +126,7 @@ method takes one argument:
 A value that implements the Apply specification must also
 implement the Functor specification.
 
-1. `a.map(function(f) { return function(g) { return function(x) { return f(g(x))}; }; }).ap(u).ap(v)` is equivalent to `a.ap(u.ap(v))` (composition)
+1. `a.map(function(f) { return function(g) { return function(x) { return f(g(x))}; }; }).ap(b).ap(c)` is equivalent to `a.ap(b.ap(c))` (composition)
 
 #### `ap` method
 
@@ -155,9 +155,9 @@ need to implement:
 
 * Functor's `map`; derivable as `function(f) { return this.of(f).ap(this); })}`
 
-1. `a.of(function(a) { return a; }).ap(v)` is equivalent to `v` (identity)
+1. `a.of(function(x) { return x; }).ap(b)` is equivalent to `b` (identity)
 2. `a.of(f).ap(a.of(x))` is equivalent to `a.of(f(x))` (homomorphism)
-3. `u.ap(a.of(y))` is equivalent to `a.of(function(f) { return f(y); }).ap(u)` (interchange)
+3. `b.ap(a.of(x))` is equivalent to `a.of(function(f) { return f(x); }).ap(b)` (interchange)
 
 #### `of` method
 
@@ -179,16 +179,16 @@ implement the Apply specification.
 A value which satisfies the specification of a Chain does not
 need to implement:
 
-* Apply's `ap`; derivable as `m.chain(function(f) { return m.map(f); })`
+* Apply's `ap`; derivable as `a.chain(function(f) { return a.map(f); })`
 
-1. `m.chain(f).chain(g)` is equivalent to `m.chain(function(x) { return f(x).chain(g); })` (associativity)
+1. `a.chain(f).chain(g)` is equivalent to `a.chain(function(x) { return f(x).chain(g); })` (associativity)
 
 #### `chain` method
 
 A value which has a Chain must provide a `chain` method. The `chain`
 method takes one argument:
 
-    m.chain(f)
+    a.chain(f)
 
 1. `f` must be a function which returns a value
 
@@ -207,9 +207,9 @@ A value which satisfies the specification of a Monad does not need to
 implement:
 
 * Apply's `ap`; derivable as `function(m) { return this.chain(function(f) { return m.map(f); }); }`
-* Functor's `map`; derivable as `function(f) { var m = this; return m.chain(function(a) { return m.of(f(a)); })}`
+* Functor's `map`; derivable as `function(f) { var m = this; return m.chain(function(x) { return m.of(f(x)); })}`
 
-1. `m.of(a).chain(f)` is equivalent to `f(a)` (left identity)
+1. `m.of(x).chain(f)` is equivalent to `f(x)` (left identity)
 2. `m.chain(m.of)` is equivalent to `m` (right identity)
 
 ### Extend
