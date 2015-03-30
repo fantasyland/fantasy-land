@@ -155,7 +155,7 @@ need to implement:
 
 * Functor's `map`; derivable as `function(f) { return this.of(f).ap(this); })}`
 
-1. `a.of(function(a) { return a; }).ap(v)` is equivalent to `v` (identity)
+1. `a.of(function(x) { return x; }).ap(v)` is equivalent to `v` (identity)
 2. `a.of(f).ap(a.of(x))` is equivalent to `a.of(f(x))` (homomorphism)
 3. `u.ap(a.of(y))` is equivalent to `a.of(function(f) { return f(y); }).ap(u)` (interchange)
 
