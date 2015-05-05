@@ -17,6 +17,11 @@ Id.prototype.empty = function() {
     return new Id(this.value.empty ? this.value.empty() : this.value.constructor.empty());
 };
 
+// Foldable
+Id.prototype.reduce = function(f, acc) {
+    return f(acc, this.value);
+};
+
 // Functor
 Id.prototype.map = function(f) {
     return new Id(f(this.value));
@@ -25,6 +30,11 @@ Id.prototype.map = function(f) {
 // Applicative
 Id.prototype.ap = function(b) {
     return new Id(this.value(b.value));
+};
+
+// Traversable
+Id.prototype.traverse = function(f, of) {
+    return f(this.value).map(function(y){ return new Id(y); });
 };
 
 // Chain

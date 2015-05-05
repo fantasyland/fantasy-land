@@ -15,6 +15,8 @@ structures:
 * Functor
 * Apply
 * Applicative
+* Foldable
+* Traversable
 * Chain
 * Monad
 * Extend
@@ -170,6 +172,51 @@ or its `constructor` object. The `of` method takes one argument:
 1. `of` must provide a value of the same Applicative
 
     1. No parts of `b` should be checked
+
+### Foldable
+
+1. `u.reduce` is equivalent to `u.toArray().reduce`
+
+* `toArray`; derivable as `function() { return this.reduce(function(acc, x) { return acc.concat(x); }, []); }`
+
+#### `reduce` method
+
+A value which has a Foldable must provide a `reduce` method. The `reduce`
+method takes two arguments:
+
+    u.reduce(f, x)
+
+1. `f` must be a binary function
+
+    1. if `f` is not a function, the behaviour of `reduce` is unspecified.
+    2. The first argument to `f` must be the same type as `x`.
+    3. `f` must return a value of the same type as `x`
+
+1. `x` is the initial accumulator value for the reduction
+
+### Traversable
+
+A value that implements the Traversable specification must also
+implement the Functor specification.
+
+1. `t(u.sequence(f.of))` is equivalent to `u.map(t).sequence(g.of)`
+where `t` is a natural transformation from `f` to `g` (naturality)
+
+2. `u.map(function(x){ return Id(x); }).sequence(Id.of)` is equivalent to `Id.of` (identity)
+
+3. `u.map(Compose).sequence(Compose.of)` is equivalent to
+   `Compose(u.sequence(f.of).map(function(x) { return x.sequence(g.of); }))` (composition)
+
+* `traverse`; derivable as `function(f, of) { return this.map(f).sequence(of); }`
+
+#### `sequence` method
+
+A value which has a Traversable must provide a `sequence` method. The `sequence`
+method takes one argument:
+
+    u.sequence(of) 
+
+1. `of` must return the Applicative that `u` contains.
 
 ### Chain
 
