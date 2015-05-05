@@ -194,7 +194,7 @@ method takes two arguments:
 
 ### Traversable
 
-A value that implements the Applicative specification must also
+A value that implements the Traversable specification must also
 implement the Functor specification.
 
 1. `t(u.sequence(f.of))` is equivalent to `u.map(t).sequence(g.of)`
