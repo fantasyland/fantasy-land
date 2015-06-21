@@ -24,6 +24,7 @@ Here are a list of implementations that live in Fantasy Land:
 * [Bennu](https://github.com/mattbierner/bennu/) parsec style parser combinators implement monad, monoid, functor, and applicative functor.
 * [Akh](https://github.com/mattbierner/akh/) is a collection of monad transformers and common structures that implement Fantasy Land interfaces.
 * [TsMonad](https://github.com/cbowdon/tsmonad) implements some common monads for TypeScript.
+* [List in JS](https://github.com/PandaNoir/List-in-JS/) implements Setoid, Semigroup, Monoid, Functor, Applicative, Foldable, Traversable, Chain and Monad.
 
 Conforming implementations are encouraged to promote the Fantasy Land logo:
 
