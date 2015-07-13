@@ -2,6 +2,7 @@
 
 Here are a list of implementations that live in Fantasy Land:
 
+* [Most.js](https://github.com/cujojs/most) implements Monoid, Functor, Applicative, and Monad for streams
 * [bacon.js](https://github.com/raimohanska/bacon.js) implements
   Monad and Functor for EventStream and Property on the "fantasy-land" branch
 * [aljebra](https://github.com/markandrus/aljebra) implements common
