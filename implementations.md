@@ -26,6 +26,7 @@ Here are a list of implementations that live in Fantasy Land:
 * [Akh](https://github.com/mattbierner/akh/) is a collection of monad transformers and common structures that implement Fantasy Land interfaces.
 * [TsMonad](https://github.com/cbowdon/tsmonad) implements some common monads for TypeScript.
 * [List in JS](https://github.com/PandaNoir/List-in-JS/) implements Setoid, Semigroup, Monoid, Functor, Applicative, Foldable, Traversable, Chain and Monad.
+* [Sanctuary](https://github.com/plaid/sanctuary) is a refuge from unsafe JavaScript. It provides FL-compatible Either and Maybe types.
 
 Conforming implementations are encouraged to promote the Fantasy Land logo:
 
