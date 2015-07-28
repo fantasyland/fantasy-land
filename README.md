@@ -155,7 +155,7 @@ implement the Apply specification.
 A value which satisfies the specification of an Applicative does not
 need to implement:
 
-* Functor's `map`; derivable as `function(f) { return this.of(f).ap(this); })}`
+* Functor's `map`; derivable as `function(f) { return this.of(f).ap(this); }`
 
 1. `a.of(function(x) { return x; }).ap(v)` is equivalent to `v` (identity)
 2. `a.of(f).ap(a.of(x))` is equivalent to `a.of(f(x))` (homomorphism)
