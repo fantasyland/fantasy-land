@@ -9,18 +9,18 @@
 This project specifies interoperability of common algebraic
 structures:
 
-* Setoid
-* Semigroup
-* Monoid
-* Functor
-* Apply
-* Applicative
-* Foldable
-* Traversable
-* Chain
-* Monad
-* Extend
-* Comonad
+* [Setoid](#setoid)
+* [Semigroup](#semigroup)
+* [Monoid](#monoid)
+* [Functor](#functor)
+* [Apply](#apply)
+* [Applicative](#applicative)
+* [Foldable](#foldable)
+* [Traversable](#traversable)
+* [Chain](#chain)
+* [Monad](#monad)
+* [Extend](#extend)
+* [Comonad](#comonad)
 
 ![](figures/dependencies.png)
 
