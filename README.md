@@ -105,8 +105,8 @@ its `constructor` object. The `empty` method takes no arguments:
 
 ### Functor
 
-1. `u.map(function(a) { return a; })` is equivalent to `u` (identity)
-2. `u.map(function(x) { return f(g(x)); })` is equivalent to `u.map(g).map(f)` (composition)
+1. `u.map(a => a)` is equivalent to `u` (identity)
+2. `u.map(x => f(g(x)))` is equivalent to `u.map(g).map(f)` (composition)
 
 #### `map` method
 
@@ -128,7 +128,7 @@ method takes one argument:
 A value that implements the Apply specification must also
 implement the Functor specification.
 
-1. `a.map(function(f) { return function(g) { return function(x) { return f(g(x))}; }; }).ap(u).ap(v)` is equivalent to `a.ap(u.ap(v))` (composition)
+1. `a.map(f => g => x => f(g(x))).ap(u).ap(v)` is equivalent to `a.ap(u.ap(v))` (composition)
 
 #### `ap` method
 
@@ -157,9 +157,9 @@ need to implement:
 
 * Functor's `map`; derivable as `function(f) { return this.of(f).ap(this); }`
 
-1. `a.of(function(x) { return x; }).ap(v)` is equivalent to `v` (identity)
+1. `a.of(x => x).ap(v)` is equivalent to `v` (identity)
 2. `a.of(f).ap(a.of(x))` is equivalent to `a.of(f(x))` (homomorphism)
-3. `u.ap(a.of(y))` is equivalent to `a.of(function(f) { return f(y); }).ap(u)` (interchange)
+3. `u.ap(a.of(y))` is equivalent to `a.of(f => f(y)).ap(u)` (interchange)
 
 #### `of` method
 
@@ -177,7 +177,7 @@ or its `constructor` object. The `of` method takes one argument:
 
 1. `u.reduce` is equivalent to `u.toArray().reduce`
 
-* `toArray`; derivable as `function() { return this.reduce(function(acc, x) { return acc.concat(x); }, []); }`
+* `toArray`; derivable as `function() { return this.reduce((acc, x) => acc.concat(x), []); }`
 
 #### `reduce` method
 
@@ -202,10 +202,10 @@ implement the Functor specification.
 1. `t(u.sequence(f.of))` is equivalent to `u.map(t).sequence(g.of)`
 where `t` is a natural transformation from `f` to `g` (naturality)
 
-2. `u.map(function(x){ return Id(x); }).sequence(Id.of)` is equivalent to `Id.of` (identity)
+2. `u.map(x => Id(x)).sequence(Id.of)` is equivalent to `Id.of` (identity)
 
 3. `u.map(Compose).sequence(Compose.of)` is equivalent to
-   `Compose(u.sequence(f.of).map(function(x) { return x.sequence(g.of); }))` (composition)
+   `Compose(u.sequence(f.of).map(x => x.sequence(g.of)))` (composition)
 
 * `traverse`; derivable as `function(f, of) { return this.map(f).sequence(of); }`
 
@@ -226,9 +226,9 @@ implement the Apply specification.
 A value which satisfies the specification of a Chain does not
 need to implement:
 
-* Apply's `ap`; derivable as `function ap(m) { return this.chain(function(f) { return m.map(f); }); }`
+* Apply's `ap`; derivable as `function ap(m) { return this.chain(f => m.map(f)); }`
 
-1. `m.chain(f).chain(g)` is equivalent to `m.chain(function(x) { return f(x).chain(g); })` (associativity)
+1. `m.chain(f).chain(g)` is equivalent to `m.chain(x => f(x).chain(g))` (associativity)
 
 #### `chain` method
 
@@ -253,17 +253,15 @@ the Applicative and Chain specifications.
 A value which satisfies the specification of a Monad does not need to
 implement:
 
-* Apply's `ap`; derivable as `function(m) { return this.chain(function(f) { return m.map(f); }); }`
-* Functor's `map`; derivable as `function(f) { var m = this; return m.chain(function(a) { return m.of(f(a)); })}`
+* Apply's `ap`; derivable as `function(m) { return this.chain(f => m.map(f)); }`
+* Functor's `map`; derivable as `function(f) { var m = this; return m.chain(a => m.of(f(a)))}`
 
 1. `m.of(a).chain(f)` is equivalent to `f(a)` (left identity)
 2. `m.chain(m.of)` is equivalent to `m` (right identity)
 
 ### Extend
 
-1. `w.extend(g).extend(f)`
-   is equivalent to 
-   `w.extend( function(_w){ return f( _w.extend(g) ); } )`
+1. `w.extend(g).extend(f)` is equivalent to `w.extend(_w => f(_w.extend(g)))`
 
 #### `extend` method
 
@@ -284,9 +282,9 @@ method takes one argument:
 
 A value that implements the Comonad specification must also implement the Functor and Extend specifications.
 
-1. `w.extend(function(_w){ return _w.extract(); })` is equivalent to `w`
+1. `w.extend(_w => _w.extract())` is equivalent to `w`
 2. `w.extend(f).extract()` is equivalent to `f(w)`
-3. `w.extend(f)` is equivalent to `w.extend(function(x) { return x; }).map(f)`
+3. `w.extend(f)` is equivalent to `w.extend(x => x).map(f)`
 
 #### `extract` method
 
