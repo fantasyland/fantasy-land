@@ -27,13 +27,13 @@ Id.prototype.map = function(f) {
     return new Id(f(this.value));
 };
 
-// Applicative
+// Apply
 Id.prototype.ap = function(b) {
     return new Id(this.value(b.value));
 };
 
 // Traversable
-Id.prototype.traverse = function(f, of) {
+Id.prototype.sequence = function(f, of) {
     return f(this.value).map(function(y){ return new Id(y); });
 };
 
@@ -45,9 +45,9 @@ Id.prototype.chain = function(f) {
 // Extend
 Id.prototype.extend = function(f) {
     return new Id(f(this));
-}
+};
 
-// Monad
+// Applicative
 Id.of = function(a) {
     return new Id(a);
 };
@@ -55,6 +55,6 @@ Id.of = function(a) {
 // Comonad
 Id.prototype.extract = function() {
     return this.value;
-}
+};
 
 if (typeof module == 'object') module.exports = Id;
