@@ -33,8 +33,8 @@ Id.prototype.ap = function(b) {
 };
 
 // Traversable
-Id.prototype.sequence = function(f, of) {
-    return f(this.value).map(function(y){ return new Id(y); });
+Id.prototype.sequence = function(of) {
+    return this.value.map(function(y){ return new Id(y); });
 };
 
 // Chain
