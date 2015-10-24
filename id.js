@@ -34,7 +34,8 @@ Id.prototype.ap = function(b) {
 
 // Traversable
 Id.prototype.sequence = function(of) {
-    return this.value.map(function(y){ return new Id(y); });
+    // the of argument is only provided for types where map might fail.
+    return this.value.map(Id.of);
 };
 
 // Chain
