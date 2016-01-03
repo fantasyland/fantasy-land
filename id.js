@@ -49,9 +49,7 @@ Id.prototype.extend = function(f) {
 };
 
 // Applicative
-Id.of = function(a) {
-    return new Id(a);
-};
+Id.of = (a) => new Id(a);
 
 // Comonad
 Id.prototype.extract = function() {
