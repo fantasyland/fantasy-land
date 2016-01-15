@@ -22,7 +22,7 @@ structures:
 * [Extend](#extend)
 * [Comonad](#comonad)
 
-![](figures/dependencies.png)
+<img src="figures/dependencies.png" width="677" height="212" />
 
 ## General
 
