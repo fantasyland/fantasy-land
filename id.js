@@ -1,4 +1,4 @@
-var fl = require('./index.js')
+var fl = require('./')
 
 function Id(a) {
     this.value = a;
