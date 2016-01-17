@@ -1,60 +1,62 @@
+var fl = require('./index.js')
+
 function Id(a) {
     this.value = a;
 }
 
 // Setoid
-Id.prototype.equals = function(b) {
-    return typeof this.value.equals === "function" ? this.value.equals(b.value) : this.value === b.value;
+Id.prototype[fl.equals] = function(b) {
+    return typeof this.value[fl.equals] === "function" ? this.value[fl.equals](b.value) : this.value === b.value;
 };
 
 // Semigroup (value must also be a Semigroup)
-Id.prototype.concat = function(b) {
-    return new Id(this.value.concat(b.value));
+Id.prototype[fl.concat] = function(b) {
+    return new Id(this.value[fl.concat](b.value));
 };
 
 // Monoid (value must also be a Monoid)
-Id.prototype.empty = function() {
-    return new Id(this.value.empty ? this.value.empty() : this.value.constructor.empty());
+Id.prototype[fl.empty] = function() {
+    return new Id(this.value[fl.empty] ? this.value[fl.empty]() : this.value.constructor[fl.empty]());
 };
 
 // Foldable
-Id.prototype.reduce = function(f, acc) {
+Id.prototype[fl.reduce] = function(f, acc) {
     return f(acc, this.value);
 };
 
 // Functor
-Id.prototype.map = function(f) {
+Id.prototype[fl.map] = function(f) {
     return new Id(f(this.value));
 };
 
 // Apply
-Id.prototype.ap = function(b) {
+Id.prototype[fl.ap] = function(b) {
     return new Id(this.value(b.value));
 };
 
 // Traversable
-Id.prototype.sequence = function(of) {
+Id.prototype[fl.sequence] = function(of) {
     // the of argument is only provided for types where map might fail.
     return this.value.map(Id.of);
 };
 
 // Chain
-Id.prototype.chain = function(f) {
+Id.prototype[fl.chain] = function(f) {
     return f(this.value);
 };
 
 // Extend
-Id.prototype.extend = function(f) {
+Id.prototype[fl.extend] = function(f) {
     return new Id(f(this));
 };
 
 // Applicative
-Id.of = function(a) {
+Id[fl.of] = function(a) {
     return new Id(a);
 };
 
 // Comonad
-Id.prototype.extract = function() {
+Id.prototype[fl.extract] = function() {
     return this.value;
 };
 
