@@ -73,7 +73,7 @@ implemented and how they can be derived from new methods.
 
 ## How to use Fantasy Land compatible library in your application
 
-1. Add library npm package, and `fanatasy-land` as your normal (or dev) dependecies:
+1. Add library npm package, and `fanatasy-land` as your normal dependecies:
 
   ```js
   {
