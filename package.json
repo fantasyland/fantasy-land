@@ -25,5 +25,5 @@
   "files": [
     "id.js"
   ],
-  "main": "index.js",
+  "main": "index.js"
 }
