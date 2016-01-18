@@ -177,7 +177,7 @@ or its `constructor` object. The `of` method takes one argument:
 
 1. `u.reduce` is equivalent to `u.toArray().reduce`
 
-* `toArray`; derivable as `function() { return this.reduce((acc, x) => acc.concat(x), []); }`
+* `toArray`; derivable as `function() { return this.reduce((acc, x) => acc.concat([x]), []); }`
 
 #### `reduce` method
 
