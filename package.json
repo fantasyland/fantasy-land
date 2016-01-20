@@ -23,6 +23,8 @@
     "url": "https://github.com/fantasyland/fantasy-land.git"
   },
   "files": [
-    "id.js"
-  ]
+    "id.js",
+    "index.js"
+  ],
+  "main": "index.js"
 }

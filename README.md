@@ -45,6 +45,63 @@ implemented and how they can be derived from new methods.
     - Two promises are equivalent when they yield equivalent values.
     - Two functions are equivalent if they yield equivalent outputs for equivalent inputs.
 
+## How to add Fantasy Land compatibility to your library
+
+1. Add `fanatasy-land` package as a peer dependency. Add in your `package.json`:
+
+  ```js
+  {
+    ...
+    "peerDependencies": {
+      "fantasy-land": "*"
+    },
+    ...
+  }
+  ```
+
+2. The `fantasy-land` package exposes method names, you should use them for you Fantasy Land methods:
+
+  ```js
+  var fl = require('fanatasy-land')
+
+  // ...
+
+  MyType.prototype[fl.map] = function(fn) {
+    // Here goes implementation of map for your type...
+  }
+  ```
+
+## How to use Fantasy Land compatible library in your application
+
+1. Add library npm package, and `fanatasy-land` as your normal dependecies:
+
+  ```js
+  {
+    ...
+    "dependencies": {
+      "some-fl-compatible-lib": "1.0.0",
+      "fantasy-land": "1.0.0"
+    },
+    ...
+  }
+  ```
+
+2. If you don't want to access Fantasy Land methods directly
+  (for example if you use two libraries that talk to each other using Fantasy Land),
+  then that's it — simply install them and use as you normally would,
+  only install `fanatasy-land` package as well.
+
+  If you do want to access Fantasy Land methods, do it like this:
+
+  ```js
+  var fl = require('fanatasy-land')
+  var Something = require('some-fl-compatible-lib')
+
+  var foo = new Something(1)
+  var bar = foo[fl.map](x => x + 1)
+  ```
+
+
 ## Algebras
 
 ### Setoid
@@ -214,7 +271,7 @@ where `t` is a natural transformation from `f` to `g` (naturality)
 A value which has a Traversable must provide a `sequence` method. The `sequence`
 method takes one argument:
 
-    u.sequence(of) 
+    u.sequence(of)
 
 1. `of` must return the Applicative that `u` contains.
 
@@ -267,7 +324,7 @@ implement:
 
 An Extend must provide an `extend` method. The `extend`
 method takes one argument:
-     
+
      w.extend(f)
 
 1. `f` must be a function which returns a value
@@ -288,9 +345,9 @@ A value that implements the Comonad specification must also implement the Functo
 
 #### `extract` method
 
-A value which has a Comonad must provide an `extract` method on itself. 
+A value which has a Comonad must provide an `extract` method on itself.
 The `extract` method takes no arguments:
-    
+
     c.extract()
 
 1. `extract` must return a value of type `v`, for some variable `v` contained in `w`.
