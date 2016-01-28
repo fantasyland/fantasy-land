@@ -1,18 +1,29 @@
 'use strict';
 
-const {identity, compose} = require('fantasy-combinators');
-const {map} = require('../index');
+const {id: identity, compose} = require('fantasy-combinators');
+const {map} = require('..');
 
-const id =(t) => (eq) => (x) => {
-    const a = t(x)[map](identity);
+/*
+
+### Functor
+
+1. `u.map(a => a)` is equivalent to `u` (identity)
+2. `u.map(x => f(g(x)))` is equivalent to `u.map(g).map(f)` (composition)
+
+*/
+
+const identity = t => eq => x => {
+    const a = t(x)[map](id);
     const b = t(x);
     return eq(a, b);
 };
 
-const composition = (t) => (eq) => (x) => {
-    const a = t(x)[map](compose(identity)(identity));
-    const b = t(x)[map](identity)[map](identity);
+const composition = t => eq => x => {
+    const a = t(x)[map](compose(id)(id));
+    const b = t(x)[map](id)[map](id);
     return eq(a, b);
 };
 
-modules.exports = { identity: id, composition };
+module.exports = { identity
+                 , composition 
+                 };

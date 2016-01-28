@@ -1,18 +1,29 @@
 'use strict';
 
 const {identity, apply} = require('fantasy-combinators');
-const {concat} = require('../index');
+const {concat} = require('..');
 
-const rightIdentity = (t) => (eq) => (x) => {
+/**
+
+### Monoid
+
+1. `m.concat(m.empty())` is equivalent to `m` (right identity)
+2. `m.empty().concat(m)` is equivalent to `m` (left identity)
+
+**/
+
+const rightIdentity = t => eq => x => {
     const a = t(x)[concat](t.empty());
     const b = t(x);
     return eq(a, b);
 };
 
-const leftIdentity = (t) => (eq) => (x) => {
+const leftIdentity = t => eq => x => {
     const a = t.empty()[concat](t(x));
     const b = t(x);
     return eq(a, b);
 };
 
-modules.exports = { rightIdentity, leftIdentity };
+module.exports = { rightIdentity
+                 , leftIdentity 
+                 };

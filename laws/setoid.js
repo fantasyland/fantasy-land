@@ -1,9 +1,19 @@
 'use strict';
 
 const {identity, apply} = require('fantasy-combinators');
-const {equals} = require('../index');
+const {equals} = require('..');
 
-const reflexivity = (t) => (eq) => (x) => {
+/**
+
+### Setoid
+
+1. `a.equals(a) === true` (reflexivity)
+2. `a.equals(b) === b.equals(a)` (symmetry)
+3. If `a.equals(b)` and `b.equals(c)`, then `a.equals(c)` (transitivity)
+
+**/
+
+const reflexivity = t => eq => x => {
     const y = t(x);
 
     const a = y[equals](y);
@@ -11,7 +21,7 @@ const reflexivity = (t) => (eq) => (x) => {
     return eq(a, b);
 };
 
-const symmetry = (t) => (eq) => (x) => {
+const symmetry = t => eq => x => {
     const f = t(x);
     const g = t(x);
 
@@ -20,7 +30,7 @@ const symmetry = (t) => (eq) => (x) => {
     return eq(a, b);
 };
 
-const transitivity = (t) => (eq) => (x) => {
+const transitivity = t => eq => x => {
     const f = t(x);
     const g = t(x);
     const h = t(x);
@@ -31,4 +41,7 @@ const transitivity = (t) => (eq) => (x) => {
     return eq(a && b, c);
 };
 
-modules.exports = { reflexivity, symmetry, transitivity };
+module.exports = { reflexivity
+                 , symmetry
+                 , transitivity
+                 };

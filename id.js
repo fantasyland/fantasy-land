@@ -60,4 +60,4 @@ Id.prototype[fl.extract] = function() {
     return this.value;
 };
 
-if (typeof module == 'object') module.exports = Id;
+module.exports = Id;

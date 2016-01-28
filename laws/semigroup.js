@@ -1,9 +1,17 @@
 'use strict';
 
 const {identity, apply} = require('fantasy-combinators');
-const {concat} = require('../index');
+const {concat} = require('..');
 
-const associativity = (t) => (eq) => (x) => {
+/**
+
+### Semigroup
+
+1. `a.concat(b).concat(c)` is equivalent to `a.concat(b.concat(c))` (associativity)
+
+**/
+
+const associativity = t => eq => x => {
     const f = t(x);
     const g = t(x);
     const h = t(x);
@@ -13,4 +21,4 @@ const associativity = (t) => (eq) => (x) => {
     return eq(a, b);
 };
 
-modules.exports = { associativity };
+module.exports = { associativity };

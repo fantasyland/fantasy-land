@@ -18,6 +18,13 @@
   "issues": {
     "url": "https://github.com/fantasyland/fantasy-land/issues"
   },
+  "dependencies": {
+    "daggy": "0.0.x",
+    "fantasy-combinators": "0.0.x"
+  },
+  "devDependencies": {
+    "nodeunit": "0.9.x"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/fantasyland/fantasy-land.git"
@@ -26,5 +33,8 @@
     "id.js",
     "index.js"
   ],
-  "main": "index.js"
+  "main": "index.js",
+  "scripts": {
+    "test": "node --harmony_destructuring node_modules/.bin/nodeunit id_test.js"
+  }
 }
