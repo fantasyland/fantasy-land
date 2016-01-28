@@ -1,7 +1,7 @@
 'use strict';
 
 const {identity, apply} = require('fantasy-combinators');
-const {of_: of, chain} = require('..');
+const {of, chain} = require('..');
 
 /**
 
@@ -13,14 +13,14 @@ const {of_: of, chain} = require('..');
 **/
 
 const leftIdentity = t => eq => x => {
-    const a = t[of_](x)[chain](identity);
+    const a = t[of](x)[chain](identity);
     const b = identity(x);
     return eq(a, b);
 };
 
 const rightIdentity = t => eq => x => {
-    const a = t[of_](x)[chain](t[of_]);
-    const b = t[of_](x);
+    const a = t[of](x)[chain](t[of]);
+    const b = t[of](x);
     return eq(a, b);
 };
 

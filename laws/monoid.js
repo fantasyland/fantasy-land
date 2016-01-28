@@ -1,7 +1,7 @@
 'use strict';
 
 const {identity, apply} = require('fantasy-combinators');
-const {concat} = require('..');
+const {of, empty, concat} = require('..');
 
 /**
 
@@ -13,14 +13,14 @@ const {concat} = require('..');
 **/
 
 const rightIdentity = t => eq => x => {
-    const a = t(x)[concat](t.empty());
-    const b = t(x);
+    const a = t[of](x)[concat](t[empty]());
+    const b = t[of](x);
     return eq(a, b);
 };
 
 const leftIdentity = t => eq => x => {
-    const a = t.empty()[concat](t(x));
-    const b = t(x);
+    const a = t[empty]()[concat](t[of](x));
+    const b = t[of](x);
     return eq(a, b);
 };
 

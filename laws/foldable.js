@@ -1,5 +1,7 @@
 'use strict';
 
+const {identity} = require('fantasy-combinators');
+
 /**
 
 ### Foldable
@@ -9,8 +11,8 @@
 **/
 
 const associativity = t => eq => x => {
-    const a = t.reduce(identity, x);
-    const b = t.toArray().reduce(identity, x);
+    const a = t(x).reduce(identity, x);
+    const b = t(x).toArray().reduce(identity, x);
     return eq(a, b);
 };
 

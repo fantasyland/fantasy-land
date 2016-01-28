@@ -15,13 +15,18 @@ Id.prototype[fl.concat] = function(b) {
 };
 
 // Monoid (value must also be a Monoid)
-Id.prototype[fl.empty] = function() {
+Id[fl.empty] = function() {
     return new Id(this.value[fl.empty] ? this.value[fl.empty]() : this.value.constructor[fl.empty]());
 };
+Id.prototype[fl.empty] = Id[fl.empty];
 
 // Foldable
 Id.prototype[fl.reduce] = function(f, acc) {
     return f(acc, this.value);
+};
+
+Id.prototype.toArray = function() {
+    return [this.value];
 };
 
 // Functor
@@ -54,6 +59,7 @@ Id.prototype[fl.extend] = function(f) {
 Id[fl.of] = function(a) {
     return new Id(a);
 };
+Id.prototype[fl.of] = Id[fl.of];
 
 // Comonad
 Id.prototype[fl.extract] = function() {
