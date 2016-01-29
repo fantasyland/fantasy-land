@@ -15,13 +15,18 @@ Id.prototype[fl.concat] = function(b) {
 };
 
 // Monoid (value must also be a Monoid)
-Id.prototype[fl.empty] = function() {
+Id[fl.empty] = function() {
     return new Id(this.value[fl.empty] ? this.value[fl.empty]() : this.value.constructor[fl.empty]());
 };
+Id.prototype[fl.empty] = Id[fl.empty];
 
 // Foldable
 Id.prototype[fl.reduce] = function(f, acc) {
     return f(acc, this.value);
+};
+
+Id.prototype.toArray = function() {
+    return [this.value];
 };
 
 // Functor
@@ -37,7 +42,7 @@ Id.prototype[fl.ap] = function(b) {
 // Traversable
 Id.prototype[fl.sequence] = function(of) {
     // the of argument is only provided for types where map might fail.
-    return this.value.map(Id.of);
+    return this.value.map(Id[fl.of]);
 };
 
 // Chain
@@ -54,10 +59,11 @@ Id.prototype[fl.extend] = function(f) {
 Id[fl.of] = function(a) {
     return new Id(a);
 };
+Id.prototype[fl.of] = Id[fl.of];
 
 // Comonad
 Id.prototype[fl.extract] = function() {
     return this.value;
 };
 
-if (typeof module == 'object') module.exports = Id;
+module.exports = Id;

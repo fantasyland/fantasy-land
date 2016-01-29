@@ -259,7 +259,7 @@ implement the Functor specification.
 1. `t(u.sequence(f.of))` is equivalent to `u.map(t).sequence(g.of)`
 where `t` is a natural transformation from `f` to `g` (naturality)
 
-2. `u.map(x => Id(x)).sequence(Id.of)` is equivalent to `Id.of` (identity)
+2. `u.map(x => Id(x)).sequence(Id.of)` is equivalent to `Id.of(u)` (identity)
 
 3. `u.map(Compose).sequence(Compose.of)` is equivalent to
    `Compose(u.sequence(f.of).map(x => x.sequence(g.of)))` (composition)
