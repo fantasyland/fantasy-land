@@ -21,6 +21,7 @@ structures:
 * [Monad](#monad)
 * [Extend](#extend)
 * [Comonad](#comonad)
+* [Profunctor](#profunctor)
 
 <img src="figures/dependencies.png" width="677" height="212" />
 
@@ -354,7 +355,28 @@ The `extract` method takes no arguments:
     1. `v` must have the same type that `f` returns in `extend`.
 
 
+### Profunctor
 
+A value that implements the Profunctor specification is a Contravariant functor 
+on its first type parameter and a functor on its second type parameter.
+
+1. `p.dimap(f, g)` is equivalent to `p` (identity)
+2. `p.dimap(compose(f1)(f2)), compose(g1)(g2))` is equivalent to `p.dimap(f1, g1).dimap(f2, g2)` (composition)
+
+#### `dimap` method
+
+A value what has a Profunctor must provide an `dimap` method. The `profunctor`
+method takes two arguments:
+
+    c.dimap(f, g)
+
+1. `f` must be a function which returns a value
+
+    1. If `f` is not a function, the behaviour of `dimap` is unspecified.
+
+2. `g` must be a function which returns a value
+  
+    1. If `g` is not a function, the behaviour of `dimap` is unspecified.
 
 
 
