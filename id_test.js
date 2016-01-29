@@ -95,6 +95,6 @@ exports.setoid = {
 
 exports.traversable = { 
     naturality: test((x) => traversable.naturality(Id.of)(equality)(Id.of(x))),
-    identity: test((x) => traversable.identity(Id.of)(equality)(Id.of(x))),
+    identity: test((x) => traversable.identity(Id.of)(equality)(x)),
     composition: test((x) => traversable.composition(Id.of)(equality)(Id.of(Sum.of(x))))
 };

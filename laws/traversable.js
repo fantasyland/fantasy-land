@@ -2,7 +2,7 @@
 
 const Id = require('../id');
 const {identity} = require('fantasy-combinators');
-const {of, ap, sequence, map, equals} = require('..');
+const {of, ap, sequence, map, equals, empty, concat} = require('..');
 const {tagged} = require('daggy');
 
 const Compose = tagged('c');
@@ -15,6 +15,17 @@ Compose.prototype[map] = function(f) {
 };
 Compose.prototype[equals] = function(x) {
     return this.c.equals ? this.c.equals(x.c) : this.c === x.c;
+};
+
+Array.prototype[equals] = function(y) {
+    return this.length === y.length && this.join('') === y.join('');
+};
+Array.prototype.sequence = function(p) {
+    return this.reduce((ys, x) => {
+        return identity(x).map(y => z => {
+            return z.concat(y);
+        }).ap(ys);
+    }, p([]));
 };
 
 /*
@@ -38,8 +49,10 @@ const naturality = t => eq => x => {
 };
 
 const identityʹ = t => eq => x => {
-    const a = t(x)[map](identity)[sequence](Id[of]);
-    const b = Id[of](x);
+    const u = [x];
+
+    const a = u[map](Id[of])[sequence](Id[of]);
+    const b = Id[of](u);
     return eq(a, b);
 };
 
