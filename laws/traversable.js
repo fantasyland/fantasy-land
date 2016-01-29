@@ -1,13 +1,20 @@
 'use strict';
 
 const Id = require('../id');
-const {of_, sequence, map} = require('..');
+const {identity} = require('fantasy-combinators');
+const {of, ap, sequence, map, equals} = require('..');
 const {tagged} = require('daggy');
 
-const Compose = tagged('x');
-Compose[of_] = Compose;
+const Compose = tagged('c');
+Compose[of] = Compose;
+Compose.prototype[ap] = function(x) {
+    return Compose(this.c.map(u => y => u.ap(y)).ap(x.c));
+};
 Compose.prototype[map] = function(f) {
-    return Compose(this.x[map](y => y[map](f)));
+    return Compose(this.c[map](y => y[map](f)));
+};
+Compose.prototype[equals] = function(x) {
+    return this.c.equals ? this.c.equals(x.c) : this.c === x.c;
 };
 
 /*
@@ -25,24 +32,24 @@ where `t` is a natural transformation from `f` to `g` (naturality)
 */
 
 const naturality = t => eq => x => {
-    const a = id(t(x)[sequence](t[of_]));
-    const b = t(x)[map](id)[sequence](t[of_]);
+    const a = identity(t(x)[sequence](t[of]));
+    const b = t(x)[map](identity)[sequence](t[of]);
     return eq(a, b);
 };
 
-const identity = t => eq => x => {
-    const a = t(x)[map](Id)[sequence](Id[of_]);
-    const b = Id[of_](x);
+const identityʹ = t => eq => x => {
+    const a = t(x)[map](identity)[sequence](Id[of]);
+    const b = Id[of](x);
     return eq(a, b);
 };
 
 const composition = t => eq => x => {
-    const a = t(x)[map](Compose)[sequence](Compose[of_]);
-    const b = Compose(t(x)[sequence](Id[of_])[map](x => x[sequence](Id[of_])));
+    const a = t(x)[map](Compose)[sequence](Compose[of]);
+    const b = Compose(t(x)[sequence](Id[of])[map](x => x[sequence](Id[of])));
     return eq(a, b);
 };
 
 module.exports = { naturality
-                 , identity 
+                 , identity: identityʹ
                  , composition 
                  };

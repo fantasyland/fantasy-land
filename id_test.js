@@ -9,45 +9,92 @@ const foldable = require('./laws/foldable');
 const functor = require('./laws/functor');
 const monad = require('./laws/monad');
 const monoid = require('./laws/monoid');
+const semigroup = require('./laws/semigroup');
+const setoid = require('./laws/setoid');
+const traversable = require('./laws/traversable');
+
+const {tagged} = require('daggy');
+const {of, empty, concat, equals, map} = require('.');
 
 const Id = require('./id');
 
+// Special type of sum for the type of string.
+const Sum = tagged('v');
+Sum[of] = (x) => Sum(x);
+Sum[empty] = () => Sum('');
+Sum.prototype[of] = Sum[of];
+Sum.prototype[empty] = Sum[empty];
+Sum.prototype[map] = function(f) {
+    return Sum(f(this.v));
+};
+Sum.prototype[concat] = function(x) {
+    return Sum(this.v + x.v);
+};
+Sum.prototype[equals] = function(x) {
+    return this.v.equals ? this.v.equals(x.v) : this.v === x.v;
+};
+
 const equality = (x, y) => x.equals ? x.equals(y) : x === y;
+const test = f => t => {
+    t.ok(f("x"));
+    t.done();
+};
 
 exports.applicative =   { 
-    identity: t => { t.ok(applicative.identity(Id)(equality)(1)); t.done(); }, 
-    homomorphism: t => { t.ok(applicative.homomorphism(Id)(equality)(1)); t.done(); }, 
-    interchange: t => { t.ok(applicative.interchange(Id)(equality)(1)); t.done(); }
+    identity: test((x) => applicative.identity(Id)(equality)(x)),
+    homomorphism: test((x) => applicative.homomorphism(Id)(equality)(x)),
+    interchange: test((x) => applicative.interchange(Id)(equality)(x))
 };
 
 exports.apply = { 
-    composition: t => { t.ok(apply.composition(Id)(equality)(1)); t.done(); } 
+    composition: test((x) => apply.composition(Id)(equality)(x))
 };
 
 exports.chain = { 
-    associativity: t => { t.ok(chain.associativity(Id)(equality)(1)); t.done(); } 
+    associativity: test((x) => chain.associativity(Id)(equality)(x))
 };
 
 exports.comonad = { 
-    leftIdentity: t => { t.ok(comonad.leftIdentity(Id.of)(equality)(1)); t.done(); }, 
-    rightIdentity: t => { t.ok(comonad.rightIdentity(Id.of)(equality)(1)); t.done(); },
-    associativity: t => { t.ok(comonad.associativity(Id.of)(equality)(1)); t.done(); }
+    leftIdentity: test((x) => comonad.leftIdentity(Id.of)(equality)(x)),
+    rightIdentity: test((x) => comonad.rightIdentity(Id.of)(equality)(x)),
+    associativity: test((x) => comonad.associativity(Id.of)(equality)(x))
 };
 
 exports.extend = { 
-    associativity: t => { t.ok(extend.associativity(Id.of)(equality)(1)); t.done(); } 
+    associativity: test((x) => extend.associativity(Id.of)(equality)(x)) 
 };
 
 exports.foldable = { 
-    associativity: t => { t.ok(foldable.associativity(Id.of)(equality)(1)); t.done(); } 
+    associativity: test((x) => foldable.associativity(Id.of)(equality)(x))
 };
 
 exports.functor = { 
-    identity: t => { t.ok(functor.identity(Id.of)(equality)(1)); t.done(); },
-    composition: t => { t.ok(functor.composition(Id.of)(equality)(1)); t.done(); }
+    identity: test((x) => functor.identity(Id.of)(equality)(x)),
+    composition: test((x) => functor.composition(Id.of)(equality)(x))
 };
 
 exports.monad = { 
-    leftIdentity: t => { t.ok(monad.leftIdentity(Id)(equality)(1)); t.done(); },
-    rightIdentity: t => { t.ok(monad.rightIdentity(Id)(equality)(1)); t.done(); }
+    leftIdentity: test((x) => monad.leftIdentity(Id)(equality)(x)),
+    rightIdentity: test((x) => monad.rightIdentity(Id)(equality)(x))
+};
+
+exports.monoid = { 
+    leftIdentity: test((x) => monoid.leftIdentity(Id.of(Sum.empty()))(equality)(Sum.of(x))),
+    rightIdentity: test((x) => monoid.rightIdentity(Id.of(Sum.empty()))(equality)(Sum.of(x)))
+};
+
+exports.semigroup = { 
+    associativity: test((x) => semigroup.associativity(Id.of)(equality)(x))
+};
+
+exports.setoid = { 
+    reflexivity: test((x) => setoid.reflexivity(Id.of)(equality)(x)),
+    symmetry: test((x) => setoid.symmetry(Id.of)(equality)(x)),
+    transitivity: test((x) => setoid.transitivity(Id.of)(equality)(x))
+};
+
+exports.traversable = { 
+    naturality: test((x) => traversable.naturality(Id.of)(equality)(Id.of(x))),
+    identity: test((x) => traversable.identity(Id.of)(equality)(Id.of(x))),
+    composition: test((x) => traversable.composition(Id.of)(equality)(Id.of(Sum.of(x))))
 };
