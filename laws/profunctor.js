@@ -19,8 +19,8 @@ const identityʹ = t => eq => x => {
 };
 
 const composition = t => eq => x => {
-    const a = p[dimap](compose(identity)(identity), compose(identity)(identity));
-    const b = p[dimap](identity, identity)[dimap](identity, identity);
+    const a = t(x)[dimap](compose(identity)(identity), compose(identity)(identity));
+    const b = t(x)[dimap](identity, identity)[dimap](identity, identity);
     return eq(a, b);
 };
 

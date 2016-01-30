@@ -22,6 +22,7 @@ structures:
 * [Extend](#extend)
 * [Comonad](#comonad)
 * [Profunctor](#profunctor)
+* [Bifunctor](#bifunctor)
 
 <img src="figures/dependencies.png" width="677" height="212" />
 
@@ -377,6 +378,30 @@ method takes two arguments:
 2. `g` must be a function which returns a value
   
     1. If `g` is not a function, the behaviour of `dimap` is unspecified.
+
+
+### Bifunctor
+
+A value that implements the Bifunctor specification is a functor with two
+type arguments that are both Covariant. 
+
+1. `p.bimap(f, g)` is equivalent to `p` (identity)
+2. `p.bimap(compose(f1)(f2)), compose(g1)(g2))` is equivalent to `p.bimap(f1, g1).bimap(f2, g2)` (composition)
+
+#### `bimap` method
+
+A value what has a Bifunctor must provide an `bimap` method. The `bifunctor`
+method takes two arguments:
+
+    c.bimap(f, g)
+
+1. `f` must be a function which returns a value
+
+    1. If `f` is not a function, the behaviour of `bimap` is unspecified.
+
+2. `g` must be a function which returns a value
+  
+    1. If `g` is not a function, the behaviour of `bimap` is unspecified.
 
 
 

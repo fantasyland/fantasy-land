@@ -10,5 +10,6 @@ module.exports = {
   chain: 'chain',
   extend: 'extend',
   extract: 'extract',
-  dimap: 'dimap'
+  dimap: 'dimap',
+  bimap: 'bimap'
 };
