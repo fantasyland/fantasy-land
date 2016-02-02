@@ -24,6 +24,6 @@ const composition = t => eq => x => {
     return eq(a, b);
 };
 
-modules.exports = { identity: identityʹ
-                  , composition 
-                  };
+module.exports = { identity: identityʹ
+                 , composition 
+                 };
