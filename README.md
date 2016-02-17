@@ -47,7 +47,7 @@ implemented and how they can be derived from new methods.
 
 ## How to add Fantasy Land compatibility to your library
 
-1. Add `fanatasy-land` package as a peer dependency. Add in your `package.json`:
+1. Add `fantasy-land` package as a peer dependency. Add in your `package.json`:
 
   ```js
   {
