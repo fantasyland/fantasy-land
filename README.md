@@ -62,7 +62,7 @@ implemented and how they can be derived from new methods.
 2. The `fantasy-land` package exposes method names, you should use them for you Fantasy Land methods:
 
   ```js
-  var fl = require('fanatasy-land')
+  var fl = require('fantasy-land')
 
   // ...
 
@@ -73,7 +73,7 @@ implemented and how they can be derived from new methods.
 
 ## How to use Fantasy Land compatible library in your application
 
-1. Add library npm package, and `fanatasy-land` as your normal dependecies:
+1. Add library npm package, and `fantasy-land` as your normal dependecies:
 
   ```js
   {
@@ -89,12 +89,12 @@ implemented and how they can be derived from new methods.
 2. If you don't want to access Fantasy Land methods directly
   (for example if you use two libraries that talk to each other using Fantasy Land),
   then that's it — simply install them and use as you normally would,
-  only install `fanatasy-land` package as well.
+  only install `fantasy-land` package as well.
 
   If you do want to access Fantasy Land methods, do it like this:
 
   ```js
-  var fl = require('fanatasy-land')
+  var fl = require('fantasy-land')
   var Something = require('some-fl-compatible-lib')
 
   var foo = new Something(1)
