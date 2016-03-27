@@ -257,7 +257,7 @@ A value that implements the Traversable specification must also
 implement the Functor specification.
 
 1. `t(u.sequence(f.of))` is equivalent to `u.map(t).sequence(g.of)`
-where `t` is a natural transformation from `f` to `g` (naturality)
+for any `t` such that `t(x).map(a)` is equivalent to `t(x.map(a))` (naturality)
 
 2. `u.map(x => Id(x)).sequence(Id.of)` is equivalent to `Id.of(u)` (identity)
 
