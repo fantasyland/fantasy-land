@@ -265,19 +265,21 @@ for any `t` such that `t(x).map(a)` is equivalent to `t(x.map(a))` (naturality)
    `Compose.of(u.sequence(f.of).map(x => x.sequence(g.of)))` for Compose type defined below (composition)
 
 ```js
-Compose = {
-  of(c) {
-    return {
-      c,
-      map(f) {
-        return Compose.of(c.map(y => y.map(f)))
-      },
-      ap(x) {
-        return Compose.of(c.map(u => y => u.ap(y)).ap(x.c))
-      }
-    }
-  }
-}
+var Compose = function(c) {
+  this.c = c;
+};
+
+Compose.of = function(c) {
+  return new Compose(c);
+};
+
+Compose.prototype.ap = function(x) {
+  return Compose.of(this.c.map(u => y => u.ap(y)).ap(x.c));
+};
+
+Compose.prototype.map = function(f) {
+  return Compose.of(this.c.map(y => y.map(f)));
+};
 ```
 
 * `traverse`; derivable as `function(f, of) { return this.map(f).sequence(of); }`
