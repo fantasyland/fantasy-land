@@ -254,7 +254,7 @@ method takes two arguments:
 ### Traversable
 
 A value that implements the Traversable specification must also
-implement the Functor specification.
+implement the Functor and Foldable specifications.
 
 1. `t(u.sequence(f.of))` is equivalent to `u.map(t).sequence(g.of)`
 for any `t` such that `t(x).map(a)` is equivalent to `t(x.map(a))` (naturality)
@@ -282,6 +282,27 @@ Compose.prototype.map = function(f) {
 };
 ```
 
+A value which satisfies the specification of an Traversable does not
+need to implement:
+
+* Foldable's `reduce`; derivable as
+  ```js
+  function(f, acc) {
+     function Const(value) {
+       this.value = value;
+     };
+     Const.of = function(_) {
+       return new Const(acc);
+     };
+     Const.prototype.map = function(_) {
+       return this;
+     };
+     Const.prototype.ap = function(b) {
+       return new Const(f(this.value, b.value));
+     };
+     return this.map(x => new Const(x)).sequence(Const.of).value;
+   }
+  ```
 * `traverse`; derivable as `function(f, of) { return this.map(f).sequence(of); }`
 
 #### `sequence` method
