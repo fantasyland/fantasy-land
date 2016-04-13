@@ -303,6 +303,7 @@ need to implement:
      return this.map(x => new Const(x)).sequence(Const.of).value;
    }
   ```
+  
 * `traverse`; derivable as `function(f, of) { return this.map(f).sequence(of); }`
 
 #### `sequence` method
