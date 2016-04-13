@@ -257,7 +257,7 @@ A value that implements the Traversable specification must also
 implement the Functor and Foldable specifications.
 
 1. `t(u.sequence(f.of))` is equivalent to `u.map(t).sequence(g.of)`
-for any `t` such that `t(x).map(a)` is equivalent to `t(x.map(a))` (naturality)
+for any `t` such that `t(a).map(f)` is equivalent to `t(a.map(f))` (naturality)
 
 2. `u.map(F.of).sequence(F.of)` is equivalent to `F.of(u)` for any Applicative `F` (identity)
 
@@ -288,22 +288,22 @@ need to implement:
 * Foldable's `reduce`; derivable as
   ```js
   function(f, acc) {
-     function Const(value) {
-       this.value = value;
-     };
-     Const.of = function(_) {
-       return new Const(acc);
-     };
-     Const.prototype.map = function(_) {
-       return this;
-     };
-     Const.prototype.ap = function(b) {
-       return new Const(f(this.value, b.value));
-     };
-     return this.map(x => new Const(x)).sequence(Const.of).value;
-   }
+    function Const(value) {
+      this.value = value;
+    };
+    Const.of = function(_) {
+      return new Const(acc);
+    };
+    Const.prototype.map = function(_) {
+      return this;
+    };
+    Const.prototype.ap = function(b) {
+      return new Const(f(this.value, b.value));
+    };
+    return this.map(x => new Const(x)).sequence(Const.of).value;
+  }
   ```
-  
+
 * `traverse`; derivable as `function(f, of) { return this.map(f).sequence(of); }`
 
 #### `sequence` method
