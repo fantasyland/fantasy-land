@@ -254,15 +254,55 @@ method takes two arguments:
 ### Traversable
 
 A value that implements the Traversable specification must also
-implement the Functor specification.
+implement the Functor and Foldable specifications.
 
 1. `t(u.sequence(f.of))` is equivalent to `u.map(t).sequence(g.of)`
-where `t` is a natural transformation from `f` to `g` (naturality)
+for any `t` such that `t(a).map(f)` is equivalent to `t(a.map(f))` (naturality)
 
-2. `u.map(x => Id(x)).sequence(Id.of)` is equivalent to `Id.of(u)` (identity)
+2. `u.map(F.of).sequence(F.of)` is equivalent to `F.of(u)` for any Applicative `F` (identity)
 
-3. `u.map(Compose).sequence(Compose.of)` is equivalent to
-   `Compose(u.sequence(f.of).map(x => x.sequence(g.of)))` (composition)
+3. `u.map(Compose.of).sequence(Compose.of)` is equivalent to
+   `Compose.of(u.sequence(f.of).map(x => x.sequence(g.of)))` for Compose type defined below (composition)
+
+```js
+var Compose = function(c) {
+  this.c = c;
+};
+
+Compose.of = function(c) {
+  return new Compose(c);
+};
+
+Compose.prototype.ap = function(x) {
+  return Compose.of(this.c.map(u => y => u.ap(y)).ap(x.c));
+};
+
+Compose.prototype.map = function(f) {
+  return Compose.of(this.c.map(y => y.map(f)));
+};
+```
+
+A value which satisfies the specification of an Traversable does not
+need to implement:
+
+* Foldable's `reduce`; derivable as
+  ```js
+  function(f, acc) {
+    function Const(value) {
+      this.value = value;
+    };
+    Const.of = function(_) {
+      return new Const(acc);
+    };
+    Const.prototype.map = function(_) {
+      return this;
+    };
+    Const.prototype.ap = function(b) {
+      return new Const(f(this.value, b.value));
+    };
+    return this.map(x => new Const(x)).sequence(Const.of).value;
+  }
+  ```
 
 * `traverse`; derivable as `function(f, of) { return this.map(f).sequence(of); }`
 
