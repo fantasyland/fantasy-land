@@ -6,7 +6,7 @@ module.exports = {
   ap: 'fantasy-land/ap',
   of: 'fantasy-land/of',
   reduce: 'fantasy-land/reduce',
-  sequence: 'fantasy-land/sequence',
+  traverse: 'fantasy-land/traverse',
   chain: 'fantasy-land/chain',
   chainRec: 'fantasy-land/chainRec',
   extend: 'fantasy-land/extend',

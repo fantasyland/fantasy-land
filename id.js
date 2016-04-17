@@ -40,9 +40,9 @@ Id.prototype[fl.ap] = function(b) {
 };
 
 // Traversable
-Id.prototype[fl.sequence] = function(of) {
+Id.prototype[fl.traverse] = function(f, of) {
     // the of argument is only provided for types where map might fail.
-    return this.value.map(Id[fl.of]);
+    return f(this.value).map(Id[fl.of]);
 };
 
 // Chain
