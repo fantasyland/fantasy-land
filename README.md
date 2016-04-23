@@ -21,6 +21,8 @@ structures:
 * [Monad](#monad)
 * [Extend](#extend)
 * [Comonad](#comonad)
+* [Profunctor](#profunctor)
+* [Bifunctor](#bifunctor)
 
 <img src="figures/dependencies.png" width="677" height="212" />
 
@@ -394,7 +396,80 @@ The `extract` method takes no arguments:
     1. `v` must have the same type that `f` returns in `extend`.
 
 
+### Profunctor
 
+A value that implements the Profunctor specification must also implement
+the Functor specification. The Profunctor specification is a Contravariant
+functor on its first type parameter and functor on its second type parameter.
+
+1. `p.dimap(f, g)` is equivalent to `p` (identity)
+2. `p.dimap(compose(f1)(f2)), compose(g1)(g2))` is equivalent to `p.dimap(f1, g1).dimap(f2, g2)` (composition)
+
+Additionally if the `lmap` is also defined:
+
+1. `lmap(compose(f)(g)) = lmap(g).lmap(f)` (composition)
+
+A Profunctor specification must provide a `lmap` method or `dimap` method or
+alternatively both as long as it passes all the Profunctor specifications. 
+The `profunctor` method can be derived from both `lmap` and `map` in the 
+following way:
+
+    c.dimap = (f, g) => c.lmap(f).map(g)
+
+#### `lmap` method
+
+A value what has a Profunctor must provide a `lmap` method if no `dimap` method
+is provided. The `profunctor` method takes one argument:
+
+    c.lmap(f)
+
+1. `f` must be a function which returns a value
+  
+    1. If `f` is not a function, the behaviour of `lmap` is unspecified.
+    2. `f` can return any value.
+
+#### `dimap` method
+
+A value what has a Profunctor must provide a `dimap` method if no `lmap` method
+is provided. The `profunctor` method takes two arguments:
+
+The `profunctor` method takes two arguments:
+
+    c.dimap(f, g)
+
+1. `f` must be a function which returns a value
+
+    1. If `f` is not a function, the behaviour of `dimap` is unspecified.
+    2. `f` can return any value.
+
+2. `g` must be a function which returns a value
+  
+    1. If `g` is not a function, the behaviour of `dimap` is unspecified.
+    2. `g` can return any value.
+
+
+### Bifunctor
+
+A value that implements the Bifunctor specification is a functor with two
+type arguments that are both Covariant. 
+
+1. `p.bimap(f, g)` is equivalent to `p` (identity)
+2. `p.bimap(compose(f1)(f2)), compose(g1)(g2))` is equivalent to `p.bimap(f1, g1).bimap(f2, g2)` (composition)
+
+#### `bimap` method
+
+A value what has a Bifunctor must provide an `bimap` method. The `bifunctor`
+method takes two arguments:
+
+    c.bimap(f, g)
+
+1. `f` must be a function which returns a value
+
+    1. If `f` is not a function, the behaviour of `bimap` is unspecified.
+
+2. `g` must be a function which returns a value
+  
+    1. If `g` is not a function, the behaviour of `bimap` is unspecified.
 
 
 
