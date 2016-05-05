@@ -12,15 +12,15 @@ const {of, chain} = require('..');
 
 **/
 
-const leftIdentity = t => eq => x => {
-    const a = t[of](x)[chain](identity);
-    const b = identity(x);
+const leftIdentity = t => eq => x => f => {
+    const a = t[of](x)[chain](f);
+    const b = f(x);
     return eq(a, b);
 };
 
-const rightIdentity = t => eq => x => {
-    const a = t[of](x)[chain](t[of]);
-    const b = t[of](x);
+const rightIdentity = t => eq => x => f => {
+    const a = f(x)[chain](t[of]);
+    const b = f(x);
     return eq(a, b);
 };
 
