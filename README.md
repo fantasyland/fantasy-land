@@ -251,24 +251,24 @@ for any `t` such that `t(a).map(f)` is equivalent to `t(a.map(f))` (naturality)
 
 2. `u.map(F.of).sequence(F.of)` is equivalent to `F.of(u)` for any Applicative `F` (identity)
 
-3. `u.map(Compose.of).sequence(Compose.of)` is equivalent to
-   `Compose.of(u.sequence(f.of).map(x => x.sequence(g.of)))` for Compose type defined below (composition)
+3. `u.map(x => new Compose(x)).sequence(Compose.of)` is equivalent to
+   `new Compose(u.sequence(F.of).map(v => v.sequence(G.of)))` for `Compose` defined below and any Applicatives `F` and `G` (composition)
 
 ```js
 var Compose = function(c) {
   this.c = c;
 };
 
-Compose.of = function(c) {
-  return new Compose(c);
+Compose.of = function(x) {
+  return new Compose(F.of(G.of(x)));
 };
 
 Compose.prototype.ap = function(x) {
-  return Compose.of(this.c.map(u => y => u.ap(y)).ap(x.c));
+  return new Compose(this.c.map(u => y => u.ap(y)).ap(x.c));
 };
 
 Compose.prototype.map = function(f) {
-  return Compose.of(this.c.map(y => y.map(f)));
+  return new Compose(this.c.map(y => y.map(f)));
 };
 ```
 
