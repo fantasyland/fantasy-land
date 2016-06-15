@@ -30,9 +30,7 @@ An algebra is a set of values, a set of operators that it is closed
 under and some laws it must obey.
 
 Each Fantasy Land algebra is a separate specification. An algebra may
-have dependencies on other algebras which must be implemented. An
-algebra may also state other algebra methods which do not need to be
-implemented and how they can be derived from new methods.
+have dependencies on other algebras which must be implemented.
 
 ## Terminology
 
@@ -100,7 +98,6 @@ implemented and how they can be derived from new methods.
   var foo = new Something(1)
   var bar = foo[fl.map](x => x + 1)
   ```
-
 
 ## Algebras
 
@@ -209,11 +206,6 @@ method takes one argument:
 A value that implements the Applicative specification must also
 implement the Apply specification.
 
-A value which satisfies the specification of an Applicative does not
-need to implement:
-
-* Functor's `map`; derivable as `function(f) { return this.of(f).ap(this); }`
-
 1. `a.of(x => x).ap(v)` is equivalent to `v` (identity)
 2. `a.of(f).ap(a.of(x))` is equivalent to `a.of(f(x))` (homomorphism)
 3. `u.ap(a.of(y))` is equivalent to `a.of(f => f(y)).ap(u)` (interchange)
@@ -232,9 +224,7 @@ or its `constructor` object. The `of` method takes one argument:
 
 ### Foldable
 
-1. `u.reduce` is equivalent to `u.toArray().reduce`
-
-* `toArray`; derivable as `function() { return this.reduce((acc, x) => acc.concat([x]), []); }`
+1. `u.reduce` is equivalent to `u.reduce((acc, x) => acc.concat([x]), []).reduce`
 
 #### `reduce` method
 
@@ -282,30 +272,6 @@ Compose.prototype.map = function(f) {
 };
 ```
 
-A value which satisfies the specification of an Traversable does not
-need to implement:
-
-* Foldable's `reduce`; derivable as
-  ```js
-  function(f, acc) {
-    function Const(value) {
-      this.value = value;
-    };
-    Const.of = function(_) {
-      return new Const(acc);
-    };
-    Const.prototype.map = function(_) {
-      return this;
-    };
-    Const.prototype.ap = function(b) {
-      return new Const(f(this.value, b.value));
-    };
-    return this.map(x => new Const(x)).sequence(Const.of).value;
-  }
-  ```
-
-* `traverse`; derivable as `function(f, of) { return this.map(f).sequence(of); }`
-
 #### `sequence` method
 
 A value which has a Traversable must provide a `sequence` method. The `sequence`
@@ -319,11 +285,6 @@ method takes one argument:
 
 A value that implements the Chain specification must also
 implement the Apply specification.
-
-A value which satisfies the specification of a Chain does not
-need to implement:
-
-* Apply's `ap`; derivable as `function ap(m) { return this.chain(f => m.map(f)); }`
 
 1. `m.chain(f).chain(g)` is equivalent to `m.chain(x => f(x).chain(g))` (associativity)
 
@@ -346,12 +307,6 @@ method takes one argument:
 
 A value that implements the Monad specification must also implement
 the Applicative and Chain specifications.
-
-A value which satisfies the specification of a Monad does not need to
-implement:
-
-* Apply's `ap`; derivable as `function(m) { return this.chain(f => m.map(f)); }`
-* Functor's `map`; derivable as `function(f) { var m = this; return m.chain(a => m.of(f(a)))}`
 
 1. `m.of(a).chain(f)` is equivalent to `f(a)` (left identity)
 2. `m.chain(m.of)` is equivalent to `m` (right identity)
@@ -393,12 +348,51 @@ The `extract` method takes no arguments:
 1. `extract` must return a value of type `v`, for some variable `v` contained in `w`.
     1. `v` must have the same type that `f` returns in `extend`.
 
+## Derivations
 
+When creating data types which satisfy multiple algebras, authors may choose
+to implement certain methods then derive the remaining methods. Derivations:
 
+  - [`map`][] may be derived from [`ap`][] and [`of`][]:
 
+    ```js
+    function(f) { return this.of(f).ap(this); }
+    ```
 
+  - [`map`][] may be derived from [`chain`][] and [`of`][]:
 
+    ```js
+    function(f) { var m = this; return m.chain(a => m.of(f(a))); }
+    ```
 
+  - [`ap`][] may be derived from [`chain`][]:
+
+    ```js
+    function(m) { return this.chain(f => m.map(f)); }
+    ```
+
+  - [`reduce`][] may be derived as follows:
+
+    ```js
+    function(f, acc) {
+      function Const(value) {
+        this.value = value;
+      }
+      Const.of = function(_) {
+        return new Const(acc);
+      };
+      Const.prototype.map = function(_) {
+        return this;
+      };
+      Const.prototype.ap = function(b) {
+        return new Const(f(this.value, b.value));
+      };
+      return this.map(x => new Const(x)).sequence(Const.of).value;
+    }
+    ```
+
+If a data type provides a method which *could* be derived, its behaviour must
+be equivalent to that of the derivation (or derivations).
 
 ## Notes
 
@@ -410,3 +404,16 @@ The `extract` method takes no arguments:
 3. It is recommended to throw an exception on unspecified behaviour.
 4. An `Id` container which implements all methods is provided in
    `id.js`.
+
+
+[`ap`]: #ap-method
+[`chain`]: #chain-method
+[`concat`]: #concat-method
+[`empty`]: #empty-method
+[`equals`]: #equals-method
+[`extend`]: #extend-method
+[`extract`]: #extract-method
+[`map`]: #map-method
+[`of`]: #of-method
+[`reduce`]: #reduce-method
+[`sequence`]: #sequence-method
