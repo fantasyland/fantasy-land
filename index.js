@@ -9,5 +9,7 @@ module.exports = {
   sequence: 'sequence',
   chain: 'chain',
   extend: 'extend',
-  extract: 'extract'
+  extract: 'extract',
+  bimap: 'bimap',
+  promap: 'promap'
 }

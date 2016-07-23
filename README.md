@@ -21,6 +21,8 @@ structures:
 * [Monad](#monad)
 * [Extend](#extend)
 * [Comonad](#comonad)
+* [Bifunctor](#bifunctor)
+* [Profunctor](#profunctor)
 
 <img src="figures/dependencies.png" width="677" height="212" />
 
@@ -348,6 +350,61 @@ The `extract` method takes no arguments:
 1. `extract` must return a value of type `v`, for some variable `v` contained in `w`.
     1. `v` must have the same type that `f` returns in `extend`.
 
+### Bifunctor
+
+A value that implements the Bifunctor specification must also implement
+the Functor specification.
+
+1. `p.bimap(a => a, b => b)` is equivalent to `p` (identity)
+2. `p.bimap(a => f(g(a)), b => h(i(b))` is equivalent to `p.bimap(g, i).bimap(f, h)` (composition)
+
+#### `bimap` method
+
+A value which has a Bifunctor must provide an `bimap` method. The `bimap`
+method takes two arguments:
+
+    c.bimap(f, g)
+
+1. `f` must be a function which returns a value
+
+    1. If `f` is not a function, the behaviour of `bimap` is unspecified.
+    2. `f` can return any value.
+
+2. `g` must be a function which returns a value
+
+    1. If `g` is not a function, the behaviour of `bimap` is unspecified.
+    2. `g` can return any value.
+
+3. `bimap` must return a value of the same Bifunctor.
+
+### Profunctor
+
+A value that implements the Profunctor specification must also implement
+the Functor specification.
+
+1. `p.promap(a => a, b => b)` is equivalent to `p` (identity)
+2. `p.promap(a => f(g(a)), b => h(i(b)))` is equivalent to `p.promap(f, i).promap(g, h)` (composition)
+
+#### `promap` method
+
+A value which has a Profunctor must provide a `promap` method.
+
+The `profunctor` method takes two arguments:
+
+    c.promap(f, g)
+
+1. `f` must be a function which returns a value
+
+    1. If `f` is not a function, the behaviour of `promap` is unspecified.
+    2. `f` can return any value.
+
+2. `g` must be a function which returns a value
+  
+    1. If `g` is not a function, the behaviour of `promap` is unspecified.
+    2. `g` can return any value.
+
+3. `promap` must return a value of the same Profunctor
+
 ## Derivations
 
 When creating data types which satisfy multiple algebras, authors may choose
@@ -363,6 +420,18 @@ to implement certain methods then derive the remaining methods. Derivations:
 
     ```js
     function(f) { var m = this; return m.chain(a => m.of(f(a))); }
+    ```
+
+  - [`map`][] may be derived from [`bimap`]:
+  
+    ```js
+    function(f) { return this.bimap(a => a, f); }
+    ```
+
+  - [`map`][] may be derived from [`promap`]:
+
+    ```js
+    function(f) { return this.promap(a => a, f); }
     ```
 
   - [`ap`][] may be derived from [`chain`][]:
@@ -407,6 +476,7 @@ be equivalent to that of the derivation (or derivations).
 
 
 [`ap`]: #ap-method
+[`bimap`]: #bimap-method
 [`chain`]: #chain-method
 [`concat`]: #concat-method
 [`empty`]: #empty-method
@@ -415,5 +485,6 @@ be equivalent to that of the derivation (or derivations).
 [`extract`]: #extract-method
 [`map`]: #map-method
 [`of`]: #of-method
+[`promap`]: #promap-method
 [`reduce`]: #reduce-method
 [`sequence`]: #sequence-method
