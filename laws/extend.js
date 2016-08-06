@@ -12,8 +12,8 @@ const {extend} = require('..');
 **/
 
 const associativity = t => eq => x => {
-    const a = t(x).extend(identity).extend(identity);
-    const b = t(x).extend(w => identity(w.extend(identity)));
+    const a = t(x)[extend](identity)[extend](identity);
+    const b = t(x)[extend](w => identity(w[extend](identity)));
     return eq(a, b);
 };
 

@@ -1,7 +1,7 @@
 'use strict';
 
 const {identity} = require('fantasy-combinators');
-const {extend} = require('..');
+const {extend, map, extract} = require('..');
 
 /**
 
@@ -14,20 +14,20 @@ const {extend} = require('..');
 **/
 
 const leftIdentity = t => eq => x => {
-    const a = t(x).extend(identity).extract();
+    const a = t(x)[extend](identity)[extract]();
     const b = t(x);
     return eq(a, b);
 };
 
 const rightIdentity = t => eq => x => {
-    const a = t(x).extend(w => w.extract());
+    const a = t(x)[extend](w => w[extract]());
     const b = t(x);
     return eq(a, b);
 };
 
 const associativity = t => eq => x => {
-    const a = t(x).extend(identity);
-    const b = t(x).extend(identity).map(identity);
+    const a = t(x)[extend](identity);
+    const b = t(x)[extend](identity)[map](identity);
     return eq(a, b);
 };
 

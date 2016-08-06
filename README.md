@@ -46,61 +46,35 @@ have dependencies on other algebras which must be implemented.
     - Two promises are equivalent when they yield equivalent values.
     - Two functions are equivalent if they yield equivalent outputs for equivalent inputs.
 
-## How to add Fantasy Land compatibility to your library
+## Prefixed method names
 
-1. Add `fantasy-land` package as a peer dependency. Add in your `package.json`:
+In order to add compatibility with Fantasy Land to your library,
+you need to add methods that you want to support with `fantasy-land/` prefix.
+For example if a type implements Functors' [`map`][], you need to add `fantasy-land/map` method to it.
+The code may look something like this:
 
-  ```js
-  {
-    ...
-    "peerDependencies": {
-      "fantasy-land": "*"
-    },
-    ...
-  }
-  ```
+```js
+MyType.prototype['fantasy-land/map'] = MyType.prototype.map
+```
 
-2. The `fantasy-land` package exposes method names, you should use them for you Fantasy Land methods:
+It's not required to add unprefixed methods (e.g. `MyType.prototype.map`)
+for compatibility with Fantasy Land, but you're free to do so of course.
 
-  ```js
-  var fl = require('fantasy-land')
+Further in this document unprefixed names are used just to reduce noise.
 
-  // ...
+For convenience you can use `fantasy-land` package:
 
-  MyType.prototype[fl.map] = function(fn) {
-    // Here goes implementation of map for your type...
-  }
-  ```
+```js
+var fl = reuire('fantasy-land')
 
-## How to use Fantasy Land compatible library in your application
+// ...
 
-1. Add library npm package, and `fantasy-land` as your normal dependecies:
+MyType.prototype[fl.map] = MyType.prototype.map
 
-  ```js
-  {
-    ...
-    "dependencies": {
-      "some-fl-compatible-lib": "1.0.0",
-      "fantasy-land": "1.0.0"
-    },
-    ...
-  }
-  ```
+// ...
 
-2. If you don't want to access Fantasy Land methods directly
-  (for example if you use two libraries that talk to each other using Fantasy Land),
-  then that's it — simply install them and use as you normally would,
-  only install `fantasy-land` package as well.
-
-  If you do want to access Fantasy Land methods, do it like this:
-
-  ```js
-  var fl = require('fantasy-land')
-  var Something = require('some-fl-compatible-lib')
-
-  var foo = new Something(1)
-  var bar = foo[fl.map](x => x + 1)
-  ```
+var foo = bar[fl.map](x => x + 1)
+```
 
 ## Algebras
 
