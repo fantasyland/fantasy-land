@@ -26,9 +26,6 @@ structures:
 
 <img src="figures/dependencies.png" width="677" height="212" />
 
-There also exists [Static Land Specification](https://github.com/rpominov/static-land) 
-with the exactly same ideas as Fantasy Land but based on static methods instead of instance methods.
-
 ## General
 
 An algebra is a set of values, a set of operators that it is closed
@@ -491,3 +488,8 @@ be equivalent to that of the derivation (or derivations).
 [`promap`]: #promap-method
 [`reduce`]: #reduce-method
 [`sequence`]: #sequence-method
+
+## Alternatives
+
+There also exists [Static Land Specification](https://github.com/rpominov/static-land)
+with the exactly same ideas as Fantasy Land but based on static methods instead of instance methods.
