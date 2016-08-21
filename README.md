@@ -13,6 +13,7 @@ structures:
 * [Semigroup](#semigroup)
 * [Monoid](#monoid)
 * [Functor](#functor)
+* [Contravariant Functor](#contravariant-functor)
 * [Apply](#apply)
 * [Applicative](#applicative)
 * [Foldable](#foldable)
