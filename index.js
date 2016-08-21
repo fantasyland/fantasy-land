@@ -3,6 +3,7 @@ module.exports = {
   concat: 'concat',
   empty: 'empty',
   map: 'map',
+  contramap: 'contramap',
   ap: 'ap',
   of: 'of',
   reduce: 'reduce',

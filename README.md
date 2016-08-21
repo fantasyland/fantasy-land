@@ -179,6 +179,27 @@ method takes one argument:
 
 2. `map` must return a value of the same Functor
 
+### Contravariant Functor
+
+1. `u.contramap(a => a)` is equivalent to `u` (identity)
+2. `u.contramap(x => f(g(x)))` is equivalent to `u.contramap(f).contramap(g)`
+(composition)
+
+#### `contramap` method
+
+A value which has a Contravariant Functor must provide a `contramap` method. The
+`contramap` method takes one argument:
+
+    u.contramap(f)
+
+1. `f` must be a function,
+
+    1. If `f` is not a function, the behaviour of `contramap` is
+       unspecified.
+    2. `f` can return any value.
+
+2. `contramap` must return a value of the same Functor
+
 ### Apply
 
 A value that implements the Apply specification must also
@@ -380,7 +401,7 @@ method takes two arguments:
 ### Profunctor
 
 A value that implements the Profunctor specification must also implement
-the Functor specification.
+the Functor and Contravariant Functor specifications.
 
 1. `p.promap(a => a, b => b)` is equivalent to `p` (identity)
 2. `p.promap(a => f(g(a)), b => h(i(b)))` is equivalent to `p.promap(f, i).promap(g, h)` (composition)
