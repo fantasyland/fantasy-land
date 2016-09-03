@@ -18,6 +18,7 @@ structures:
 * [Foldable](#foldable)
 * [Traversable](#traversable)
 * [Chain](#chain)
+* [ChainRec](#chainrec)
 * [Monad](#monad)
 * [Extend](#extend)
 * [Comonad](#comonad)
@@ -304,6 +305,30 @@ method takes one argument:
     2. `f` must return a value of the same Chain
 
 2. `chain` must return a value of the same Chain
+
+### ChainRec
+
+A value that implements the ChainRec specification must also implement the Chain specification.
+
+1. `T.chainRec((done, next, value) => g(done(value)), i) `is equivalent to `g(i)`
+
+   in case `g` returns values of type `T`
+
+#### `chainRec` static method
+
+A Type which has a ChainRec must provide an `chainRec` static method on itself.
+The `chainRec` static method takes two arguments:
+
+    T.chainRec(f, i)
+
+1. `f` must be a function which returns a value
+   1. If `f` is not a function, the behaviour of `chainRec` is unspecified.
+   2. `f` takes three arguments `next`, `done`, `value`
+       `next` and `done` are functions which take one argument and return some value.
+   3. `f` must return a value of the same ChainRec which contains a value returned from either `done` or `next`
+   4. The third argument to `f` on it's first invocation should be `i` 
+   5. The third argument to `f` must be the same type as `i` 
+2. `chainRec` must return a value of the same ChainRec
 
 ### Monad
 
