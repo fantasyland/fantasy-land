@@ -311,21 +311,22 @@ method takes one argument:
 A value that implements the ChainRec specification must also implement the Chain specification.
 
 1. ```js
-   T.chainRec((next, done, v) => p(v) ? d(v).map(done) : n(v).map(next), i)
+   m.chainRec((next, done, v) => p(v) ? d(v).map(done) : n(v).map(next), i)
    ```
    is equivalent to
 
    ```js
    (function step(v) { return p(v) ? d(v) : n(v).chain(step); }(i))
    ```
-   But stack usage of `T.chainRec(f, i)` must be at most a constant multiple of the stack usage of `f` itself. (equivalence)
+   But stack usage of `m.chainRec(f, i)` must be at most a constant multiple of the stack usage of `f` itself. (equivalence)
 
 #### `chainRec` static method
 
-A Type which has a ChainRec must provide an `chainRec` static method on itself.
-The `chainRec` static method takes two arguments:
+A Type which has a ChainRec must provide an `chainRec` method on itself
+or its `constructor` object. The `chainRec` method takes two arguments:
 
-    T.chainRec(f, i)
+    a.chainRec(f, i)
+    a.constructor.chainRec(f, i)
 
 1. `f` must be a function which returns a value
    1. If `f` is not a function, the behaviour of `chainRec` is unspecified.

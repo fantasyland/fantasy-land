@@ -6,7 +6,7 @@ const {identity} = require('fantasy-combinators');
 
 ### ChainRec
 
-1. `T.chainRec((next, done, v) => p(v) ? d(v).map(done) : n(v).map(next), i)`
+1. `t.chainRec((next, done, v) => p(v) ? d(v).map(done) : n(v).map(next), i)`
    is equivalent to
    `(function step(v) { return p(v) ? d(v) : n(v).chain(step); }(i))`
    (equivalence)

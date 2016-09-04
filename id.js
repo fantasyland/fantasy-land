@@ -60,6 +60,7 @@ Id[fl.chainRec] = function(f, i) {
     }
     return new Id(state.value);
 };
+Id.prototype[fl.chainRec] = Id[fl.chainRec];
 
 // Extend
 Id.prototype[fl.extend] = function(f) {
