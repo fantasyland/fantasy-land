@@ -310,9 +310,15 @@ method takes one argument:
 
 A value that implements the ChainRec specification must also implement the Chain specification.
 
-1. `T.chainRec((done, next, value) => g(done(value)), i) `is equivalent to `g(i)`
+1. ```js
+   T.chainRec((next, done, v) => p(v) ? d(v).map(done) : n(v).map(next), i)
+   ```
+   is equivalent to
 
-   in case `g` returns values of type `T`
+   ```js
+   (function step(v) { return p(v) ? d(v) : n(v).chain(step); }(i))
+   ```
+   But stack usage of `T.chainRec(f, i)` must be at most a constant multiple of the stack usage of `f` itself. (equivalence)
 
 #### `chainRec` static method
 

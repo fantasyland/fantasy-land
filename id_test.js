@@ -3,6 +3,7 @@
 const applicative = require('./laws/applicative');
 const apply = require('./laws/apply');
 const chain = require('./laws/chain');
+const chainRec = require('./laws/chainrec');
 const comonad = require('./laws/comonad');
 const extend = require('./laws/extend');
 const foldable = require('./laws/foldable');
@@ -52,6 +53,16 @@ exports.apply = {
 
 exports.chain = {
     associativity: test((x) => chain.associativity(Id)(equality)(x))
+};
+
+exports.chainRec = {
+    equivalence: test((x) => {
+      var predicate = a => a.length > 5
+      var done = Id.of
+      var next = a => Id.of(a.concat([x]))
+      var initial = [x]
+      return chainRec.equivalence(Id)(equality)(predicate)(done)(next)(initial)
+    })
 };
 
 exports.comonad = {

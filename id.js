@@ -50,6 +50,17 @@ Id.prototype[fl.chain] = function(f) {
     return f(this.value);
 };
 
+// ChainRec
+Id[fl.chainRec] = function(f, i) {
+    var state = { done: false, value: i};
+    var next = (v) => ({ done: false, value: v });
+    var done = (v) => ({ done: true, value: v });
+    while (state.done === false) {
+      state = f(next, done, state.value).value;
+    }
+    return new Id(state.value);
+};
+
 // Extend
 Id.prototype[fl.extend] = function(f) {
     return new Id(f(this));
