@@ -326,8 +326,8 @@ The `chainRec` static method takes two arguments:
    2. `f` takes three arguments `next`, `done`, `value`
        `next` and `done` are functions which take one argument and return some value.
    3. `f` must return a value of the same ChainRec which contains a value returned from either `done` or `next`
-   4. The third argument to `f` on it's first invocation should be `i` 
-   5. The third argument to `f` must be the same type as `i` 
+   4. The third argument to `f` on it's first invocation should be `i`
+   5. The third argument to `f` must be the same type as `i`
 2. `chainRec` must return a value of the same ChainRec
 
 ### Monad
@@ -424,7 +424,7 @@ The `profunctor` method takes two arguments:
     2. `f` can return any value.
 
 2. `g` must be a function which returns a value
-  
+
     1. If `g` is not a function, the behaviour of `promap` is unspecified.
     2. `g` can return any value.
 
@@ -448,7 +448,7 @@ to implement certain methods then derive the remaining methods. Derivations:
     ```
 
   - [`map`][] may be derived from [`bimap`]:
-  
+
     ```js
     function(f) { return this.bimap(a => a, f); }
     ```
