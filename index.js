@@ -8,6 +8,7 @@ module.exports = {
   reduce: 'reduce',
   sequence: 'sequence',
   chain: 'chain',
+  chainRec: 'chainRec',
   extend: 'extend',
   extract: 'extract',
   bimap: 'bimap',

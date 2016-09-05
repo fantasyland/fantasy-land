@@ -18,6 +18,7 @@ structures:
 * [Foldable](#foldable)
 * [Traversable](#traversable)
 * [Chain](#chain)
+* [ChainRec](#chainrec)
 * [Monad](#monad)
 * [Extend](#extend)
 * [Comonad](#comonad)
@@ -341,6 +342,36 @@ method takes one argument:
 
 2. `chain` must return a value of the same Chain
 
+### ChainRec
+
+A value that implements the ChainRec specification must also implement the Chain specification.
+
+1. `m.chainRec((next, done, v) => p(v) ? d(v).map(done) : n(v).map(next), i)`
+   is equivalent to
+   `(function step(v) { return p(v) ? d(v) : n(v).chain(step); }(i))` (equivalence)
+2. Stack usage of `m.chainRec(f, i)` must be at most a constant multiple of the stack usage of `f` itself.
+
+#### `chainRec` method
+
+```hs
+chainRec :: ChainRec m => ((a -> c) -> (b -> c) -> a -> m c) -> a -> m b
+```
+
+A Type which has a ChainRec must provide an `chainRec` method on itself
+or its `constructor` object. The `chainRec` method takes two arguments:
+
+    a.chainRec(f, i)
+    a.constructor.chainRec(f, i)
+
+1. `f` must be a function which returns a value
+    1. If `f` is not a function, the behaviour of `chainRec` is unspecified.
+    2. `f` takes three arguments `next`, `done`, `value`
+        1. `next` is a function which takes one argument of same type as `i` and can return any value
+        2. `done` is a function which takes one argument and returns the same type as the return value of `next`
+        3. `value` is some value of the same type as `i`
+    3. `f` must return a value of the same ChainRec which contains a value returned from either `done` or `next`
+2. `chainRec` must return a value of the same ChainRec which contains a value of same type as argument of `done`
+
 ### Monad
 
 A value that implements the Monad specification must also implement
@@ -451,7 +482,7 @@ The `profunctor` method takes two arguments:
     2. `f` can return any value.
 
 2. `g` must be a function which returns a value
-  
+
     1. If `g` is not a function, the behaviour of `promap` is unspecified.
     2. `g` can return any value.
 
@@ -475,7 +506,7 @@ to implement certain methods then derive the remaining methods. Derivations:
     ```
 
   - [`map`][] may be derived from [`bimap`]:
-  
+
     ```js
     function(f) { return this.bimap(a => a, f); }
     ```
