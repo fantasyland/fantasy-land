@@ -34,6 +34,9 @@ Sum.prototype[equals] = function(x) {
     return this.v.equals ? this.v.equals(x.v) : this.v === x.v;
 };
 
+// Special function for monad identity laws.
+const f = x => Id.of(x + x);
+
 const equality = (x, y) => x.equals ? x.equals(y) : x === y;
 const test = f => t => {
     t.ok(f("x"));
@@ -74,8 +77,8 @@ exports.functor = {
 };
 
 exports.monad = { 
-    leftIdentity: test((x) => monad.leftIdentity(Id)(equality)(x)),
-    rightIdentity: test((x) => monad.rightIdentity(Id)(equality)(x))
+    leftIdentity: test((x) => monad.leftIdentity(Id)(equality)(x)(f)),
+    rightIdentity: test((x) => monad.rightIdentity(Id)(equality)(x)(f))
 };
 
 exports.monoid = { 
