@@ -310,17 +310,16 @@ method takes one argument:
 
 A value that implements the ChainRec specification must also implement the Chain specification.
 
-1. ```js
-   m.chainRec((next, done, v) => p(v) ? d(v).map(done) : n(v).map(next), i)
-   ```
+1. `m.chainRec((next, done, v) => p(v) ? d(v).map(done) : n(v).map(next), i)`
    is equivalent to
+   `(function step(v) { return p(v) ? d(v) : n(v).chain(step); }(i))` (equivalence)
+2. Stack usage of `m.chainRec(f, i)` must be at most a constant multiple of the stack usage of `f` itself.
 
-   ```js
-   (function step(v) { return p(v) ? d(v) : n(v).chain(step); }(i))
-   ```
-   But stack usage of `m.chainRec(f, i)` must be at most a constant multiple of the stack usage of `f` itself. (equivalence)
+#### `chainRec` method
 
-#### `chainRec` static method
+```hs
+chainRec :: ChainRec m => ((a -> c) -> (b -> c) -> a -> m c) -> a -> m b
+```
 
 A Type which has a ChainRec must provide an `chainRec` method on itself
 or its `constructor` object. The `chainRec` method takes two arguments:
@@ -329,13 +328,13 @@ or its `constructor` object. The `chainRec` method takes two arguments:
     a.constructor.chainRec(f, i)
 
 1. `f` must be a function which returns a value
-   1. If `f` is not a function, the behaviour of `chainRec` is unspecified.
-   2. `f` takes three arguments `next`, `done`, `value`
-       `next` and `done` are functions which take one argument and return some value.
-   3. `f` must return a value of the same ChainRec which contains a value returned from either `done` or `next`
-   4. The third argument to `f` on it's first invocation should be `i`
-   5. The third argument to `f` must be the same type as `i`
-2. `chainRec` must return a value of the same ChainRec
+    1. If `f` is not a function, the behaviour of `chainRec` is unspecified.
+    2. `f` takes three arguments `next`, `done`, `value`
+        1. `next` is a function which takes one argument of same type as `i` and can return any value
+        2. `done` is a function which takes one argument and returns the same type as the return value of `next`
+        3. `value` is some value of the same type as `i`
+    3. `f` must return a value of the same ChainRec which contains a value returned from either `done` or `next`
+2. `chainRec` must return a value of the same ChainRec which contains a value of same type as argument of `done`
 
 ### Monad
 
