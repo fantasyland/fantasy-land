@@ -14,13 +14,13 @@ const {of, ap} = require('..');
 **/
 
 const identityʹ = t => eq => x => {
-    const a = t[of](identity).ap(t[of](x));
+    const a = t[of](identity)[ap](t[of](x));
     const b = t[of](x);
     return eq(a, b);
 };
 
 const homomorphism = t => eq => x => {
-    const a = t[of](identity).ap(t[of](x));
+    const a = t[of](identity)[ap](t[of](x));
     const b = t[of](identity(x));
     return eq(a, b);
 };
@@ -28,12 +28,12 @@ const homomorphism = t => eq => x => {
 const interchange = t => eq => x => {
     const u = t[of](identity);
 
-    const a = u.ap(t[of](x));
-    const b = t[of](thrush(x)).ap(u);
+    const a = u[ap](t[of](x));
+    const b = t[of](thrush(x))[ap](u);
     return eq(a, b);
 };
 
 module.exports = { identity: identityʹ
                  , homomorphism
-                 , interchange 
+                 , interchange
                  };
