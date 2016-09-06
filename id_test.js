@@ -58,30 +58,30 @@ exports.chain = {
 exports.chainRec = {
     equivalence: test((x) => {
       var predicate = a => a.length > 5
-      var done = Id.of
-      var next = a => Id.of(a.concat([x]))
+      var done = Id[of]
+      var next = a => Id[of](a.concat([x]))
       var initial = [x]
       return chainRec.equivalence(Id)(equality)(predicate)(done)(next)(initial)
     })
 };
 
 exports.comonad = {
-    leftIdentity: test((x) => comonad.leftIdentity(Id.of)(equality)(x)),
-    rightIdentity: test((x) => comonad.rightIdentity(Id.of)(equality)(x)),
-    associativity: test((x) => comonad.associativity(Id.of)(equality)(x))
+    leftIdentity: test((x) => comonad.leftIdentity(Id[of])(equality)(x)),
+    rightIdentity: test((x) => comonad.rightIdentity(Id[of])(equality)(x)),
+    associativity: test((x) => comonad.associativity(Id[of])(equality)(x))
 };
 
 exports.extend = {
-    associativity: test((x) => extend.associativity(Id.of)(equality)(x))
+    associativity: test((x) => extend.associativity(Id[of])(equality)(x))
 };
 
 exports.foldable = {
-    associativity: test((x) => foldable.associativity(Id.of)(equality)(x))
+    associativity: test((x) => foldable.associativity(Id[of])(equality)(x))
 };
 
 exports.functor = {
-    identity: test((x) => functor.identity(Id.of)(equality)(x)),
-    composition: test((x) => functor.composition(Id.of)(equality)(x))
+    identity: test((x) => functor.identity(Id[of])(equality)(x)),
+    composition: test((x) => functor.composition(Id[of])(equality)(x))
 };
 
 exports.monad = {
@@ -90,22 +90,22 @@ exports.monad = {
 };
 
 exports.monoid = {
-    leftIdentity: test((x) => monoid.leftIdentity(Id.of(Sum.empty()))(equality)(Sum.of(x))),
-    rightIdentity: test((x) => monoid.rightIdentity(Id.of(Sum.empty()))(equality)(Sum.of(x)))
+    leftIdentity: test((x) => monoid.leftIdentity(Id[of](Sum[empty]()))(equality)(Sum[of](x))),
+    rightIdentity: test((x) => monoid.rightIdentity(Id[of](Sum[empty]()))(equality)(Sum[of](x)))
 };
 
 exports.semigroup = {
-    associativity: test((x) => semigroup.associativity(Id.of)(equality)(x))
+    associativity: test((x) => semigroup.associativity(Id[of])(equality)(x))
 };
 
 exports.setoid = {
-    reflexivity: test((x) => setoid.reflexivity(Id.of)(equality)(x)),
-    symmetry: test((x) => setoid.symmetry(Id.of)(equality)(x)),
-    transitivity: test((x) => setoid.transitivity(Id.of)(equality)(x))
+    reflexivity: test((x) => setoid.reflexivity(Id[of])(equality)(x)),
+    symmetry: test((x) => setoid.symmetry(Id[of])(equality)(x)),
+    transitivity: test((x) => setoid.transitivity(Id[of])(equality)(x))
 };
 
 exports.traversable = {
-    naturality: test((x) => traversable.naturality(Id.of)(equality)(Id.of(x))),
-    identity: test((x) => traversable.identity(Id.of)(equality)(x)),
-    composition: test((x) => traversable.composition(Id.of)(equality)(Id.of(Sum.of(x))))
+    naturality: test((x) => traversable.naturality(Id[of])(equality)(Id[of](x))),
+    identity: test((x) => traversable.identity(Id[of])(equality)(x)),
+    composition: test((x) => traversable.composition(Id[of])(equality)(Id[of](Sum[of](x))))
 };

@@ -1,6 +1,8 @@
 'use strict';
 
 const {identity} = require('fantasy-combinators');
+const {reduce} = require('..');
+
 
 /**
 
@@ -11,8 +13,8 @@ const {identity} = require('fantasy-combinators');
 **/
 
 const associativity = t => eq => x => {
-    const a = t(x).reduce(identity, x);
-    const b = t(x).toArray().reduce(identity, x);
+    const a = t(x)[reduce](identity, x);
+    const b = t(x).toArray()[reduce](identity, x);
     return eq(a, b);
 };
 

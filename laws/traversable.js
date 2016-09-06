@@ -8,23 +8,26 @@ const {tagged} = require('daggy');
 const Compose = tagged('c');
 Compose[of] = Compose;
 Compose.prototype[ap] = function(x) {
-    return Compose(this.c.map(u => y => u.ap(y)).ap(x.c));
+    return Compose(this.c[map](u => y => u[ap](y))[ap](x.c));
 };
 Compose.prototype[map] = function(f) {
     return Compose(this.c[map](y => y[map](f)));
 };
 Compose.prototype[equals] = function(x) {
-    return this.c.equals ? this.c.equals(x.c) : this.c === x.c;
+    return this.c[equals] ? this.c[equals](x.c) : this.c === x.c;
 };
 
 Array.prototype[equals] = function(y) {
     return this.length === y.length && this.join('') === y.join('');
 };
-Array.prototype.sequence = function(p) {
-    return this.reduce((ys, x) => {
-        return identity(x).map(y => z => {
-            return z.concat(y);
-        }).ap(ys);
+Array.prototype[map] = Array.prototype.map
+Array.prototype[reduce] = Array.prototype.reduce
+Array.prototype[concat] = Array.prototype.concat
+Array.prototype[sequence] = function(p) {
+    return this[reduce]((ys, x) => {
+        return identity(x)[map](y => z => {
+            return z[concat](y);
+        })[ap](ys);
     }, p([]));
 };
 
@@ -64,5 +67,5 @@ const composition = t => eq => x => {
 
 module.exports = { naturality
                  , identity: identityʹ
-                 , composition 
+                 , composition
                  };
