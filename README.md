@@ -205,6 +205,10 @@ method takes one argument:
 
 #### `contramap` method
 
+```hs
+contramap :: Contravariant f => f a ~> (b -> a) -> f b
+```
+
 A value which has a Contravariant Functor must provide a `contramap` method. The
 `contramap` method takes one argument:
 
@@ -481,7 +485,7 @@ method takes two arguments:
 ### Profunctor
 
 A value that implements the Profunctor specification must also implement
-the Functor and Contravariant Functor specifications.
+the Functor specification.
 
 1. `p.promap(a => a, b => b)` is equivalent to `p` (identity)
 2. `p.promap(a => f(g(a)), b => h(i(b)))` is equivalent to `p.promap(f, i).promap(g, h)` (composition)
