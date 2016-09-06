@@ -175,12 +175,12 @@ method takes one argument:
 A value that implements the Apply specification must also
 implement the Functor specification.
 
-1. `a.map(f => g => x => f(g(x))).ap(u).ap(v)` is equivalent to `a.ap(u.ap(v))` (composition)
+1. `v.ap(u.ap(a.map(f => g => x => f(g(x)))))` is equivalent to `v.ap(u).ap(a)` (composition)
 
 #### `ap` method
 
 ```hs
-ap :: Apply f => f (a -> b) ~> f a -> f b
+ap :: Apply f => f a ~> f (a -> b) -> f b
 ```
 
 A value which has an Apply must provide an `ap` method. The `ap`
@@ -188,24 +188,24 @@ method takes one argument:
 
     a.ap(b)
 
-1. `a` must be an Apply of a function,
+1. `b` must be an Apply of a function,
 
-    1. If `a` does not represent a function, the behaviour of `ap` is
+    1. If `b` does not represent a function, the behaviour of `ap` is
        unspecified.
 
-2. `b` must be an Apply of any value
+2. `a` must be an Apply of any value
 
-3. `ap` must apply the function in Apply `a` to the value in
-   Apply `b`
+3. `ap` must apply the function in Apply `b` to the value in
+   Apply `a`
 
 ### Applicative
 
 A value that implements the Applicative specification must also
 implement the Apply specification.
 
-1. `a.of(x => x).ap(v)` is equivalent to `v` (identity)
-2. `a.of(f).ap(a.of(x))` is equivalent to `a.of(f(x))` (homomorphism)
-3. `u.ap(a.of(y))` is equivalent to `a.of(f => f(y)).ap(u)` (interchange)
+1. `v.ap(a.of(x => x))` is equivalent to `v` (identity)
+2. `a.of(x).ap(a.of(f))` is equivalent to `a.of(f(x))` (homomorphism)
+3. `a.of(y).ap(u)` is equivalent to `u.ap(a.of(f => f(y)))` (interchange)
 
 #### `of` method
 
@@ -268,8 +268,8 @@ Compose.of = function(x) {
   return new Compose(F.of(G.of(x)));
 };
 
-Compose.prototype.ap = function(x) {
-  return new Compose(this.c.map(u => y => u.ap(y)).ap(x.c));
+Compose.prototype.ap = function(f) {
+  return new Compose(this.c.ap(f.c.map(u => y => y.ap(u))));
 };
 
 Compose.prototype.map = function(f) {
@@ -470,13 +470,13 @@ to implement certain methods then derive the remaining methods. Derivations:
   - [`map`][] may be derived from [`ap`][] and [`of`][]:
 
     ```js
-    function(f) { return this.of(f).ap(this); }
+    function(f) { return this.ap(this.of(f)); }
     ```
 
   - [`map`][] may be derived from [`chain`][] and [`of`][]:
 
     ```js
-    function(f) { var m = this; return m.chain(a => m.of(f(a))); }
+    function(f) { return this.chain(a => this.of(f(a))); }
     ```
 
   - [`map`][] may be derived from [`bimap`]:
@@ -494,7 +494,7 @@ to implement certain methods then derive the remaining methods. Derivations:
   - [`ap`][] may be derived from [`chain`][]:
 
     ```js
-    function(m) { return this.chain(f => m.map(f)); }
+    function(m) { return m.chain(f => this.map(f)); }
     ```
 
   - [`reduce`][] may be derived as follows:
@@ -511,7 +511,7 @@ to implement certain methods then derive the remaining methods. Derivations:
         return this;
       };
       Const.prototype.ap = function(b) {
-        return new Const(f(this.value, b.value));
+        return new Const(f(b.value, this.value));
       };
       return this.map(x => new Const(x)).sequence(Const.of).value;
     }
