@@ -19,6 +19,7 @@ structures:
 * [Foldable](#foldable)
 * [Traversable](#traversable)
 * [Chain](#chain)
+* [ChainRec](#chainrec)
 * [Monad](#monad)
 * [Extend](#extend)
 * [Comonad](#comonad)
@@ -112,6 +113,10 @@ have dependencies on other algebras which must be implemented.
 
 #### `equals` method
 
+```hs
+equals :: Setoid a => a ~> a -> Boolean
+```
+
 A value which has a Setoid must provide an `equals` method. The
 `equals` method takes one argument:
 
@@ -129,6 +134,10 @@ A value which has a Setoid must provide an `equals` method. The
 1. `a.concat(b).concat(c)` is equivalent to `a.concat(b.concat(c))` (associativity)
 
 #### `concat` method
+
+```hs
+concat :: Semigroup a => a ~> a -> a
+```
 
 A value which has a Semigroup must provide a `concat` method. The
 `concat` method takes one argument:
@@ -152,6 +161,10 @@ the Semigroup specification.
 
 #### `empty` method
 
+```hs
+empty :: Monoid m => () -> m
+```
+
 A value which has a Monoid must provide an `empty` method on itself or
 its `constructor` object. The `empty` method takes no arguments:
 
@@ -166,6 +179,10 @@ its `constructor` object. The `empty` method takes no arguments:
 2. `u.map(x => f(g(x)))` is equivalent to `u.map(g).map(f)` (composition)
 
 #### `map` method
+
+```hs
+map :: Functor f => f a ~> (a -> b) -> f b
+```
 
 A value which has a Functor must provide a `map` method. The `map`
 method takes one argument:
@@ -210,6 +227,10 @@ implement the Functor specification.
 
 #### `ap` method
 
+```hs
+ap :: Apply f => f (a -> b) ~> f a -> f b
+```
+
 A value which has an Apply must provide an `ap` method. The `ap`
 method takes one argument:
 
@@ -236,6 +257,10 @@ implement the Apply specification.
 
 #### `of` method
 
+```hs
+of :: Applicative f => a -> f a
+```
+
 A value which has an Applicative must provide an `of` method on itself
 or its `constructor` object. The `of` method takes one argument:
 
@@ -251,6 +276,10 @@ or its `constructor` object. The `of` method takes one argument:
 1. `u.reduce` is equivalent to `u.reduce((acc, x) => acc.concat([x]), []).reduce`
 
 #### `reduce` method
+
+```hs
+reduce :: Foldable f => f a ~> (b -> a -> b) -> b -> b
+```
 
 A value which has a Foldable must provide a `reduce` method. The `reduce`
 method takes two arguments:
@@ -298,6 +327,10 @@ Compose.prototype.map = function(f) {
 
 #### `sequence` method
 
+```hs
+sequence :: Apply f, Traversable t => t (f a) ~> (b -> f b) -> f (t a)
+```
+
 A value which has a Traversable must provide a `sequence` method. The `sequence`
 method takes one argument:
 
@@ -314,6 +347,10 @@ implement the Apply specification.
 
 #### `chain` method
 
+```hs
+chain :: Chain m => m a ~> (a -> m b) -> m b
+```
+
 A value which has a Chain must provide a `chain` method. The `chain`
 method takes one argument:
 
@@ -326,6 +363,36 @@ method takes one argument:
     2. `f` must return a value of the same Chain
 
 2. `chain` must return a value of the same Chain
+
+### ChainRec
+
+A value that implements the ChainRec specification must also implement the Chain specification.
+
+1. `m.chainRec((next, done, v) => p(v) ? d(v).map(done) : n(v).map(next), i)`
+   is equivalent to
+   `(function step(v) { return p(v) ? d(v) : n(v).chain(step); }(i))` (equivalence)
+2. Stack usage of `m.chainRec(f, i)` must be at most a constant multiple of the stack usage of `f` itself.
+
+#### `chainRec` method
+
+```hs
+chainRec :: ChainRec m => ((a -> c) -> (b -> c) -> a -> m c) -> a -> m b
+```
+
+A Type which has a ChainRec must provide an `chainRec` method on itself
+or its `constructor` object. The `chainRec` method takes two arguments:
+
+    a.chainRec(f, i)
+    a.constructor.chainRec(f, i)
+
+1. `f` must be a function which returns a value
+    1. If `f` is not a function, the behaviour of `chainRec` is unspecified.
+    2. `f` takes three arguments `next`, `done`, `value`
+        1. `next` is a function which takes one argument of same type as `i` and can return any value
+        2. `done` is a function which takes one argument and returns the same type as the return value of `next`
+        3. `value` is some value of the same type as `i`
+    3. `f` must return a value of the same ChainRec which contains a value returned from either `done` or `next`
+2. `chainRec` must return a value of the same ChainRec which contains a value of same type as argument of `done`
 
 ### Monad
 
@@ -340,6 +407,10 @@ the Applicative and Chain specifications.
 1. `w.extend(g).extend(f)` is equivalent to `w.extend(_w => f(_w.extend(g)))`
 
 #### `extend` method
+
+```hs
+extend :: Extend w => w a ~> (w a -> b) -> w b
+```
 
 An Extend must provide an `extend` method. The `extend`
 method takes one argument:
@@ -364,6 +435,10 @@ A value that implements the Comonad specification must also implement the Functo
 
 #### `extract` method
 
+```hs
+extract :: Comonad w => w a ~> () -> a
+```
+
 A value which has a Comonad must provide an `extract` method on itself.
 The `extract` method takes no arguments:
 
@@ -381,6 +456,10 @@ the Functor specification.
 2. `p.bimap(a => f(g(a)), b => h(i(b))` is equivalent to `p.bimap(g, i).bimap(f, h)` (composition)
 
 #### `bimap` method
+
+```hs
+bimap :: Bifunctor f => f a c ~> (a -> b) -> (c -> d) -> f b d
+```
 
 A value which has a Bifunctor must provide an `bimap` method. The `bimap`
 method takes two arguments:
@@ -409,6 +488,10 @@ the Functor and Contravariant Functor specifications.
 
 #### `promap` method
 
+```hs
+promap :: Profunctor p => p b c ~> (a -> b) -> (c -> d) -> p a d
+```
+
 A value which has a Profunctor must provide a `promap` method.
 
 The `profunctor` method takes two arguments:
@@ -421,7 +504,7 @@ The `profunctor` method takes two arguments:
     2. `f` can return any value.
 
 2. `g` must be a function which returns a value
-  
+
     1. If `g` is not a function, the behaviour of `promap` is unspecified.
     2. `g` can return any value.
 
@@ -445,7 +528,7 @@ to implement certain methods then derive the remaining methods. Derivations:
     ```
 
   - [`map`][] may be derived from [`bimap`]:
-  
+
     ```js
     function(f) { return this.bimap(a => a, f); }
     ```
