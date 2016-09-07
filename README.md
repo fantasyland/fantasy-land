@@ -65,7 +65,7 @@ Further in this document unprefixed names are used just to reduce noise.
 For convenience you can use `fantasy-land` package:
 
 ```js
-var fl = reuire('fantasy-land')
+var fl = require('fantasy-land')
 
 // ...
 
