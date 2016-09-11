@@ -1,21 +1,22 @@
 'use strict';
 
-const Id = require('../id');
+const {id} = require('../id');
 const {identity} = require('fantasy-combinators');
 const {of, ap, reduce, sequence, map, equals, empty, concat} = require('..');
-const {tagged} = require('daggy');
 
-const Compose = tagged('c');
-Compose[of] = Compose;
-Compose.prototype[ap] = function(x) {
-    return Compose(this.c[map](u => y => u[ap](y))[ap](x.c));
-};
-Compose.prototype[map] = function(f) {
-    return Compose(this.c[map](y => y[map](f)));
-};
-Compose.prototype[equals] = function(x) {
+const compose = {}
+compose[of] = function(c) {
+    return {__proto__: compose, c};
+}
+compose[ap] = function(x) {
+    return compose[of](this.c[map](u => y => u[ap](y))[ap](x.c));
+}
+compose[map] = function(f) {
+    return compose[of](this.c[map](y => y[map](f)));
+}
+compose[equals] = function(x) {
     return this.c[equals] ? this.c[equals](x.c) : this.c === x.c;
-};
+}
 
 Array.prototype[equals] = function(y) {
     return this.length === y.length && this.join('') === y.join('');
@@ -38,10 +39,10 @@ Array.prototype[sequence] = function(p) {
 1. `t(u.sequence(f.of))` is equivalent to `u.map(t).sequence(g.of)`
 where `t` is a natural transformation from `f` to `g` (naturality)
 
-2. `u.map(x => Id(x)).sequence(Id.of)` is equivalent to `Id.of` (identity)
+2. `u.map(id.of).sequence(id.of)` is equivalent to `id.of` (identity)
 
-3. `u.map(Compose).sequence(Compose.of)` is equivalent to
-   `Compose(u.sequence(f.of).map(x => x.sequence(g.of)))` (composition)
+3. `u.map(compose.of).sequence(compose.of)` is equivalent to
+   `compose.of(u.sequence(f.of).map(x => x.sequence(g.of)))` (composition)
 
 */
 
@@ -54,14 +55,14 @@ const naturality = t => eq => x => {
 const identityʹ = t => eq => x => {
     const u = [x];
 
-    const a = u[map](Id[of])[sequence](Id[of]);
-    const b = Id[of](u);
+    const a = u[map](id[of])[sequence](id[of]);
+    const b = id[of](u);
     return eq(a, b);
 };
 
 const composition = t => eq => x => {
-    const a = t(x)[map](Compose)[sequence](Compose[of]);
-    const b = Compose(t(x)[sequence](Id[of])[map](x => x[sequence](Id[of])));
+    const a = t(x)[map](compose[of])[sequence](compose[of]);
+    const b = compose[of](t(x)[sequence](id[of])[map](x => x[sequence](id[of])));
     return eq(a, b);
 };
 

@@ -138,11 +138,10 @@ the Semigroup specification.
 empty :: Monoid m => () -> m
 ```
 
-A value which has a Monoid must provide an `empty` method on itself or
-its `constructor` object. The `empty` method takes no arguments:
+A value which has a Monoid must provide an `empty` method. The `empty`
+method takes no arguments:
 
     m.empty()
-    m.constructor.empty()
 
 1. `empty` must return a value of the same Monoid
 
@@ -213,11 +212,10 @@ implement the Apply specification.
 of :: Applicative f => a -> f a
 ```
 
-A value which has an Applicative must provide an `of` method on itself
-or its `constructor` object. The `of` method takes one argument:
+A value which has an Applicative must provide an `of` method. The `of`
+method takes one argument:
 
     a.of(b)
-    a.constructor.of(b)
 
 1. `of` must provide a value of the same Applicative
 
@@ -254,27 +252,25 @@ implement the Functor and Foldable specifications.
 1. `t(u.sequence(f.of))` is equivalent to `u.map(t).sequence(g.of)`
 for any `t` such that `t(a).map(f)` is equivalent to `t(a.map(f))` (naturality)
 
-2. `u.map(F.of).sequence(F.of)` is equivalent to `F.of(u)` for any Applicative `F` (identity)
+2. `u.map(f.of).sequence(f.of)` is equivalent to `f.of(u)` for any Applicative `f` (identity)
 
-3. `u.map(x => new Compose(x)).sequence(Compose.of)` is equivalent to
-   `new Compose(u.sequence(F.of).map(v => v.sequence(G.of)))` for `Compose` defined below and any Applicatives `F` and `G` (composition)
+3. `u.map(compose.of).sequence(compose.of)` is equivalent to
+   `compose.create(u.sequence(f.of).map(v => v.sequence(g.of)))` for `Compose` defined below and any Applicatives `f` and `g` (composition)
 
 ```js
-var Compose = function(c) {
-  this.c = c;
-};
+var compose = {
+  of: function(x) {
+    return {__proto__: compose, c};
+  },
 
-Compose.of = function(x) {
-  return new Compose(F.of(G.of(x)));
-};
+  ap: function(x) {
+    return compose.create(this.c.map(u => y => u.ap(y)).ap(x.c));
+  },
 
-Compose.prototype.ap = function(x) {
-  return new Compose(this.c.map(u => y => u.ap(y)).ap(x.c));
-};
-
-Compose.prototype.map = function(f) {
-  return new Compose(this.c.map(y => y.map(f)));
-};
+  map: function(f) {
+    return compose.create(this.c.map(y => y.map(f)));
+  },
+}
 ```
 
 #### `sequence` method
@@ -331,11 +327,10 @@ A value that implements the ChainRec specification must also implement the Chain
 chainRec :: ChainRec m => ((a -> c) -> (b -> c) -> a -> m c) -> a -> m b
 ```
 
-A Type which has a ChainRec must provide an `chainRec` method on itself
-or its `constructor` object. The `chainRec` method takes two arguments:
+A Type which has a ChainRec must provide an `chainRec` method. The
+`chainRec` method takes two arguments:
 
     a.chainRec(f, i)
-    a.constructor.chainRec(f, i)
 
 1. `f` must be a function which returns a value
     1. If `f` is not a function, the behaviour of `chainRec` is unspecified.
@@ -501,19 +496,23 @@ to implement certain methods then derive the remaining methods. Derivations:
 
     ```js
     function(f, acc) {
-      function Const(value) {
-        this.value = value;
+      function makeConst(value) {
+        return {__proto__: constant, value};
       }
-      Const.of = function(_) {
-        return new Const(acc);
+
+      var constant = {
+         of: function(_) {
+           return makeConst(acc);
+         },
+         map: function(_) {
+           return this;
+         },
+         ap: function(b) {
+           return makeConst(f(this.value, b.value));
+         },
       };
-      Const.prototype.map = function(_) {
-        return this;
-      };
-      Const.prototype.ap = function(b) {
-        return new Const(f(this.value, b.value));
-      };
-      return this.map(x => new Const(x)).sequence(Const.of).value;
+
+      return this.map(makeConst).sequence(constant.of).value;
     }
     ```
 
