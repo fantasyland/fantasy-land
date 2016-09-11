@@ -2,7 +2,7 @@
 
 const Id = require('../id');
 const {identity} = require('fantasy-combinators');
-const {of, ap, sequence, map, equals, empty, concat} = require('..');
+const {of, ap, reduce, sequence, map, equals, empty, concat} = require('..');
 const {tagged} = require('daggy');
 
 const Compose = tagged('c');
