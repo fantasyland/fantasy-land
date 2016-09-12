@@ -36,6 +36,6 @@
   ],
   "main": "index.js",
   "scripts": {
-    "test": "node --harmony_destructuring node_modules/.bin/nodeunit id_test.js"
+    "test": "nodeunit id_test.js"
   }
 }
