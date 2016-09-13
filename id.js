@@ -36,7 +36,7 @@ Id.prototype[fl.map] = function(f) {
 
 // Apply
 Id.prototype[fl.ap] = function(b) {
-    return new Id(this.value(b.value));
+    return new Id(b.value(this.value));
 };
 
 // Traversable
