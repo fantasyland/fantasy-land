@@ -22,9 +22,8 @@ const Id = require('./id');
 // Special type of sum for the type of string.
 const Sum = tagged('v');
 Sum[of] = (x) => Sum(x);
-Sum[empty] = () => Sum('');
 Sum.prototype[of] = Sum[of];
-Sum.prototype[empty] = Sum[empty];
+Sum.prototype[empty] = () => Sum('');
 Sum.prototype[map] = function(f) {
     return Sum(f(this.v));
 };
@@ -90,8 +89,8 @@ exports.monad = {
 };
 
 exports.monoid = {
-    leftIdentity: test((x) => monoid.leftIdentity(Id[of](Sum[empty]()))(equality)(Sum[of](x))),
-    rightIdentity: test((x) => monoid.rightIdentity(Id[of](Sum[empty]()))(equality)(Sum[of](x)))
+    leftIdentity: test((x) => monoid.leftIdentity(Id[of](Sum.prototype[empty]()))(equality)(Sum[of](x))),
+    rightIdentity: test((x) => monoid.rightIdentity(Id[of](Sum.prototype[empty]()))(equality)(Sum[of](x)))
 };
 
 // Semigroup tests are broken otherwise for this.

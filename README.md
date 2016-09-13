@@ -138,11 +138,10 @@ the Semigroup specification.
 empty :: Monoid m => () -> m
 ```
 
-A value which has a Monoid must provide an `empty` method on itself or
-its `constructor` object. The `empty` method takes no arguments:
+A value which has a Monoid must provide an `empty` method. The `empty`
+method takes no arguments:
 
     m.empty()
-    m.constructor.empty()
 
 1. `empty` must return a value of the same Monoid
 
