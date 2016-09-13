@@ -413,7 +413,7 @@ the Functor specification.
 bimap :: Bifunctor f => f a c ~> (a -> b) -> (c -> d) -> f b d
 ```
 
-A value which has a Bifunctor must provide an `bimap` method. The `bimap`
+A value which has a Bifunctor must provide a `bimap` method. The `bimap`
 method takes two arguments:
 
     c.bimap(f, g)
