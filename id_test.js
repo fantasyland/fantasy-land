@@ -14,17 +14,18 @@ const semigroup = require('./laws/semigroup');
 const setoid = require('./laws/setoid');
 const traversable = require('./laws/traversable');
 
-const {tagged} = require('daggy');
 const {of, empty, concat, equals, map} = require('.');
 
 const Id = require('./id');
 
 // Special type of sum for the type of string.
-const Sum = tagged('v');
+const Sum = function Sum(v) {
+    if (!(this instanceof Sum)) return new Sum(v);
+    this.v = v;
+};
 Sum[of] = (x) => Sum(x);
-Sum[empty] = () => Sum('');
+Sum[empty] = Sum('');
 Sum.prototype[of] = Sum[of];
-Sum.prototype[empty] = Sum[empty];
 Sum.prototype[map] = function(f) {
     return Sum(f(this.v));
 };
@@ -90,8 +91,8 @@ exports.monad = {
 };
 
 exports.monoid = {
-    leftIdentity: test((x) => monoid.leftIdentity(Id[of](Sum[empty]()))(equality)(Sum[of](x))),
-    rightIdentity: test((x) => monoid.rightIdentity(Id[of](Sum[empty]()))(equality)(Sum[of](x)))
+    leftIdentity: test((x) => monoid.leftIdentity(Sum)(equality)(x)),
+    rightIdentity: test((x) => monoid.rightIdentity(Sum)(equality)(x))
 };
 
 // Semigroup tests are broken otherwise for this.

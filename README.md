@@ -129,22 +129,21 @@ A value which has a Semigroup must provide a `concat` method. The
 A value that implements the Monoid specification must also implement
 the Semigroup specification.
 
-1. `m.concat(m.empty())` is equivalent to `m` (right identity)
-2. `m.empty().concat(m)` is equivalent to `m` (left identity)
+1. `m.concat(m.constructor.empty)` is equivalent to `m` (right identity)
+2. `m.constructor.empty.concat(m)` is equivalent to `m` (left identity)
 
-#### `empty` method
+#### `empty` value
 
 ```hs
-empty :: Monoid m => () -> m
+empty :: Monoid m => m
 ```
 
-A value which has a Monoid must provide an `empty` method on itself or
-its `constructor` object. The `empty` method takes no arguments:
+A value which has a Monoid must provide an `empty` value on its
+`constructor` object:
 
-    m.empty()
-    m.constructor.empty()
+    m.constructor.empty
 
-1. `empty` must return a value of the same Monoid
+1. `empty` must be a value of the same Monoid
 
 ### Functor
 
@@ -563,7 +562,7 @@ be equivalent to that of the derivation (or derivations).
 [`bimap`]: #bimap-method
 [`chain`]: #chain-method
 [`concat`]: #concat-method
-[`empty`]: #empty-method
+[`empty`]: #empty-value
 [`equals`]: #equals-method
 [`extend`]: #extend-method
 [`extract`]: #extract-method
