@@ -6,7 +6,7 @@ function Id(a) {
 
 // Setoid
 Id.prototype[fl.equals] = function(b) {
-    return typeof this.value[fl.equals] === "function" ? this.value[fl.equals](b.value) : this.value === b.value;
+    return typeof this.value[fl.equals] === 'function' ? this.value[fl.equals](b.value) : this.value === b.value;
 };
 
 // Semigroup (value must also be a Semigroup)
@@ -15,10 +15,9 @@ Id.prototype[fl.concat] = function(b) {
 };
 
 // Monoid (value must also be a Monoid)
-Id[fl.empty] = function() {
-    return new Id(this.value[fl.empty] ? this.value[fl.empty]() : this.value.constructor[fl.empty]());
+Id.prototype[fl.empty] = function() {
+    return new Id(typeof this.value[fl.empty] === 'function' ? this.value[fl.empty]() : this.value.constructor[fl.empty]());
 };
-Id.prototype[fl.empty] = Id[fl.empty];
 
 // Foldable
 Id.prototype[fl.reduce] = function(f, acc) {
