@@ -36,13 +36,13 @@ Id.prototype[fl.map] = function(f) {
 
 // Apply
 Id.prototype[fl.ap] = function(b) {
-    return new Id(this.value(b.value));
+    return new Id(b.value(this.value));
 };
 
 // Traversable
 Id.prototype[fl.traverse] = function(f, of) {
     // the of argument is only provided for types where map might fail.
-    return f(this.value).map(Id[fl.of]);
+    return f(this.value)[fl.map](Id[fl.of]);
 };
 
 // Chain

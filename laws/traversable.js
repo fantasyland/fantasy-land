@@ -2,13 +2,13 @@
 
 const Id = require('../id');
 const {identity} = require('fantasy-combinators');
-const {of, ap, traverse, map, equals, empty, concat} = require('..');
+const {of, ap, reduce, traverse, map, equals, empty, concat} = require('..');
 const {tagged} = require('daggy');
 
 const Compose = tagged('c');
 Compose[of] = Compose;
-Compose.prototype[ap] = function(x) {
-    return Compose(this.c[map](u => y => u[ap](y))[ap](x.c));
+Compose.prototype[ap] = function(f) {
+    return Compose(this.c[ap](f.c[map](u => y => y[ap](u))));
 };
 Compose.prototype[map] = function(f) {
     return Compose(this.c[map](y => y[map](f)));
@@ -25,9 +25,7 @@ Array.prototype[reduce] = Array.prototype.reduce
 Array.prototype[concat] = Array.prototype.concat
 Array.prototype[traverse] = function(f, p) {
     return this.map(f)[reduce]((ys, x) => {
-        return identity(x)[map](y => z => {
-            return z[concat](y);
-        }).ap(ys);
+        return ys[ap](x[map](y => z => z[concat](y)));
     }, p([]));
 };
 

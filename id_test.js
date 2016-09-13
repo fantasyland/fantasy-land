@@ -32,10 +32,10 @@ Sum.prototype[concat] = function(x) {
     return Sum(this.v + x.v);
 };
 Sum.prototype[equals] = function(x) {
-    return this.v.equals ? this.v.equals(x.v) : this.v === x.v;
+    return this.v[equals] ? this.v[equals](x.v) : this.v === x.v;
 };
 
-const equality = (x, y) => x.equals ? x.equals(y) : x === y;
+const equality = (x, y) => x[equals] ? x[equals](y) : x === y;
 const test = f => t => {
     t.ok(f("x"));
     t.done();
@@ -59,7 +59,7 @@ exports.chainRec = {
     equivalence: test((x) => {
       var predicate = a => a.length > 5
       var done = Id[of]
-      var next = a => Id[of](a.concat([x]))
+      var next = a => Id[of](a[concat]([x]))
       var initial = [x]
       return chainRec.equivalence(Id)(equality)(predicate)(done)(next)(initial)
     })
@@ -93,6 +93,9 @@ exports.monoid = {
     leftIdentity: test((x) => monoid.leftIdentity(Id[of](Sum[empty]()))(equality)(Sum[of](x))),
     rightIdentity: test((x) => monoid.rightIdentity(Id[of](Sum[empty]()))(equality)(Sum[of](x)))
 };
+
+// Semigroup tests are broken otherwise for this.
+String.prototype[concat] = String.prototype.concat
 
 exports.semigroup = {
     associativity: test((x) => semigroup.associativity(Id[of])(equality)(x))
