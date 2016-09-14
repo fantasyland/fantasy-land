@@ -251,13 +251,13 @@ method takes two arguments:
 A value that implements the Traversable specification must also
 implement the Functor and Foldable specifications.
 
-1. `t(u.sequence(f.of))` is equivalent to `u.map(t).sequence(g.of)`
+1. `t(u.traverse(x => x, F.of))` is equivalent to `u.traverse(t, G.of)`
 for any `t` such that `t(a).map(f)` is equivalent to `t(a.map(f))` (naturality)
 
-2. `u.map(F.of).sequence(F.of)` is equivalent to `F.of(u)` for any Applicative `F` (identity)
+2. `u.traverse(F.of, F.of)` is equivalent to `F.of(u)` for any Applicative `F` (identity)
 
-3. `u.map(x => new Compose(x)).sequence(Compose.of)` is equivalent to
-   `new Compose(u.sequence(F.of).map(v => v.sequence(G.of)))` for `Compose` defined below and any Applicatives `F` and `G` (composition)
+3. `u.traverse(x => new Compose(x), Compose.of)` is equivalent to
+   `new Compose(u.traverse(x => x, F.of).map(x => x.traverse(x => x, G.of)))` for `Compose` defined below and any Applicatives `F` and `G` (composition)
 
 ```js
 var Compose = function(c) {
@@ -277,18 +277,25 @@ Compose.prototype.map = function(f) {
 };
 ```
 
-#### `sequence` method
+#### `traverse` method
 
 ```hs
-sequence :: Apply f, Traversable t => t (f a) ~> (b -> f b) -> f (t a)
+traverse :: Apply f, Traversable t => t a ~> ((a -> f b), (c -> f c)) -> f (t b)
 ```
 
-A value which has a Traversable must provide a `sequence` method. The `sequence`
-method takes one argument:
+A value which has a Traversable must provide a `traverse` method. The `traverse`
+method takes two arguments:
 
-    u.sequence(of)
+    u.traverse(f, of)
 
-1. `of` must return the Applicative that `u` contains.
+1. `f` must be a function which returns a value
+
+    1. If `f` is not a function, the behaviour of `traverse` is
+       unspecified.
+    2. `f` must return a value of an Applicative
+
+2. `of` must be the `of` method of the Applicative that `f` returns
+3. `traverse` must return a value of the same Applicative that `f` returns
 
 ### Chain
 
@@ -513,7 +520,27 @@ to implement certain methods then derive the remaining methods. Derivations:
       Const.prototype.ap = function(b) {
         return new Const(f(b.value, this.value));
       };
-      return this.map(x => new Const(x)).sequence(Const.of).value;
+      return this.traverse(x => new Const(x), Const.of).value;
+    }
+    ```
+
+  - [`map`][] may be derived as follows:
+
+    ```js
+    function(f) {
+      function Id(value) {
+        this.value = value;
+      };
+      Id.of = function(x) {
+        return new Id(x);
+      };
+      Id.prototype.map = function(f) {
+        return new Id(f(this.value));
+      };
+      Id.prototype.ap = function(b) {
+        return new Id(this.value(b.value));
+      };
+      return this.traverse(x => Id.of(f(x)), Id.of).value;
     }
     ```
 

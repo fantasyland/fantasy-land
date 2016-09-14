@@ -2,7 +2,7 @@
 
 const Id = require('../id');
 const {identity} = require('fantasy-combinators');
-const {of, ap, reduce, sequence, map, equals, empty, concat} = require('..');
+const {of, ap, reduce, traverse, map, equals, empty, concat} = require('..');
 const {tagged} = require('daggy');
 
 const Compose = tagged('c');
@@ -23,9 +23,9 @@ Array.prototype[equals] = function(y) {
 Array.prototype[map] = Array.prototype.map
 Array.prototype[reduce] = Array.prototype.reduce
 Array.prototype[concat] = Array.prototype.concat
-Array.prototype[sequence] = function(p) {
-    return this[reduce]((ys, x) => {
-        return ys[ap](identity(x)[map](y => z => z[concat](y)));
+Array.prototype[traverse] = function(f, p) {
+    return this.map(f)[reduce]((ys, x) => {
+        return ys[ap](x[map](y => z => z[concat](y)));
     }, p([]));
 };
 
@@ -33,33 +33,33 @@ Array.prototype[sequence] = function(p) {
 
 ### Traversable
 
-1. `t(u.sequence(f.of))` is equivalent to `u.map(t).sequence(g.of)`
-where `t` is a natural transformation from `f` to `g` (naturality)
+1. `t(u.traverse(x => x, F.of))` is equivalent to `u.traverse(t, G.of)`
+for any `t` such that `t(a).map(f)` is equivalent to `t(a.map(f))` (naturality)
 
-2. `u.map(x => Id(x)).sequence(Id.of)` is equivalent to `Id.of` (identity)
+2. `u.traverse(F.of, F.of)` is equivalent to `F.of(u)` for any Applicative `F` (identity)
 
-3. `u.map(Compose).sequence(Compose.of)` is equivalent to
-   `Compose(u.sequence(f.of).map(x => x.sequence(g.of)))` (composition)
+3. `u.traverse(x => new Compose(x), Compose.of)` is equivalent to
+   `new Compose(u.traverse(x => x, F.of).map(x => x.traverse(x => x, G.of)))` for `Compose` defined below and any Applicatives `F` and `G` (composition)
 
 */
 
 const naturality = t => eq => x => {
-    const a = identity(t(x)[sequence](t[of]));
-    const b = t(x)[map](identity)[sequence](t[of]);
+    const a = identity(t(x)[traverse](y => y, t[of]));
+    const b = t(x)[traverse](identity, t[of]);
     return eq(a, b);
 };
 
 const identityʹ = t => eq => x => {
     const u = [x];
 
-    const a = u[map](Id[of])[sequence](Id[of]);
+    const a = u[traverse](Id[of], Id[of]);
     const b = Id[of](u);
     return eq(a, b);
 };
 
 const composition = t => eq => x => {
-    const a = t(x)[map](Compose)[sequence](Compose[of]);
-    const b = Compose(t(x)[sequence](Id[of])[map](x => x[sequence](Id[of])));
+    const a = t(x)[traverse](Compose, Compose[of]);
+    const b = Compose(t(x)[traverse](y => y, Id[of])[map](x => x[traverse](y => y, Id[of])));
     return eq(a, b);
 };
 
