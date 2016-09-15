@@ -338,7 +338,7 @@ A value that implements the ChainRec specification must also implement the Chain
 chainRec :: ChainRec m => ((a -> c) -> (b -> c) -> a -> m c) -> a -> m b
 ```
 
-A Type which has a ChainRec must provide an `chainRec` method on itself
+A Type which has a ChainRec must provide a `chainRec` method on itself
 or its `constructor` object. The `chainRec` method takes two arguments:
 
     a.chainRec(f, i)
