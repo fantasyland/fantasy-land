@@ -335,7 +335,7 @@ A value that implements the ChainRec specification must also implement the Chain
 #### `chainRec` method
 
 ```hs
-chainRec :: ChainRec m => ((a -> c) -> (b -> c) -> a -> m c) -> a -> m b
+chainRec :: ChainRec m => ((a -> c, b -> c, a) -> m c, a) -> m b
 ```
 
 A Type which has a ChainRec must provide a `chainRec` method on itself
