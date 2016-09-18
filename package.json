@@ -18,12 +18,10 @@
   "issues": {
     "url": "https://github.com/fantasyland/fantasy-land/issues"
   },
-  "dependencies": {
+  "devDependencies": {
+    "nodeunit": "0.9.x",
     "daggy": "0.0.x",
     "fantasy-combinators": "0.0.x"
-  },
-  "devDependencies": {
-    "nodeunit": "0.9.x"
   },
   "repository": {
     "type": "git",
