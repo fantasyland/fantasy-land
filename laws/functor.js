@@ -1,6 +1,5 @@
 'use strict';
 
-const {identity, compose} = require('fantasy-combinators');
 const {map} = require('..');
 
 /*
@@ -12,18 +11,18 @@ const {map} = require('..');
 
 */
 
-const identityʹ = t => eq => x => {
-    const a = t(x)[map](identity);
-    const b = t(x);
+const identity = of => eq => x => {
+    const a = of(x)[map](x => x);
+    const b = of(x);
     return eq(a, b);
 };
 
-const composition = t => eq => x => {
-    const a = t(x)[map](compose(identity)(identity));
-    const b = t(x)[map](identity)[map](identity);
+const composition = of => eq => x => f => g => {
+    const a = of(x)[map](x => f(g(x)));
+    const b = of(x)[map](g)[map](f);
     return eq(a, b);
 };
 
-module.exports = { identity: identityʹ
-                 , composition 
+module.exports = { identity
+                 , composition
                  };
