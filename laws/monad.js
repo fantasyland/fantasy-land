@@ -1,6 +1,5 @@
 'use strict';
 
-const {identity, apply} = require('fantasy-combinators');
 const {of, chain} = require('..');
 
 /**
@@ -12,9 +11,9 @@ const {of, chain} = require('..');
 
 **/
 
-const leftIdentity = t => eq => x => {
-    const a = t[of](x)[chain](identity);
-    const b = identity(x);
+const leftIdentity = t => eq => x => f => {
+    const a = t[of](x)[chain](f);
+    const b = f(x);
     return eq(a, b);
 };
 
@@ -25,5 +24,5 @@ const rightIdentity = t => eq => x => {
 };
 
 module.exports = { leftIdentity
-                 , rightIdentity 
+                 , rightIdentity
                  };
