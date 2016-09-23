@@ -146,6 +146,8 @@ its `constructor` object. The `empty` method takes no arguments:
 
 1. `empty` must return a value of the same Monoid
 
+Implementations must favour `m.empty` over `m.constructor.empty`.
+
 ### Functor
 
 1. `u.map(a => a)` is equivalent to `u` (identity)
