@@ -23,7 +23,9 @@
     "fantasy-combinators": "0.0.x"
   },
   "devDependencies": {
-    "nodeunit": "0.9.x"
+    "eslint": "3.8.x",
+    "nodeunit": "0.9.x",
+    "sanctuary-style": "0.2.x"
   },
   "repository": {
     "type": "git",
@@ -36,6 +38,7 @@
   ],
   "main": "index.js",
   "scripts": {
-    "test": "nodeunit id_test.js"
+    "lint": "eslint --config node_modules/sanctuary-style/eslint-es6.json --env es6 --env node --rule 'max-len: [off]' -- *.js laws/*.js",
+    "test": "npm run-script lint && nodeunit id_test.js"
   }
 }

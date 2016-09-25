@@ -2,6 +2,9 @@
 
   'use strict';
 
+  /* eslint comma-dangle: ["off"], no-var: ["off"], strict: ["error", "function"] */
+  /* global self */
+
   var mapping = {
     equals: 'fantasy-land/equals',
     concat: 'fantasy-land/concat',
