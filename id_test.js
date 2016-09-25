@@ -40,17 +40,17 @@ const test = f => t => {
 };
 
 exports.applicative = {
-  identity: test(x => applicative.identity(Id)(equality)(x)),
-  homomorphism: test(x => applicative.homomorphism(Id)(equality)(x)),
-  interchange: test(x => applicative.interchange(Id)(equality)(x)),
+  identity: test(applicative.identity(Id)(equality)),
+  homomorphism: test(applicative.homomorphism(Id)(equality)),
+  interchange: test(applicative.interchange(Id)(equality)),
 };
 
 exports.apply = {
-  composition: test(x => apply.composition(Id)(equality)(x)),
+  composition: test(apply.composition(Id)(equality)),
 };
 
 exports.chain = {
-  associativity: test(x => chain.associativity(Id)(equality)(x)),
+  associativity: test(chain.associativity(Id)(equality)),
 };
 
 exports.chainRec = {
@@ -64,49 +64,49 @@ exports.chainRec = {
 };
 
 exports.comonad = {
-  leftIdentity: test(x => comonad.leftIdentity(Id[of])(equality)(x)),
-  rightIdentity: test(x => comonad.rightIdentity(Id[of])(equality)(x)),
-  associativity: test(x => comonad.associativity(Id[of])(equality)(x)),
+  leftIdentity: test(comonad.leftIdentity(Id[of])(equality)),
+  rightIdentity: test(comonad.rightIdentity(Id[of])(equality)),
+  associativity: test(comonad.associativity(Id[of])(equality)),
 };
 
 exports.extend = {
-  associativity: test(x => extend.associativity(Id[of])(equality)(x)),
+  associativity: test(extend.associativity(Id[of])(equality)),
 };
 
 exports.foldable = {
-  associativity: test(x => foldable.associativity(Id[of])(equality)(x)),
+  associativity: test(foldable.associativity(Id[of])(equality)),
 };
 
 exports.functor = {
-  identity: test(x => functor.identity(Id[of])(equality)(x)),
-  composition: test(x => functor.composition(Id[of])(equality)(x)),
+  identity: test(functor.identity(Id[of])(equality)),
+  composition: test(functor.composition(Id[of])(equality)),
 };
 
 exports.monad = {
-  leftIdentity: test(x => monad.leftIdentity(Id)(equality)(x)),
-  rightIdentity: test(x => monad.rightIdentity(Id)(equality)(x)),
+  leftIdentity: test(monad.leftIdentity(Id)(equality)),
+  rightIdentity: test(monad.rightIdentity(Id)(equality)),
 };
 
 exports.monoid = {
-  leftIdentity: test(x => monoid.leftIdentity(Sum)(equality)(x)),
-  rightIdentity: test(x => monoid.rightIdentity(Sum)(equality)(x)),
+  leftIdentity: test(monoid.leftIdentity(Sum)(equality)),
+  rightIdentity: test(monoid.rightIdentity(Sum)(equality)),
 };
 
 // Semigroup tests are broken otherwise for this.
 String.prototype[concat] = String.prototype.concat;
 
 exports.semigroup = {
-  associativity: test(x => semigroup.associativity(Id[of])(equality)(x)),
+  associativity: test(semigroup.associativity(Id[of])(equality)),
 };
 
 exports.setoid = {
-  reflexivity: test(x => setoid.reflexivity(Id[of])(equality)(x)),
-  symmetry: test(x => setoid.symmetry(Id[of])(equality)(x)),
-  transitivity: test(x => setoid.transitivity(Id[of])(equality)(x)),
+  reflexivity: test(setoid.reflexivity(Id[of])(equality)),
+  symmetry: test(setoid.symmetry(Id[of])(equality)),
+  transitivity: test(setoid.transitivity(Id[of])(equality)),
 };
 
 exports.traversable = {
   naturality: test(x => traversable.naturality(Id[of])(equality)(Id[of](x))),
-  identity: test(x => traversable.identity(Id[of])(equality)(x)),
+  identity: test(traversable.identity(Id[of])(equality)),
   composition: test(x => traversable.composition(Id[of])(equality)(Id[of](Sum[of](x)))),
 };
