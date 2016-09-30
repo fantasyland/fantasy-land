@@ -127,7 +127,7 @@ A value which has a Semigroup must provide a `concat` method. The
 ### Monoid
 
 A value that implements the Monoid specification must also implement
-the Semigroup specification.
+the [Semigroup](#semigroup) specification.
 
 1. `m.concat(m.empty())` is equivalent to `m` (right identity)
 2. `m.empty().concat(m)` is equivalent to `m` (left identity)
@@ -356,7 +356,7 @@ or its `constructor` object. The `chainRec` method takes two arguments:
 ### Monad
 
 A value that implements the Monad specification must also implement
-the Applicative and Chain specifications.
+the [Applicative](#applicative) and [Chain](#chain) specifications.
 
 1. `m.of(a).chain(f)` is equivalent to `f(a)` (left identity)
 2. `m.chain(m.of)` is equivalent to `m` (right identity)
@@ -409,7 +409,7 @@ The `extract` method takes no arguments:
 ### Bifunctor
 
 A value that implements the Bifunctor specification must also implement
-the Functor specification.
+the [Functor](#functor) specification.
 
 1. `p.bimap(a => a, b => b)` is equivalent to `p` (identity)
 2. `p.bimap(a => f(g(a)), b => h(i(b))` is equivalent to `p.bimap(g, i).bimap(f, h)` (composition)
@@ -440,7 +440,7 @@ method takes two arguments:
 ### Profunctor
 
 A value that implements the Profunctor specification must also implement
-the Functor specification.
+the [Functor](#functor) specification.
 
 1. `p.promap(a => a, b => b)` is equivalent to `p` (identity)
 2. `p.promap(a => f(g(a)), b => h(i(b)))` is equivalent to `p.promap(f, i).promap(g, h)` (composition)
