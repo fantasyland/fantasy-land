@@ -173,7 +173,7 @@ method takes one argument:
 ### Apply
 
 A value that implements the Apply specification must also
-implement the Functor specification.
+implement the [Functor](#functor) specification.
 
 1. `v.ap(u.ap(a.map(f => g => x => f(g(x)))))` is equivalent to `v.ap(u).ap(a)` (composition)
 
@@ -201,7 +201,7 @@ method takes one argument:
 ### Applicative
 
 A value that implements the Applicative specification must also
-implement the Apply specification.
+implement the [Apply](#apply) specification.
 
 1. `v.ap(a.of(x => x))` is equivalent to `v` (identity)
 2. `a.of(x).ap(a.of(f))` is equivalent to `a.of(f(x))` (homomorphism)
@@ -249,7 +249,7 @@ method takes two arguments:
 ### Traversable
 
 A value that implements the Traversable specification must also
-implement the Functor and Foldable specifications.
+implement the [Functor](#functor) and [Foldable](#foldable) specifications.
 
 1. `t(u.traverse(x => x, F.of))` is equivalent to `u.traverse(t, G.of)`
 for any `t` such that `t(a).map(f)` is equivalent to `t(a.map(f))` (naturality)
@@ -300,7 +300,7 @@ method takes two arguments:
 ### Chain
 
 A value that implements the Chain specification must also
-implement the Apply specification.
+implement the [Apply](#apply) specification.
 
 1. `m.chain(f).chain(g)` is equivalent to `m.chain(x => f(x).chain(g))` (associativity)
 
@@ -325,7 +325,7 @@ method takes one argument:
 
 ### ChainRec
 
-A value that implements the ChainRec specification must also implement the Chain specification.
+A value that implements the ChainRec specification must also implement the [Chain](#chain) specification.
 
 1. `m.chainRec((next, done, v) => p(v) ? d(v).map(done) : n(v).map(next), i)`
    is equivalent to
@@ -386,7 +386,7 @@ method takes one argument:
 
 ### Comonad
 
-A value that implements the Comonad specification must also implement the Functor and Extend specifications.
+A value that implements the Comonad specification must also implement the [Functor](#functor) and [Extend](#extend) specifications.
 
 1. `w.extend(_w => _w.extract())` is equivalent to `w`
 2. `w.extend(f).extract()` is equivalent to `f(w)`
