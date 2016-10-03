@@ -48,17 +48,14 @@ have dependencies on other algebras which must be implemented.
 
 ## Prefixed method names
 
-In order to add compatibility with Fantasy Land to your library,
-you need to add methods that you want to support with `fantasy-land/` prefix.
-For example if a type implements Functors' [`map`][], you need to add `fantasy-land/map` method to it.
-The code may look something like this:
+In order for a data type to be compatible with Fantasy Land, its values must
+have certain properties. These properties are all prefixed by `fantasy-land/`.
+For example:
 
 ```js
-MyType.prototype['fantasy-land/map'] = MyType.prototype.map
+//  MyType#fantasy-land/map :: MyType a ~> (a -> b) -> MyType b
+MyType.prototype['fantasy-land/map'] = ...
 ```
-
-It's not required to add unprefixed methods (e.g. `MyType.prototype.map`)
-for compatibility with Fantasy Land, but you're free to do so of course.
 
 Further in this document unprefixed names are used just to reduce noise.
 
@@ -69,12 +66,23 @@ var fl = require('fantasy-land')
 
 // ...
 
-MyType.prototype[fl.map] = MyType.prototype.map
+MyType.prototype[fl.map] = ...
 
 // ...
 
 var foo = bar[fl.map](x => x + 1)
 ```
+
+## Type representatives
+
+Certain behaviours are defined from the perspective of a member of a type.
+Other behaviours do not require a member. Thus certain algebras require a
+type to provide a value-level representative (with certain properties). The
+Identity type, for example, could provide `Id` as its type representative:
+`Id :: TypeRep Identity`.
+
+If a type provides a type representative, each member of the type must have
+a `constructor` property which is a reference to the type representative.
 
 ## Algebras
 
@@ -129,8 +137,8 @@ A value which has a Semigroup must provide a `concat` method. The
 A value that implements the Monoid specification must also implement
 the [Semigroup](#semigroup) specification.
 
-1. `m.concat(m.empty())` is equivalent to `m` (right identity)
-2. `m.empty().concat(m)` is equivalent to `m` (left identity)
+1. `m.concat(m.constructor.empty())` is equivalent to `m` (right identity)
+2. `m.constructor.empty().concat(m)` is equivalent to `m` (left identity)
 
 #### `empty` method
 
@@ -138,10 +146,14 @@ the [Semigroup](#semigroup) specification.
 empty :: Monoid m => () -> m
 ```
 
-A value which has a Monoid must provide an `empty` method on itself or
-its `constructor` object. The `empty` method takes no arguments:
+A value which has a Monoid must provide an `empty` function on its
+[type representative](#type-representatives):
 
-    m.empty()
+    M.empty()
+
+Given a value `m`, one can access its type representative via the
+`constructor` property:
+
     m.constructor.empty()
 
 1. `empty` must return a value of the same Monoid
@@ -206,9 +218,9 @@ method takes one argument:
 A value that implements the Applicative specification must also
 implement the [Apply](#apply) specification.
 
-1. `v.ap(a.of(x => x))` is equivalent to `v` (identity)
-2. `a.of(x).ap(a.of(f))` is equivalent to `a.of(f(x))` (homomorphism)
-3. `a.of(y).ap(u)` is equivalent to `u.ap(a.of(f => f(y)))` (interchange)
+1. `v.ap(A.of(x => x))` is equivalent to `v` (identity)
+2. `A.of(x).ap(A.of(f))` is equivalent to `A.of(f(x))` (homomorphism)
+3. `A.of(y).ap(u)` is equivalent to `u.ap(A.of(f => f(y)))` (interchange)
 
 #### `of` method
 
@@ -216,15 +228,20 @@ implement the [Apply](#apply) specification.
 of :: Applicative f => a -> f a
 ```
 
-A value which has an Applicative must provide an `of` method on itself
-or its `constructor` object. The `of` method takes one argument:
+A value which has an Applicative must provide an `of` function on its
+[type representative](#type-representatives). The `of` function takes
+one argument:
 
-    a.of(b)
-    a.constructor.of(b)
+    F.of(a)
+
+Given a value `f`, one can access its type representative via the
+`constructor` property:
+
+    f.constructor.of(a)
 
 1. `of` must provide a value of the same Applicative
 
-    1. No parts of `b` should be checked
+    1. No parts of `a` should be checked
 
 ### Foldable
 
@@ -333,10 +350,10 @@ method takes one argument:
 
 A value that implements the ChainRec specification must also implement the [Chain](#chain) specification.
 
-1. `m.chainRec((next, done, v) => p(v) ? d(v).map(done) : n(v).map(next), i)`
+1. `M.chainRec((next, done, v) => p(v) ? d(v).map(done) : n(v).map(next), i)`
    is equivalent to
    `(function step(v) { return p(v) ? d(v) : n(v).chain(step); }(i))` (equivalence)
-2. Stack usage of `m.chainRec(f, i)` must be at most a constant multiple of the stack usage of `f` itself.
+2. Stack usage of `M.chainRec(f, i)` must be at most a constant multiple of the stack usage of `f` itself.
 
 #### `chainRec` method
 
@@ -344,11 +361,16 @@ A value that implements the ChainRec specification must also implement the [Chai
 chainRec :: ChainRec m => ((a -> c, b -> c, a) -> m c, a) -> m b
 ```
 
-A Type which has a ChainRec must provide a `chainRec` method on itself
-or its `constructor` object. The `chainRec` method takes two arguments:
+A Type which has a ChainRec must provide a `chainRec` function on its
+[type representative](#type-representatives). The `chainRec` function
+takes two arguments:
 
-    a.chainRec(f, i)
-    a.constructor.chainRec(f, i)
+    M.chainRec(f, i)
+
+Given a value `m`, one can access its type representative via the
+`constructor` property:
+
+    m.constructor.chainRec(f, i)
 
 1. `f` must be a function which returns a value
     1. If `f` is not a function, the behaviour of `chainRec` is unspecified.
@@ -566,7 +588,7 @@ be equivalent to that of the derivation (or derivations).
 2. It's discouraged to overload the specified methods. It can easily
    result in broken and buggy behaviour.
 3. It is recommended to throw an exception on unspecified behaviour.
-4. An `Id` container which implements all methods is provided in
+4. An `Id` container which implements many of the methods is provided in
    `id.js`.
 
 
