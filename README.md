@@ -230,7 +230,7 @@ or its `constructor` object. The `of` method takes one argument:
 #### `reduce` method
 
 ```hs
-reduce :: Foldable f => f a ~> (b -> a -> b) -> b -> b
+reduce :: Foldable f => f a ~> ((b, a) -> b) -> b -> b
 ```
 
 A value which has a Foldable must provide a `reduce` method. The `reduce`
