@@ -230,7 +230,7 @@ or its `constructor` object. The `of` method takes one argument:
 #### `reduce` method
 
 ```hs
-reduce :: Foldable f => f a ~> ((b, a) -> b) -> b -> b
+reduce :: Foldable f => f a ~> ((b, a) -> b, b) -> b
 ```
 
 A value which has a Foldable must provide a `reduce` method. The `reduce`
@@ -280,7 +280,7 @@ Compose.prototype.map = function(f) {
 #### `traverse` method
 
 ```hs
-traverse :: Apply f, Traversable t => t a ~> ((a -> f b), (c -> f c)) -> f (t b)
+traverse :: Apply f, Traversable t => t a ~> (a -> f b, c -> f c) -> f (t b)
 ```
 
 A value which has a Traversable must provide a `traverse` method. The `traverse`
@@ -417,7 +417,7 @@ the [Functor](#functor) specification.
 #### `bimap` method
 
 ```hs
-bimap :: Bifunctor f => f a c ~> (a -> b) -> (c -> d) -> f b d
+bimap :: Bifunctor f => f a c ~> (a -> b, c -> d) -> f b d
 ```
 
 A value which has a Bifunctor must provide a `bimap` method. The `bimap`
@@ -448,7 +448,7 @@ the [Functor](#functor) specification.
 #### `promap` method
 
 ```hs
-promap :: Profunctor p => p b c ~> (a -> b) -> (c -> d) -> p a d
+promap :: Profunctor p => p b c ~> (a -> b, c -> d) -> p a d
 ```
 
 A value which has a Profunctor must provide a `promap` method.
