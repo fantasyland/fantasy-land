@@ -167,6 +167,7 @@ method takes one argument:
     1. If `f` is not a function, the behaviour of `map` is
        unspecified.
     2. `f` can return any value.
+    3. No parts of `f`'s return value should be checked.
 
 2. `map` must return a value of the same Functor
 
@@ -197,6 +198,8 @@ method takes one argument:
 
 3. `ap` must apply the function in Apply `b` to the value in
    Apply `a`
+   
+   1. No parts of return value of that function should be checked.
 
 ### Applicative
 
@@ -242,9 +245,12 @@ method takes two arguments:
 
     1. if `f` is not a function, the behaviour of `reduce` is unspecified.
     2. The first argument to `f` must be the same type as `x`.
-    3. `f` must return a value of the same type as `x`
+    3. `f` must return a value of the same type as `x`.
+    4. No parts of `f`'s return value should be checked.
 
 1. `x` is the initial accumulator value for the reduction
+
+    1. No parts of `x` should be checked.
 
 ### Traversable
 
@@ -381,6 +387,7 @@ method takes one argument:
     1. If `f` is not a function, the behaviour of `extend` is
        unspecified.
     2. `f` must return a value of type `v`, for some variable `v` contained in `w`.
+    3. No parts of `f`'s return value should be checked.
 
 2. `extend` must return a value of the same Extend.
 
@@ -429,11 +436,13 @@ method takes two arguments:
 
     1. If `f` is not a function, the behaviour of `bimap` is unspecified.
     2. `f` can return any value.
+    3. No parts of `f`'s return value should be checked.
 
 2. `g` must be a function which returns a value
 
     1. If `g` is not a function, the behaviour of `bimap` is unspecified.
     2. `g` can return any value.
+    3. No parts of `g`'s return value should be checked.
 
 3. `bimap` must return a value of the same Bifunctor.
 
@@ -461,11 +470,13 @@ The `profunctor` method takes two arguments:
 
     1. If `f` is not a function, the behaviour of `promap` is unspecified.
     2. `f` can return any value.
+    3. No parts of `f`'s return value should be checked.
 
 2. `g` must be a function which returns a value
 
     1. If `g` is not a function, the behaviour of `promap` is unspecified.
     2. `g` can return any value.
+    3. No parts of `g`'s return value should be checked.
 
 3. `promap` must return a value of the same Profunctor
 
