@@ -25,7 +25,7 @@ structures:
 * [Bifunctor](#bifunctor)
 * [Profunctor](#profunctor)
 
-<img src="figures/dependencies.png" width="677" height="212" />
+<img src="figures/dependencies.png" />
 
 ## General
 
