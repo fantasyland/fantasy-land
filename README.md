@@ -25,7 +25,7 @@ structures:
 * [Bifunctor](#bifunctor)
 * [Profunctor](#profunctor)
 
-<img src="https://cdn.rawgit.com/fantasyland/fantasy-land/6900fb846205e1dc5e2e69f31695bb9b6c568728/figures/dependencies.svg" />
+<img src="figures/dependencies.png" />
 
 ## General
 
