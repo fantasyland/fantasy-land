@@ -1,0 +1,35 @@
+digraph {
+  node [shape=plaintext]
+
+  # Algebras
+  Applicative;
+  Apply;
+  Bifunctor;
+  Chain;
+  ChainRec;
+  Comonad;
+  Extend;
+  Foldable;
+  Functor;
+  Monad;
+  Monoid;
+  Profunctor;
+  Semigroup;
+  Setoid;
+  Traversable;
+
+  # Dependencies
+  Applicative -> Monad;
+  Apply -> Applicative;
+  Apply -> Chain;
+  Chain -> ChainRec;
+  Chain -> Monad;
+  Extend -> Comonad;
+  Foldable -> Traversable;
+  Functor -> Apply;
+  Functor -> Bifunctor;
+  Functor -> Extend;
+  Functor -> Profunctor;
+  Functor -> Traversable;
+  Semigroup -> Monoid;
+}

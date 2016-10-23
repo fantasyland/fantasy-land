@@ -25,7 +25,7 @@ structures:
 * [Bifunctor](#bifunctor)
 * [Profunctor](#profunctor)
 
-<img src="figures/dependencies.png" width="677" height="212" />
+<img src="figures/dependencies.png" width="863" height="347" />
 
 ## General
 
@@ -210,7 +210,7 @@ method takes one argument:
 
 3. `ap` must apply the function in Apply `b` to the value in
    Apply `a`
-   
+
    1. No parts of return value of that function should be checked.
 
 ### Applicative
