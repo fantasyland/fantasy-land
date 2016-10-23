@@ -23,8 +23,6 @@ const Id = require('./id');
 const Sum = tagged('v');
 Sum[of] = Sum;
 Sum[empty] = () => Sum('');
-Sum.prototype[of] = Sum[of];
-Sum.prototype[empty] = Sum[empty];
 Sum.prototype[map] = function(f) {
   return Sum(f(this.v));
 };
@@ -90,8 +88,8 @@ exports.monad = {
 };
 
 exports.monoid = {
-  leftIdentity: test(x => monoid.leftIdentity(Id[of](Sum[empty]()))(equality)(Sum[of](x))),
-  rightIdentity: test(x => monoid.rightIdentity(Id[of](Sum[empty]()))(equality)(Sum[of](x))),
+  leftIdentity: test(x => monoid.leftIdentity(Sum)(equality)(x)),
+  rightIdentity: test(x => monoid.rightIdentity(Sum)(equality)(x)),
 };
 
 // Semigroup tests are broken otherwise for this.

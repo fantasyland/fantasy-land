@@ -16,11 +16,7 @@ Id.prototype[fl.concat] = function(b) {
   return new Id(this.value[fl.concat](b.value));
 };
 
-// Monoid (value must also be a Monoid)
-Id[fl.empty] = function() {
-  return new Id(this.value[fl.empty] ? this.value[fl.empty]() : this.value.constructor[fl.empty]());
-};
-Id.prototype[fl.empty] = Id[fl.empty];
+// Monoid is not satisfiable since the type lacks a universal empty value
 
 // Foldable
 Id.prototype[fl.reduce] = function(f, acc) {
@@ -62,7 +58,6 @@ Id[fl.chainRec] = function(f, i) {
   }
   return new Id(state.value);
 };
-Id.prototype[fl.chainRec] = Id[fl.chainRec];
 
 // Extend
 Id.prototype[fl.extend] = function(f) {
@@ -73,7 +68,6 @@ Id.prototype[fl.extend] = function(f) {
 Id[fl.of] = function(a) {
   return new Id(a);
 };
-Id.prototype[fl.of] = Id[fl.of];
 
 // Comonad
 Id.prototype[fl.extract] = function() {
