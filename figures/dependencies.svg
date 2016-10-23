@@ -12,14 +12,14 @@
 <!-- Applicative -->
 <g id="node1" class="node"><title>Applicative</title>
 <g id="a_node1"><a xlink:href="#applicative" xlink:title="Applicative">
-<text text-anchor="middle" x="41.5" y="-86.3" font-family="Times,serif" font-size="14.00" fill="blue">Applicative</text>
+<text text-anchor="middle" x="41.5" y="-86.3" font-family="Times,serif" font-size="14.00" fill="#4078c0">Applicative</text>
 </a>
 </g>
 </g>
 <!-- Monad -->
 <g id="node10" class="node"><title>Monad</title>
 <g id="a_node10"><a xlink:href="#monad" xlink:title="Monad">
-<text text-anchor="middle" x="43.5" y="-14.3" font-family="Times,serif" font-size="14.00" fill="blue">Monad</text>
+<text text-anchor="middle" x="43.5" y="-14.3" font-family="Times,serif" font-size="14.00" fill="#4078c0">Monad</text>
 </a>
 </g>
 </g>
@@ -31,7 +31,7 @@
 <!-- Apply -->
 <g id="node2" class="node"><title>Apply</title>
 <g id="a_node2"><a xlink:href="#apply" xlink:title="Apply">
-<text text-anchor="middle" x="87.5" y="-158.3" font-family="Times,serif" font-size="14.00" fill="blue">Apply</text>
+<text text-anchor="middle" x="87.5" y="-158.3" font-family="Times,serif" font-size="14.00" fill="#4078c0">Apply</text>
 </a>
 </g>
 </g>
@@ -43,7 +43,7 @@
 <!-- Chain -->
 <g id="node4" class="node"><title>Chain</title>
 <g id="a_node4"><a xlink:href="#chain" xlink:title="Chain">
-<text text-anchor="middle" x="128.5" y="-86.3" font-family="Times,serif" font-size="14.00" fill="blue">Chain</text>
+<text text-anchor="middle" x="128.5" y="-86.3" font-family="Times,serif" font-size="14.00" fill="#4078c0">Chain</text>
 </a>
 </g>
 </g>
@@ -55,14 +55,14 @@
 <!-- Bifunctor -->
 <g id="node3" class="node"><title>Bifunctor</title>
 <g id="a_node3"><a xlink:href="#bifunctor" xlink:title="Bifunctor">
-<text text-anchor="middle" x="168.5" y="-158.3" font-family="Times,serif" font-size="14.00" fill="blue">Bifunctor</text>
+<text text-anchor="middle" x="168.5" y="-158.3" font-family="Times,serif" font-size="14.00" fill="#4078c0">Bifunctor</text>
 </a>
 </g>
 </g>
 <!-- ChainRec -->
 <g id="node5" class="node"><title>ChainRec</title>
 <g id="a_node5"><a xlink:href="#chainrec" xlink:title="ChainRec">
-<text text-anchor="middle" x="128.5" y="-14.3" font-family="Times,serif" font-size="14.00" fill="blue">ChainRec</text>
+<text text-anchor="middle" x="128.5" y="-14.3" font-family="Times,serif" font-size="14.00" fill="#4078c0">ChainRec</text>
 </a>
 </g>
 </g>
@@ -79,14 +79,14 @@
 <!-- Comonad -->
 <g id="node6" class="node"><title>Comonad</title>
 <g id="a_node6"><a xlink:href="#comonad" xlink:title="Comonad">
-<text text-anchor="middle" x="251.5" y="-86.3" font-family="Times,serif" font-size="14.00" fill="blue">Comonad</text>
+<text text-anchor="middle" x="251.5" y="-86.3" font-family="Times,serif" font-size="14.00" fill="#4078c0">Comonad</text>
 </a>
 </g>
 </g>
 <!-- Extend -->
 <g id="node7" class="node"><title>Extend</title>
 <g id="a_node7"><a xlink:href="#extend" xlink:title="Extend">
-<text text-anchor="middle" x="251.5" y="-158.3" font-family="Times,serif" font-size="14.00" fill="blue">Extend</text>
+<text text-anchor="middle" x="251.5" y="-158.3" font-family="Times,serif" font-size="14.00" fill="#4078c0">Extend</text>
 </a>
 </g>
 </g>
@@ -98,14 +98,14 @@
 <!-- Foldable -->
 <g id="node8" class="node"><title>Foldable</title>
 <g id="a_node8"><a xlink:href="#foldable" xlink:title="Foldable">
-<text text-anchor="middle" x="435.5" y="-230.3" font-family="Times,serif" font-size="14.00" fill="blue">Foldable</text>
+<text text-anchor="middle" x="435.5" y="-230.3" font-family="Times,serif" font-size="14.00" fill="#4078c0">Foldable</text>
 </a>
 </g>
 </g>
 <!-- Traversable -->
 <g id="node15" class="node"><title>Traversable</title>
 <g id="a_node15"><a xlink:href="#traversable" xlink:title="Traversable">
-<text text-anchor="middle" x="435.5" y="-158.3" font-family="Times,serif" font-size="14.00" fill="blue">Traversable</text>
+<text text-anchor="middle" x="435.5" y="-158.3" font-family="Times,serif" font-size="14.00" fill="#4078c0">Traversable</text>
 </a>
 </g>
 </g>
@@ -117,7 +117,7 @@
 <!-- Functor -->
 <g id="node9" class="node"><title>Functor</title>
 <g id="a_node9"><a xlink:href="#functor" xlink:title="Functor">
-<text text-anchor="middle" x="251.5" y="-230.3" font-family="Times,serif" font-size="14.00" fill="blue">Functor</text>
+<text text-anchor="middle" x="251.5" y="-230.3" font-family="Times,serif" font-size="14.00" fill="#4078c0">Functor</text>
 </a>
 </g>
 </g>
@@ -139,7 +139,7 @@
 <!-- Profunctor -->
 <g id="node12" class="node"><title>Profunctor</title>
 <g id="a_node12"><a xlink:href="#profunctor" xlink:title="Profunctor">
-<text text-anchor="middle" x="337.5" y="-158.3" font-family="Times,serif" font-size="14.00" fill="blue">Profunctor</text>
+<text text-anchor="middle" x="337.5" y="-158.3" font-family="Times,serif" font-size="14.00" fill="#4078c0">Profunctor</text>
 </a>
 </g>
 </g>
@@ -156,14 +156,14 @@
 <!-- Monoid -->
 <g id="node11" class="node"><title>Monoid</title>
 <g id="a_node11"><a xlink:href="#monoid" xlink:title="Monoid">
-<text text-anchor="middle" x="527.5" y="-158.3" font-family="Times,serif" font-size="14.00" fill="blue">Monoid</text>
+<text text-anchor="middle" x="527.5" y="-158.3" font-family="Times,serif" font-size="14.00" fill="#4078c0">Monoid</text>
 </a>
 </g>
 </g>
 <!-- Semigroup -->
 <g id="node13" class="node"><title>Semigroup</title>
 <g id="a_node13"><a xlink:href="#semigroup" xlink:title="Semigroup">
-<text text-anchor="middle" x="527.5" y="-230.3" font-family="Times,serif" font-size="14.00" fill="blue">Semigroup</text>
+<text text-anchor="middle" x="527.5" y="-230.3" font-family="Times,serif" font-size="14.00" fill="#4078c0">Semigroup</text>
 </a>
 </g>
 </g>
@@ -175,7 +175,7 @@
 <!-- Setoid -->
 <g id="node14" class="node"><title>Setoid</title>
 <g id="a_node14"><a xlink:href="#setoid" xlink:title="Setoid">
-<text text-anchor="middle" x="612.5" y="-230.3" font-family="Times,serif" font-size="14.00" fill="blue">Setoid</text>
+<text text-anchor="middle" x="612.5" y="-230.3" font-family="Times,serif" font-size="14.00" fill="#4078c0">Setoid</text>
 </a>
 </g>
 </g>

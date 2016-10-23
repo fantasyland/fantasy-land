@@ -1,5 +1,5 @@
 digraph {
-  node [fontcolor=blue;shape=plaintext]
+  node [fontcolor="#4078c0";shape=plaintext]
 
   # Algebras
   Applicative [URL="#applicative"];
