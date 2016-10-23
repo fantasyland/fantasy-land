@@ -14,24 +14,21 @@ const {extend, map, extract} = require('..');
 **/
 
 const leftIdentity = t => eq => x => {
-    const a = t(x)[extend](identity)[extract]();
-    const b = t(x);
-    return eq(a, b);
+  const a = t(x)[extend](identity)[extract]();
+  const b = t(x);
+  return eq(a, b);
 };
 
 const rightIdentity = t => eq => x => {
-    const a = t(x)[extend](w => w[extract]());
-    const b = t(x);
-    return eq(a, b);
+  const a = t(x)[extend](w => w[extract]());
+  const b = t(x);
+  return eq(a, b);
 };
 
 const associativity = t => eq => x => {
-    const a = t(x)[extend](identity);
-    const b = t(x)[extend](identity)[map](identity);
-    return eq(a, b);
+  const a = t(x)[extend](identity);
+  const b = t(x)[extend](identity)[map](identity);
+  return eq(a, b);
 };
 
-module.exports = { leftIdentity
-                 , rightIdentity
-                 , associativity
-                 };
+module.exports = {leftIdentity, rightIdentity, associativity};

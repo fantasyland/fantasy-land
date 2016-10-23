@@ -12,11 +12,11 @@ const {of, map, ap} = require('..');
 **/
 
 const composition = t => eq => x => {
-    const y = t[of](identity);
+  const y = t[of](identity);
 
-    const a = y[ap](y[ap](y[map](compose)));
-    const b = y[ap](y)[ap](y);
-    return eq(a, b);
+  const a = y[ap](y[ap](y[map](compose)));
+  const b = y[ap](y)[ap](y);
+  return eq(a, b);
 };
 
-module.exports = { composition };
+module.exports = {composition};

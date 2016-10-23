@@ -12,17 +12,15 @@ const {promap} = require('..');
 **/
 
 const identityʹ = t => eq => x => {
-    const a = t(x)[promap](identity, identity);
-    const b = t(x);
-    return eq(a, b);
+  const a = t(x)[promap](identity, identity);
+  const b = t(x);
+  return eq(a, b);
 };
 
 const composition = t => eq => x => {
-    const a = t(x)[promap](compose(identity)(identity), compose(identity)(identity));
-    const b = t(x)[promap](identity, identity)[promap](identity, identity);
-    return eq(a, b);
+  const a = t(x)[promap](compose(identity)(identity), compose(identity)(identity));
+  const b = t(x)[promap](identity, identity)[promap](identity, identity);
+  return eq(a, b);
 };
 
-module.exports = { identity: identityʹ
-                 , composition
-                 };
+module.exports = {identity: identityʹ, composition};

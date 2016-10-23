@@ -3,7 +3,6 @@
 const {identity} = require('fantasy-combinators');
 const {reduce} = require('..');
 
-
 /**
 
 ### Foldable
@@ -13,9 +12,9 @@ const {reduce} = require('..');
 **/
 
 const associativity = t => eq => x => {
-    const a = t(x)[reduce](identity, x);
-    const b = t(x).toArray()[reduce](identity, x);
-    return eq(a, b);
+  const a = t(x)[reduce](identity, x);
+  const b = t(x).toArray()[reduce](identity, x);
+  return eq(a, b);
 };
 
-module.exports = { associativity };
+module.exports = {associativity};
