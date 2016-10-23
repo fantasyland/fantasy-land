@@ -9,23 +9,36 @@
 This project specifies interoperability of common algebraic
 structures:
 
-* [Setoid](#setoid)
-* [Semigroup](#semigroup)
-* [Monoid](#monoid)
-* [Functor](#functor)
-* [Apply](#apply)
-* [Applicative](#applicative)
-* [Foldable](#foldable)
-* [Traversable](#traversable)
-* [Chain](#chain)
-* [ChainRec](#chainrec)
-* [Monad](#monad)
-* [Extend](#extend)
-* [Comonad](#comonad)
-* [Bifunctor](#bifunctor)
-* [Profunctor](#profunctor)
-
-<img src="figures/dependencies.png" width="677" height="212" />
+<pre>
+ <a href="#setoid">Setoid</a>   <a href="#semigroup">Semigroup</a>   <a href="#foldable">Foldable</a>           <a href="#functor">Functor</a>            <a href="#extend">Extend</a>
+(<a href="#equals-method">equals</a>)   (<a href="#concat-method">concat</a>)   (<a href="#reduce-method">reduce</a>)            (<a href="#map-method">map</a>)            (<a href="#extend-method">extend</a>)
+              |           \             / | | | \             /
+              |            \           /  | | |  \           /
+              |             \         /   | | |   \         /
+              |              \       /    | | |    \       /
+              |               \     /     | | |     \     /
+              |                \   /      | | |      \   /
+              |                 \ /       / | \       \ /
+           <a href="#monoid">Monoid</a>           <a href="#traversable">Traversable</a>  /  |  \    <a href="#comonad">Comonad</a>
+           (<a href="#empty-method">empty</a>)          (<a href="#traverse-method">traverse</a>)  /   |   \  (<a href="#extract-method">extract</a>)
+                                       /    |    \
+                              <a href="#bifunctor">Bifunctor</a>   <a href="#apply">Apply</a>   <a href="#profunctor">Profunctor</a>
+                               (<a href="#bimap-method">bimap</a>)     (<a href="#ap-method">ap</a>)    (<a href="#promap-method">promap</a>)
+                                           / \
+                                          /   \
+                                         /     \
+                                        /       \
+                                       /         \
+                                 <a href="#applicative">Applicative</a>    <a href="#chain">Chain</a>
+                                     (<a href="#of-method">of</a>)      (<a href="#chain-method">chain</a>)
+                                       \         / \
+                                        \       /   \
+                                         \     /     \
+                                          \   /       \
+                                           \ /         \
+                                          <a href="#monad">Monad</a>     <a href="#chainrec">ChainRec</a>
+                                                   (<a href="#chainrec-method">chainRec</a>)
+</pre>
 
 ## General
 
