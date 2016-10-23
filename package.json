@@ -25,7 +25,8 @@
   "devDependencies": {
     "eslint": "3.8.x",
     "nodeunit": "0.9.x",
-    "sanctuary-style": "0.2.x"
+    "sanctuary-style": "0.2.x",
+    "xyz": "1.0.x"
   },
   "repository": {
     "type": "git",
@@ -39,6 +40,9 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint --config node_modules/sanctuary-style/eslint-es6.json --env es6 --env node --rule 'max-len: [off]' -- *.js laws/*.js",
-    "test": "npm run-script lint && nodeunit id_test.js"
+    "test": "npm run-script lint && nodeunit id_test.js",
+    "release-major": "xyz --repo git@github.com:fantasyland/fantasy-land.git --increment major",
+    "release-minor": "xyz --repo git@github.com:fantasyland/fantasy-land.git --increment minor",
+    "release-patch": "xyz --repo git@github.com:fantasyland/fantasy-land.git --increment patch"
   }
 }
