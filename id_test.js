@@ -1,6 +1,6 @@
 'use strict';
 
-const fl = require('.');
+const fl = require('./');
 const applicative = require('./laws/applicative');
 const apply = require('./laws/apply');
 const chain = require('./laws/chain');
