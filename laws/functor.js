@@ -17,7 +17,7 @@ const identity = of => eq => x => {
   return eq(a, b);
 };
 
-const composition = of => eq => x => f => g => {
+const composition = of => eq => f => g => x => {
   const a = of(x)[map](x => f(g(x)));
   const b = of(x)[map](g)[map](f);
   return eq(a, b);

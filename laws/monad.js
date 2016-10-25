@@ -11,7 +11,7 @@ const {of, chain} = require('..');
 
 **/
 
-const leftIdentity = t => eq => x => f => {
+const leftIdentity = t => eq => f => x => {
   const a = t[of](x)[chain](f);
   const b = f(x);
   return eq(a, b);
