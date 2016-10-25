@@ -35,7 +35,7 @@ Sum.prototype[equals] = function(x) {
 
 const equality = (x, y) => x[equals] ? x[equals](y) : x === y;
 const test = f => t => {
-  t.ok(f('x'));
+  t.ok(f('x') === true);
   t.done();
 };
 
