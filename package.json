@@ -39,7 +39,7 @@
   ],
   "main": "index.js",
   "scripts": {
-    "lint": "eslint --config node_modules/sanctuary-style/eslint-es6.json --env es6 --env node --rule 'max-len: [off]' -- *.js laws/*.js",
+    "lint": "eslint --config node_modules/sanctuary-style/eslint-es6.json --env es6 --env node --rule 'max-len: [off]' -- *.js",
     "test": "npm run-script lint && nodeunit id_test.js",
     "release-major": "xyz --repo git@github.com:fantasyland/fantasy-land.git --increment major",
     "release-minor": "xyz --repo git@github.com:fantasyland/fantasy-land.git --increment minor",
