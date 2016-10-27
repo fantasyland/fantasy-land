@@ -15,11 +15,17 @@ structures:
 * [Functor](#functor)
 * [Apply](#apply)
 * [Applicative](#applicative)
+* [Alt](#alt)
+* [Plus](#plus)
+* [Alternative](#alternative)
 * [Foldable](#foldable)
 * [Traversable](#traversable)
 * [Chain](#chain)
 * [ChainRec](#chainrec)
 * [Monad](#monad)
+* [MonadZero](#monadzero)
+* [MonadPlus](#monadplus)
+* [MonadOr](#monador)
 * [Extend](#extend)
 * [Comonad](#comonad)
 * [Bifunctor](#bifunctor)
@@ -243,6 +249,69 @@ Given a value `f`, one can access its type representative via the
 
     1. No parts of `a` should be checked
 
+### Alt
+
+A value that implements the Alt specification must also implement
+the [Functor](#functor) specification.
+
+1. `a.alt(b).alt(c)` is equivalent to `a.alt(b.alt(c))` (associativity)
+2. `a.alt(b).map(f)` is equivalent to `a.map(f).alt(b.map(f))` (distributivity)
+
+#### `alt` method
+
+```hs
+alt :: Alt f => f a ~> f a -> f a
+```
+
+A value which has a Alt must provide a `alt` method. The
+`alt` method takes one argument:
+
+    a.alt(b)
+
+1. `b` must be a value of the same Alt
+
+    1. If `b` is not the same Alt, behaviour of `alt` is
+       unspecified.
+    2. `a` and `b` can contain any value of same type.
+    3. No parts of `a`'s and `b`'s containing value should be checked.
+
+2. `alt` must return a value of the same Alt.
+
+### Plus
+
+A value that implements the Plus specification must also implement
+the [Alt](#alt) specification.
+
+1. `x.alt(A.pempty())` is equivalent to `x` (right identity)
+2. `A.pempty().alt(x)` is equivalent to `x` (left identity)
+2. `A.pempty().map(f)` is equivalent to `A.pempty()` (annihilation)
+
+#### `pempty` method
+
+```hs
+pempty :: Plus x => () -> x
+```
+
+A value which has a Plus must provide an `pempty` function on its
+[type representative](#type-representatives):
+
+    M.pempty()
+
+Given a value `x`, one can access its type representative via the
+`constructor` property:
+
+    x.constructor.pempty()
+
+1. `pempty` must return a value of the same Plus
+
+### Alternative
+
+A value that implements the Alternative specification must also implement
+the [Applicative](#applicative) and [Plus](#plus) specifications.
+
+1. `x.ap(f.alt(g))` is equivalent to `x.ap(f).alt(x.ap(g))` (distributivity)
+1. `M.pempty().ap(f)` is equivalent to `M.pempty()` (annihilation)
+
 ### Foldable
 
 1. `u.reduce` is equivalent to `u.reduce((acc, x) => acc.concat([x]), []).reduce`
@@ -388,6 +457,27 @@ the [Applicative](#applicative) and [Chain](#chain) specifications.
 
 1. `M.of(a).chain(f)` is equivalent to `f(a)` (left identity)
 2. `m.chain(M.of)` is equivalent to `m` (right identity)
+
+### MonadZero
+
+A value that implements the MonadZero specification must also implement
+the [Monad](#monad) and [Alternative](#alternative) specifications.
+
+1. `M.pempty().chain(f)` is equivalent to `M.pempty()` (annihilation)
+
+### MonadPlus
+
+A value that implements the MonadPlus specification must also implement
+the [MonadZero](#monadzero) specification.
+
+1. `x.alt(y).chain(f)` is equivalent to `x.chain(f).alt(y.chain(f))` (distributivity)
+
+### MonadOr
+
+A value that implements the MonadOr specification must also implement
+the [MonadZero](#monadzero) specification.
+
+1. `M.of(a).alt(b)` is equivalent to `M.of(a)` (left catch)
 
 ### Extend
 
