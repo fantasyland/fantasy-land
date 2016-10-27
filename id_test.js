@@ -1,5 +1,6 @@
 'use strict';
 
+const fl = require('./');
 const applicative = require('./laws/applicative');
 const apply = require('./laws/apply');
 const chain = require('./laws/chain');
@@ -35,7 +36,7 @@ Sum.prototype[equals] = function(x) {
 
 const equality = (x, y) => x[equals] ? x[equals](y) : x === y;
 const test = f => t => {
-  t.ok(f('x'));
+  t.ok(f('x') === true);
   t.done();
 };
 
@@ -79,11 +80,11 @@ exports.foldable = {
 
 exports.functor = {
   identity: test(functor.identity(Id[of])(equality)),
-  composition: test(functor.composition(Id[of])(equality)),
+  composition: test(functor.composition(Id[of])(equality)(a => [a, a])(a => [a])),
 };
 
 exports.monad = {
-  leftIdentity: test(monad.leftIdentity(Id)(equality)),
+  leftIdentity: test(monad.leftIdentity(Id)(equality)(Id[fl.of])),
   rightIdentity: test(monad.rightIdentity(Id)(equality)),
 };
 
