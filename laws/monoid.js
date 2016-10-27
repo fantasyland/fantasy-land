@@ -6,8 +6,8 @@ const {of, empty, concat} = require('..');
 
 ### Monoid
 
-1. `m.concat(m.constructor.empty())` is equivalent to `m` (right identity)
-2. `m.constructor.empty().concat(m)` is equivalent to `m` (left identity)
+1. `m.concat(M.empty())` is equivalent to `m` (right identity)
+2. `M.empty().concat(m)` is equivalent to `m` (left identity)
 
 **/
 

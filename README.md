@@ -137,8 +137,8 @@ A value which has a Semigroup must provide a `concat` method. The
 A value that implements the Monoid specification must also implement
 the [Semigroup](#semigroup) specification.
 
-1. `m.concat(m.constructor.empty())` is equivalent to `m` (right identity)
-2. `m.constructor.empty().concat(m)` is equivalent to `m` (left identity)
+1. `m.concat(M.empty())` is equivalent to `m` (right identity)
+2. `M.empty().concat(m)` is equivalent to `m` (left identity)
 
 #### `empty` method
 
@@ -386,8 +386,8 @@ Given a value `m`, one can access its type representative via the
 A value that implements the Monad specification must also implement
 the [Applicative](#applicative) and [Chain](#chain) specifications.
 
-1. `m.of(a).chain(f)` is equivalent to `f(a)` (left identity)
-2. `m.chain(m.of)` is equivalent to `m` (right identity)
+1. `M.of(a).chain(f)` is equivalent to `f(a)` (left identity)
+2. `m.chain(M.of)` is equivalent to `m` (right identity)
 
 ### Extend
 

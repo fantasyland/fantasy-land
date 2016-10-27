@@ -6,8 +6,8 @@ const {of, chain} = require('..');
 
 ### Monad
 
-1. `m.of(a).chain(f)` is equivalent to `f(a)` (left identity)
-2. `m.chain(m.of)` is equivalent to `m` (right identity)
+1. `M.of(a).chain(f)` is equivalent to `f(a)` (left identity)
+2. `m.chain(M.of)` is equivalent to `m` (right identity)
 
 **/
 
