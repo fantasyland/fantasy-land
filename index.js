@@ -12,6 +12,8 @@
     map: 'fantasy-land/map',
     ap: 'fantasy-land/ap',
     of: 'fantasy-land/of',
+    alt: 'fantasy-land/alt',
+    pempty: 'fantasy-land/pempty',
     reduce: 'fantasy-land/reduce',
     traverse: 'fantasy-land/traverse',
     chain: 'fantasy-land/chain',
