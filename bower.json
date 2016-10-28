@@ -29,7 +29,7 @@
     "/node_modules/",
     "/.*",
     "/id.js",
-    "/id_test.js",
+    "/test.js",
     "/implementations.md",
     "/logo.png",
     "/package.json"

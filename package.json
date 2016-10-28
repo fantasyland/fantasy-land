@@ -33,14 +33,15 @@
     "url": "https://github.com/fantasyland/fantasy-land.git"
   },
   "files": [
-    "id.js",
     "index.js",
+    "internal/*.js",
     "laws/*.js"
   ],
   "main": "index.js",
   "scripts": {
-    "lint": "eslint --config node_modules/sanctuary-style/eslint-es6.json --env es6 --env node --rule 'max-len: [off]' -- *.js laws/*.js",
-    "test": "npm run-script lint && nodeunit id_test.js",
+    "lint": "eslint --config node_modules/sanctuary-style/eslint-es6.json --env es6 --env node --rule 'max-len: [off]' -- *.js laws/*.js internal/*.js",
+    "unit": "nodeunit test.js",
+    "test": "npm run-script lint && npm run-script unit",
     "release-major": "xyz --repo git@github.com:fantasyland/fantasy-land.git --increment major",
     "release-minor": "xyz --repo git@github.com:fantasyland/fantasy-land.git --increment minor",
     "release-patch": "xyz --repo git@github.com:fantasyland/fantasy-land.git --increment patch"
