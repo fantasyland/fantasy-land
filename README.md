@@ -282,27 +282,27 @@ A value which has a Alt must provide a `alt` method. The
 A value that implements the Plus specification must also implement
 the [Alt](#alt) specification.
 
-1. `x.alt(A.pempty())` is equivalent to `x` (right identity)
-2. `A.pempty().alt(x)` is equivalent to `x` (left identity)
-2. `A.pempty().map(f)` is equivalent to `A.pempty()` (annihilation)
+1. `x.alt(A.zero())` is equivalent to `x` (right identity)
+2. `A.zero().alt(x)` is equivalent to `x` (left identity)
+2. `A.zero().map(f)` is equivalent to `A.zero()` (annihilation)
 
-#### `pempty` method
+#### `zero` method
 
 ```hs
-pempty :: Plus x => () -> x
+zero :: Plus x => () -> x
 ```
 
-A value which has a Plus must provide an `pempty` function on its
+A value which has a Plus must provide an `zero` function on its
 [type representative](#type-representatives):
 
-    M.pempty()
+    M.zero()
 
 Given a value `x`, one can access its type representative via the
 `constructor` property:
 
-    x.constructor.pempty()
+    x.constructor.zero()
 
-1. `pempty` must return a value of the same Plus
+1. `zero` must return a value of the same Plus
 
 ### Alternative
 
@@ -310,7 +310,7 @@ A value that implements the Alternative specification must also implement
 the [Applicative](#applicative) and [Plus](#plus) specifications.
 
 1. `x.ap(f.alt(g))` is equivalent to `x.ap(f).alt(x.ap(g))` (distributivity)
-1. `x.ap(M.pempty())` is equivalent to `M.pempty()` (annihilation)
+1. `x.ap(M.zero())` is equivalent to `M.zero()` (annihilation)
 
 ### Foldable
 
@@ -463,7 +463,7 @@ the [Applicative](#applicative) and [Chain](#chain) specifications.
 A value that implements the MonadZero specification must also implement
 the [Monad](#monad) and [Alternative](#alternative) specifications.
 
-1. `M.pempty().chain(f)` is equivalent to `M.pempty()` (annihilation)
+1. `M.zero().chain(f)` is equivalent to `M.zero()` (annihilation)
 
 ### MonadPlus
 

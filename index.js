@@ -13,7 +13,7 @@
     ap: 'fantasy-land/ap',
     of: 'fantasy-land/of',
     alt: 'fantasy-land/alt',
-    pempty: 'fantasy-land/pempty',
+    zero: 'fantasy-land/zero',
     reduce: 'fantasy-land/reduce',
     traverse: 'fantasy-land/traverse',
     chain: 'fantasy-land/chain',
