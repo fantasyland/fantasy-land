@@ -310,7 +310,7 @@ A value that implements the Alternative specification must also implement
 the [Applicative](#applicative) and [Plus](#plus) specifications.
 
 1. `x.ap(f.alt(g))` is equivalent to `x.ap(f).alt(x.ap(g))` (distributivity)
-1. `M.pempty().ap(f)` is equivalent to `M.pempty()` (annihilation)
+1. `x.ap(M.pempty())` is equivalent to `M.pempty()` (annihilation)
 
 ### Foldable
 
