@@ -8,6 +8,9 @@ module.exports = () => {
     return this.length === y.length && this.join('') === y.join('');
   };
   Array.prototype[fl.map] = Array.prototype.map;
+  Array.prototype[fl.chain] = function(f) {
+    return [].concat(this.map(f));
+  };
   Array.prototype[fl.reduce] = Array.prototype.reduce;
   Array.prototype[fl.concat] = Array.prototype.concat;
   Array.prototype[fl.traverse] = function(f, p) {
@@ -16,4 +19,9 @@ module.exports = () => {
       p([])
     );
   };
+  // Array is MonadPlus but not MonadOr
+  Array.prototype[fl.alt] = function(b) {
+    return this.length > 0 ? this : b;
+  };
+  Array.prototype[fl.zero] = () => [];
 };

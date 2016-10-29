@@ -12,11 +12,11 @@ const Maybe = module.exports = taggedSum({
 
 Maybe.prototype[fl.equals] = function(b) {
   return this.cata({
-    Just: x =>  this.cata({
+    Just: x =>  b.cata({
       Just: y => equality(x, y),
       Nothing: () => false,
     }),
-    Nothing: () => this.cata({
+    Nothing: () => b.cata({
       Just: _ => false,
       Nothing: () => true,
     }),
@@ -42,6 +42,7 @@ Maybe.prototype[fl.map] = function(f) {
 
 Maybe[fl.zero] = () => Maybe.Nothing;
 
+// Maybe is MonadOr but not MonadPlus
 Maybe.prototype[fl.alt] = function(b) {
   return this.cata({
     Just: _ => this,

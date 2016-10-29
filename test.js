@@ -102,7 +102,7 @@ exports.monadZero = {
 };
 
 exports.monadPlus = {
-  distributivity: test(x => monadPlus.distributivity(equality)(Maybe.Nothing)(Maybe.Just(x))(a => Maybe.Just([a]))),
+  distributivity: test(x => monadPlus.distributivity(equality)([])([x])(a => a.length === 0 ? [] : [a])),
 };
 
 exports.monadOr = {
