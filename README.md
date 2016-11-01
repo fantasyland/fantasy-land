@@ -23,9 +23,6 @@ structures:
 * [Chain](#chain)
 * [ChainRec](#chainrec)
 * [Monad](#monad)
-* [MonadZero](#monadzero)
-* [MonadPlus](#monadplus)
-* [MonadOr](#monador)
 * [Extend](#extend)
 * [Comonad](#comonad)
 * [Bifunctor](#bifunctor)
@@ -457,27 +454,6 @@ the [Applicative](#applicative) and [Chain](#chain) specifications.
 
 1. `M.of(a).chain(f)` is equivalent to `f(a)` (left identity)
 2. `m.chain(M.of)` is equivalent to `m` (right identity)
-
-### MonadZero
-
-A value that implements the MonadZero specification must also implement
-the [Monad](#monad) and [Alternative](#alternative) specifications.
-
-1. `M.zero().chain(f)` is equivalent to `M.zero()` (annihilation)
-
-### MonadPlus
-
-A value that implements the MonadPlus specification must also implement
-the [MonadZero](#monadzero) specification.
-
-1. `x.alt(y).chain(f)` is equivalent to `x.chain(f).alt(y.chain(f))` (distributivity)
-
-### MonadOr
-
-A value that implements the MonadOr specification must also implement
-the [MonadZero](#monadzero) specification.
-
-1. `M.of(a).alt(b)` is equivalent to `M.of(a)` (left catch)
 
 ### Extend
 

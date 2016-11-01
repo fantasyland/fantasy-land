@@ -1,7 +1,7 @@
 'use strict';
 
 const fl = require('.');
-const {Id, Maybe, equality, Sum, patch} = require('./internal');
+const {Id, equality, Sum, patch} = require('./internal');
 patch();
 
 const alt = require('./laws/alt');
@@ -15,9 +15,6 @@ const extend = require('./laws/extend');
 const foldable = require('./laws/foldable');
 const functor = require('./laws/functor');
 const monad = require('./laws/monad');
-const monadOr = require('./laws/monador');
-const monadPlus = require('./laws/monadplus');
-const monadZero = require('./laws/monadzero');
 const monoid = require('./laws/monoid');
 const plus = require('./laws/plus');
 const semigroup = require('./laws/semigroup');
@@ -30,16 +27,16 @@ const test = f => t => {
 };
 
 exports.alt = {
-  associativity: test(x => alt.associativity(equality)(Maybe.Nothing)(Maybe.Just(x))(Maybe.Nothing)),
-  distributivity: test(x => alt.distributivity(equality)(Maybe.Nothing)(Maybe.Just(x))(a => [a])),
+  associativity: test(x => alt.associativity(equality)(Array[fl.zero]())([x])(Array[fl.zero]())),
+  distributivity: test(x => alt.distributivity(equality)(Array[fl.zero]())([x])(a => [a])),
 };
 
 exports.alternative = {
   distributivity: test(
-    x => alternative.distributivity(equality)(Maybe.Just(x))(Maybe.Nothing)(Maybe.Just(a => [a]))
+    x => alternative.distributivity(equality)([x])(Array[fl.zero]())([a => [a]])
   ),
   annihilation: test(
-    x => alternative.annihilation(Maybe)(equality)(Maybe.Just(x))
+    x => alternative.annihilation(Array)(equality)([x])
   ),
 };
 
@@ -92,21 +89,9 @@ exports.monad = {
 };
 
 exports.plus = {
-  rightIdentity: test(x => plus.rightIdentity(Maybe)(equality)(Maybe.Just(x))),
-  leftIdentity: test(x => plus.leftIdentity(Maybe)(equality)(Maybe.Just(x))),
-  annihilation: test(x => plus.annihilation(Maybe)(equality)(a => [a])),
-};
-
-exports.monadZero = {
-  annihilation: test(x => monadZero.annihilation(Maybe)(equality)(a => Maybe.Just(a))),
-};
-
-exports.monadPlus = {
-  distributivity: test(x => monadPlus.distributivity(equality)([])([x])(a => a.length === 0 ? [] : [a])),
-};
-
-exports.monadOr = {
-  leftCatch: test(x => monadOr.leftCatch(Maybe)(equality)(x)(Maybe.Nothing)),
+  rightIdentity: test(x => plus.rightIdentity(Array)(equality)([x])),
+  leftIdentity: test(x => plus.leftIdentity(Array)(equality)([x])),
+  annihilation: test(x => plus.annihilation(Array)(equality)(a => [a])),
 };
 
 exports.monoid = {
