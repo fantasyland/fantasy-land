@@ -292,7 +292,7 @@ zero :: Plus x => () -> x
 A value which has a Plus must provide an `zero` function on its
 [type representative](#type-representatives):
 
-    M.zero()
+    A.zero()
 
 Given a value `x`, one can access its type representative via the
 `constructor` property:
@@ -307,7 +307,7 @@ A value that implements the Alternative specification must also implement
 the [Applicative](#applicative) and [Plus](#plus) specifications.
 
 1. `x.ap(f.alt(g))` is equivalent to `x.ap(f).alt(x.ap(g))` (distributivity)
-1. `x.ap(M.zero())` is equivalent to `M.zero()` (annihilation)
+1. `x.ap(A.zero())` is equivalent to `A.zero()` (annihilation)
 
 ### Foldable
 
