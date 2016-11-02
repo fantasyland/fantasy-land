@@ -286,7 +286,7 @@ the [Alt](#alt) specification.
 #### `zero` method
 
 ```hs
-zero :: Plus x => () -> x
+zero :: Plus f => () -> f a
 ```
 
 A value which has a Plus must provide an `zero` function on its
