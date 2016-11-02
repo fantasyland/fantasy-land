@@ -655,7 +655,7 @@ be equivalent to that of the derivation (or derivations).
    result in broken and buggy behaviour.
 3. It is recommended to throw an exception on unspecified behaviour.
 4. An `Id` container which implements many of the methods is provided in
-   `id.js`.
+   `internal/id.js`.
 
 
 [`ap`]: #ap-method
