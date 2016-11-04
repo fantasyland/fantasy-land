@@ -1,34 +1,8 @@
 'use strict';
 
-const Id = require('../id');
+const {Id, Compose} = require('../internal');
 const {identity} = require('fantasy-combinators');
-const {of, ap, reduce, traverse, map, equals, concat} = require('..');
-const {tagged} = require('daggy');
-
-const Compose = tagged('c');
-Compose[of] = Compose;
-Compose.prototype[ap] = function(f) {
-  return Compose(this.c[ap](f.c[map](u => y => y[ap](u))));
-};
-Compose.prototype[map] = function(f) {
-  return Compose(this.c[map](y => y[map](f)));
-};
-Compose.prototype[equals] = function(x) {
-  return this.c[equals] ? this.c[equals](x.c) : this.c === x.c;
-};
-
-Array.prototype[equals] = function(y) {
-  return this.length === y.length && this.join('') === y.join('');
-};
-Array.prototype[map] = Array.prototype.map;
-Array.prototype[reduce] = Array.prototype.reduce;
-Array.prototype[concat] = Array.prototype.concat;
-Array.prototype[traverse] = function(f, p) {
-  return this.map(f)[reduce](
-    (ys, x) => ys[ap](x[map](y => z => z[concat](y))),
-    p([])
-  );
-};
+const {of, traverse, map} = require('..');
 
 /**
 

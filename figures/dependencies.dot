@@ -2,6 +2,8 @@ digraph {
   node [shape=plaintext]
 
   # Algebras
+  Alt;
+  Alternative;
   Applicative;
   Apply;
   Bifunctor;
@@ -13,12 +15,15 @@ digraph {
   Functor;
   Monad;
   Monoid;
+  Plus;
   Profunctor;
   Semigroup;
   Setoid;
   Traversable;
 
   # Dependencies
+  Alt -> Plus;
+  Applicative -> Alternative;
   Applicative -> Monad;
   Apply -> Applicative;
   Apply -> Chain;
@@ -26,10 +31,12 @@ digraph {
   Chain -> Monad;
   Extend -> Comonad;
   Foldable -> Traversable;
+  Functor -> Alt;
   Functor -> Apply;
   Functor -> Bifunctor;
   Functor -> Extend;
   Functor -> Profunctor;
   Functor -> Traversable;
+  Plus -> Alternative;
   Semigroup -> Monoid;
 }

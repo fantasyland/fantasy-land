@@ -15,6 +15,9 @@ structures:
 * [Functor](#functor)
 * [Apply](#apply)
 * [Applicative](#applicative)
+* [Alt](#alt)
+* [Plus](#plus)
+* [Alternative](#alternative)
 * [Foldable](#foldable)
 * [Traversable](#traversable)
 * [Chain](#chain)
@@ -25,7 +28,7 @@ structures:
 * [Bifunctor](#bifunctor)
 * [Profunctor](#profunctor)
 
-<img src="figures/dependencies.png" width="863" height="347" />
+<img src="figures/dependencies.png" width="888" height="340" />
 
 ## General
 
@@ -242,6 +245,69 @@ Given a value `f`, one can access its type representative via the
 1. `of` must provide a value of the same Applicative
 
     1. No parts of `a` should be checked
+
+### Alt
+
+A value that implements the Alt specification must also implement
+the [Functor](#functor) specification.
+
+1. `a.alt(b).alt(c)` is equivalent to `a.alt(b.alt(c))` (associativity)
+2. `a.alt(b).map(f)` is equivalent to `a.map(f).alt(b.map(f))` (distributivity)
+
+#### `alt` method
+
+```hs
+alt :: Alt f => f a ~> f a -> f a
+```
+
+A value which has a Alt must provide a `alt` method. The
+`alt` method takes one argument:
+
+    a.alt(b)
+
+1. `b` must be a value of the same Alt
+
+    1. If `b` is not the same Alt, behaviour of `alt` is
+       unspecified.
+    2. `a` and `b` can contain any value of same type.
+    3. No parts of `a`'s and `b`'s containing value should be checked.
+
+2. `alt` must return a value of the same Alt.
+
+### Plus
+
+A value that implements the Plus specification must also implement
+the [Alt](#alt) specification.
+
+1. `x.alt(A.zero())` is equivalent to `x` (right identity)
+2. `A.zero().alt(x)` is equivalent to `x` (left identity)
+2. `A.zero().map(f)` is equivalent to `A.zero()` (annihilation)
+
+#### `zero` method
+
+```hs
+zero :: Plus f => () -> f a
+```
+
+A value which has a Plus must provide an `zero` function on its
+[type representative](#type-representatives):
+
+    A.zero()
+
+Given a value `x`, one can access its type representative via the
+`constructor` property:
+
+    x.constructor.zero()
+
+1. `zero` must return a value of the same Plus
+
+### Alternative
+
+A value that implements the Alternative specification must also implement
+the [Applicative](#applicative) and [Plus](#plus) specifications.
+
+1. `x.ap(f.alt(g))` is equivalent to `x.ap(f).alt(x.ap(g))` (distributivity)
+1. `x.ap(A.zero())` is equivalent to `A.zero()` (annihilation)
 
 ### Foldable
 
@@ -589,7 +655,7 @@ be equivalent to that of the derivation (or derivations).
    result in broken and buggy behaviour.
 3. It is recommended to throw an exception on unspecified behaviour.
 4. An `Id` container which implements many of the methods is provided in
-   `id.js`.
+   `internal/id.js`.
 
 
 [`ap`]: #ap-method

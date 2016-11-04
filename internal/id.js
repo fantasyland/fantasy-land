@@ -1,14 +1,15 @@
 'use strict';
 
-const fl = require('./');
+const fl = require('../');
+const {equality} = require('./func');
 
-const Id = function Id(a) {
-  this.value = a;
-};
+const {tagged} = require('daggy');
+
+const Id = module.exports = tagged('value');
 
 // Setoid
 Id.prototype[fl.equals] = function(b) {
-  return typeof this.value[fl.equals] === 'function' ? this.value[fl.equals](b.value) : this.value === b.value;
+  return equality(this.value, b.value);
 };
 
 // Semigroup (value must also be a Semigroup)
@@ -73,5 +74,3 @@ Id[fl.of] = function(a) {
 Id.prototype[fl.extract] = function() {
   return this.value;
 };
-
-module.exports = Id;
