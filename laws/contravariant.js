@@ -13,17 +13,15 @@ const {contramap} = require('..');
 */
 
 const identityʹ = t => eq => x => {
-    const a = t(x)[contramap](identity);
-    const b = t(x);
-    return eq(a, b);
+  const a = t(x)[contramap](identity);
+  const b = t(x);
+  return eq(a, b);
 };
 
 const composition = t => eq => x => {
-    const a = t(x)[contramap](compose(identity)(identity));
-    const b = t(x)[contramap](identity)[contramap](identity);
-    return eq(a, b);
+  const a = t(x)[contramap](compose(identity)(identity));
+  const b = t(x)[contramap](identity)[contramap](identity);
+  return eq(a, b);
 };
 
-module.exports = { identity: identityʹ
-                 , composition
-                 };
+module.exports = {identity: identityʹ, composition};
