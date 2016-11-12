@@ -12,17 +12,15 @@ const {bimap} = require('..');
 **/
 
 const identityʹ = t => eq => x => {
-    const a = t(x)[bimap](identity, identity);
-    const b = t(x);
-    return eq(a, b);
+  const a = t(x)[bimap](identity, identity);
+  const b = t(x);
+  return eq(a, b);
 };
 
 const composition = t => eq => x => {
-    const a = t(x)[bimap](compose(identity)(identity), compose(identity)(identity));
-    const b = t(x)[bimap](identity, identity)[bimap](identity, identity);
-    return eq(a, b);
+  const a = t(x)[bimap](compose(identity)(identity), compose(identity)(identity));
+  const b = t(x)[bimap](identity, identity)[bimap](identity, identity);
+  return eq(a, b);
 };
 
-modules.exports = { identity: identityʹ
-                  , composition 
-                  };
+module.exports = {identity: identityʹ, composition};

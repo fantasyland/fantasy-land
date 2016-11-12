@@ -1,7 +1,7 @@
 {
   "name": "fantasy-land",
   "author": "Brian McKenna",
-  "version": "0.3.0",
+  "version": "2.1.0",
   "description": "Specification for interoperability of common algebraic structures in JavaScript",
   "license": "MIT",
   "homepage": "https://github.com/fantasyland/fantasy-land",
@@ -23,19 +23,27 @@
     "fantasy-combinators": "0.0.x"
   },
   "devDependencies": {
-    "nodeunit": "0.9.x"
+    "eslint": "3.8.x",
+    "nodeunit": "0.9.x",
+    "sanctuary-style": "0.2.x",
+    "xyz": "1.0.x"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/fantasyland/fantasy-land.git"
   },
   "files": [
-    "id.js",
     "index.js",
+    "internal/*.js",
     "laws/*.js"
   ],
   "main": "index.js",
   "scripts": {
-    "test": "node --harmony_destructuring node_modules/.bin/nodeunit id_test.js"
+    "lint": "eslint --config node_modules/sanctuary-style/eslint-es6.json --env es6 --env node --rule 'max-len: [off]' -- *.js laws/*.js internal/*.js",
+    "unit": "nodeunit test.js",
+    "test": "npm run-script lint && npm run-script unit",
+    "release-major": "xyz --repo git@github.com:fantasyland/fantasy-land.git --increment major",
+    "release-minor": "xyz --repo git@github.com:fantasyland/fantasy-land.git --increment minor",
+    "release-patch": "xyz --repo git@github.com:fantasyland/fantasy-land.git --increment patch"
   }
 }
