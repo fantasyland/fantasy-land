@@ -369,7 +369,7 @@ Compose.prototype.map = function(f) {
 #### `traverse` method
 
 ```hs
-traverse :: Apply f, Traversable t => t a ~> (a -> f b, c -> f c) -> f (t b)
+traverse :: Applicative f, Traversable t => t a ~> (a -> f b, c -> f c) -> f (t b)
 ```
 
 A value which has a Traversable must provide a `traverse` method. The `traverse`
