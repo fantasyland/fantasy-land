@@ -4,7 +4,7 @@
 
 (aka "Algebraic JavaScript Specification")
 
-<img src="logo.png" width="200" height="200" />
+<img src="logo.png" width="200" height="271" />
 
 This project specifies interoperability of common algebraic
 structures:
