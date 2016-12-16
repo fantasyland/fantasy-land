@@ -28,7 +28,7 @@ structures:
 * [Bifunctor](#bifunctor)
 * [Profunctor](#profunctor)
 
-<img src="figures/dependencies.png" width="888" height="340" />
+<img src="figures/dependencies.png" width="888" height="347" />
 
 ## General
 
@@ -457,6 +457,8 @@ the [Applicative](#applicative) and [Chain](#chain) specifications.
 
 ### Extend
 
+A value that implements the Extend specification must also implement the [Functor](#functor) specification.
+
 1. `w.extend(g).extend(f)` is equivalent to `w.extend(_w => f(_w.extend(g)))`
 
 #### `extend` method
@@ -481,11 +483,10 @@ method takes one argument:
 
 ### Comonad
 
-A value that implements the Comonad specification must also implement the [Functor](#functor) and [Extend](#extend) specifications.
+A value that implements the Comonad specification must also implement the [Extend](#extend) specification.
 
 1. `w.extend(_w => _w.extract())` is equivalent to `w`
 2. `w.extend(f).extract()` is equivalent to `f(w)`
-3. `w.extend(f)` is equivalent to `w.extend(x => x).map(f)`
 
 #### `extract` method
 

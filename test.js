@@ -67,7 +67,6 @@ exports.chainRec = {
 exports.comonad = {
   leftIdentity: test(comonad.leftIdentity(Id[fl.of])(equality)),
   rightIdentity: test(comonad.rightIdentity(Id[fl.of])(equality)),
-  associativity: test(comonad.associativity(Id[fl.of])(equality)),
 };
 
 exports.extend = {
