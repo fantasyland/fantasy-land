@@ -13,7 +13,7 @@ digraph {
   Extend;
   Foldable;
   Functor;
-  "Contravariant Functor";
+  Contravariant;
   Monad;
   Monoid;
   Plus;
