@@ -191,7 +191,7 @@ method takes one argument:
 A value that implements the Apply specification must also
 implement the [Functor](#functor) specification.
 
-1. `v.ap(u.ap(a.map(f => g => x => f(g(x)))))` is equivalent to `v.ap(u).ap(a)` (composition)
+1. `x.ap(xy.ap(yz.map(f => g => t => f(g(t)))))` is equivalent to `x.ap(xy).ap(yz)` (composition)
 
 #### `ap` method
 
@@ -202,17 +202,17 @@ ap :: Apply f => f a ~> f (a -> b) -> f b
 A value which has an Apply must provide an `ap` method. The `ap`
 method takes one argument:
 
-    a.ap(b)
+    x.ap(xy)
 
-1. `b` must be an Apply of a function,
+1. `xy` must be an Apply of a function of type a -> b,
 
-    1. If `b` does not represent a function, the behaviour of `ap` is
+    1. If `xy` does not represent a function of type a -> b, the behaviour of `ap` is
        unspecified.
 
-2. `a` must be an Apply of any value
+2. `x` must be an Apply of any value of type a
 
-3. `ap` must apply the function in Apply `b` to the value in
-   Apply `a`
+3. `ap` must apply the function in Apply `xy` to the value in
+   Apply `x`
 
    1. No parts of return value of that function should be checked.
 
@@ -221,9 +221,9 @@ method takes one argument:
 A value that implements the Applicative specification must also
 implement the [Apply](#apply) specification.
 
-1. `v.ap(A.of(x => x))` is equivalent to `v` (identity)
-2. `A.of(x).ap(A.of(f))` is equivalent to `A.of(f(x))` (homomorphism)
-3. `A.of(y).ap(u)` is equivalent to `u.ap(A.of(f => f(y)))` (interchange)
+1. `x.ap(A.of(t => t))` is equivalent to `x` (identity)
+2. `A.of(t).ap(A.of(f))` is equivalent to `A.of(f(t))` (homomorphism)
+3. `A.of(t).ap(xy)` is equivalent to `xy.ap(A.of(f => f(t)))` (interchange)
 
 #### `of` method
 
@@ -235,16 +235,16 @@ A value which has an Applicative must provide an `of` function on its
 [type representative](#type-representatives). The `of` function takes
 one argument:
 
-    F.of(a)
+    F.of(t)
 
 Given a value `f`, one can access its type representative via the
 `constructor` property:
 
-    f.constructor.of(a)
+    f.constructor.of(t)
 
 1. `of` must provide a value of the same Applicative
 
-    1. No parts of `a` should be checked
+    1. No parts of `t` should be checked
 
 ### Alt
 
