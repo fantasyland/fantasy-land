@@ -115,7 +115,7 @@ A value which has a Setoid must provide an `equals` method. The
 
 ### Semigroup
 
-1. `a.concat(b).concat(c)` is equivalent to `a.concat(b.concat(c))` (associativity)
+1. `x.concat(y).concat(z)` is equivalent to `x.concat(y.concat(z))` (associativity)
 
 #### `concat` method
 
@@ -126,11 +126,11 @@ concat :: Semigroup a => a ~> a -> a
 A value which has a Semigroup must provide a `concat` method. The
 `concat` method takes one argument:
 
-    s.concat(b)
+    x.concat(y)
 
-1. `b` must be a value of the same Semigroup
+1. `x` and `y` must be values of the same Semigroup a
 
-    1. If `b` is not the same semigroup, behaviour of `concat` is
+    1. If `x` and `y` are not in the same semigroup, behaviour of `concat` is
        unspecified.
 
 2. `concat` must return a value of the same Semigroup.
