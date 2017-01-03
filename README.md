@@ -106,7 +106,7 @@ A value which has a Setoid must provide an `equals` method. The
 
     x.equals(y)
 
-1. `x` and `y` must be a value of the same Setoid a
+1. `x` and `y` must be values of the same Setoid a
 
     1. If `x` and `y` are not in the same Setoid a, behaviour of `equals` is
        unspecified (returning `false` is recommended).
