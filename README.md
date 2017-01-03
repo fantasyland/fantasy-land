@@ -91,9 +91,9 @@ a `constructor` property which is a reference to the type representative.
 
 ### Setoid
 
-1. `a.equals(a) === true` (reflexivity)
-2. `a.equals(b) === b.equals(a)` (symmetry)
-3. If `a.equals(b)` and `b.equals(c)`, then `a.equals(c)` (transitivity)
+1. `x.equals(y) === true` (reflexivity)
+2. `x.equals(y) === y.equals(x)` (symmetry)
+3. If `x.equals(y)` and `y.equals(z)`, then `x.equals(z)` (transitivity)
 
 #### `equals` method
 
@@ -104,11 +104,11 @@ equals :: Setoid a => a ~> a -> Boolean
 A value which has a Setoid must provide an `equals` method. The
 `equals` method takes one argument:
 
-    a.equals(b)
+    x.equals(y)
 
-1. `b` must be a value of the same Setoid
+1. `x` and `y` must be a value of the same Setoid a
 
-    1. If `b` is not the same Setoid, behaviour of `equals` is
+    1. If `x` and `y` are not in the same Setoid a, behaviour of `equals` is
        unspecified (returning `false` is recommended).
 
 2. `equals` must return a boolean (`true` or `false`).
