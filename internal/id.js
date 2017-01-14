@@ -39,8 +39,8 @@ Id.prototype[fl.ap] = function(b) {
 };
 
 // Traversable
-Id.prototype[fl.traverse] = function(f, of) {
-  // the of argument is only provided for types where map might fail.
+Id.prototype[fl.traverse] = function(typeRep, f) {
+  // the typeRep argument is only provided for types where map might fail.
   return f(this.value)[fl.map](Id[fl.of]);
 };
 
