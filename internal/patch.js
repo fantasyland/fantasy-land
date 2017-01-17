@@ -7,19 +7,23 @@ module.exports = () => {
   Array.prototype[fl.equals] = function(y) {
     return this.length === y.length && this.join('') === y.join('');
   };
-  Array.prototype[fl.map] = Array.prototype.map;
+  Array.prototype[fl.map] = function(f) {
+    return this.map(x => f(x));
+  };
   Array.prototype[fl.ap] = function(fs) {
     return fs[fl.chain](f => this.map(f));
   };
   Array.prototype[fl.chain] = function(f) {
     return [].concat(this.map(f));
   };
-  Array.prototype[fl.reduce] = Array.prototype.reduce;
+  Array.prototype[fl.reduce] = function(f, x) {
+    return this.reduce((x, y) => f(x, y), x);
+  };
   Array.prototype[fl.concat] = Array.prototype.concat;
-  Array.prototype[fl.traverse] = function(f, p) {
-    return this.map(f)[fl.reduce](
+  Array.prototype[fl.traverse] = function(typeRep, f) {
+    return this[fl.map](f)[fl.reduce](
       (ys, x) => ys[fl.ap](x[fl.map](y => z => z[fl.concat](y))),
-      p([])
+      typeRep[fl.of]([])
     );
   };
   Array.prototype[fl.alt] = function(b) {

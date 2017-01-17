@@ -109,7 +109,7 @@ exports.setoid = {
 };
 
 exports.traversable = {
-  naturality: test(x => traversable.naturality(Id[fl.of])(equality)(Id[fl.of](x))),
-  identity: test(traversable.identity(Id[fl.of])(equality)),
-  composition: test(x => traversable.composition(Id[fl.of])(equality)(Id[fl.of](Sum[fl.of](x)))),
+  naturality: test(x => traversable.naturality(Id)(Id[fl.of])(equality)(Id[fl.of](x))),
+  identity: test(traversable.identity(Id)(equality)),
+  composition: test(x => traversable.composition(Id)(Id[fl.of])(equality)(Id[fl.of](Sum[fl.of](x)))),
 };

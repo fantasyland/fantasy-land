@@ -340,13 +340,15 @@ method takes two arguments:
 A value that implements the Traversable specification must also
 implement the [Functor](#functor) and [Foldable](#foldable) specifications.
 
-1. `t(u.traverse(x => x, F.of))` is equivalent to `u.traverse(t, G.of)`
-for any `t` such that `t(a).map(f)` is equivalent to `t(a.map(f))` (naturality)
+1. `t(u.traverse(F, x => x))` is equivalent to `u.traverse(G, t)` for any
+   `t` such that `t(a).map(f)` is equivalent to `t(a.map(f))` (naturality)
 
-2. `u.traverse(F.of, F.of)` is equivalent to `F.of(u)` for any Applicative `F` (identity)
+2. `u.traverse(F, F.of)` is equivalent to `F.of(u)` for any Applicative `F`
+   (identity)
 
-3. `u.traverse(x => new Compose(x), Compose.of)` is equivalent to
-   `new Compose(u.traverse(x => x, F.of).map(x => x.traverse(x => x, G.of)))` for `Compose` defined below and any Applicatives `F` and `G` (composition)
+3. `u.traverse(Compose, x => new Compose(x))` is equivalent to
+   `new Compose(u.traverse(F, x => x).map(x => x.traverse(G, x => x)))` for
+   `Compose` defined below and any Applicatives `F` and `G` (composition)
 
 ```js
 var Compose = function(c) {
@@ -369,22 +371,24 @@ Compose.prototype.map = function(f) {
 #### `traverse` method
 
 ```hs
-traverse :: Applicative f, Traversable t => t a ~> (a -> f b, c -> f c) -> f (t b)
+traverse :: Applicative f, Traversable t => t a ~> (TypeRep f, a -> f b) -> f (t b)
 ```
 
 A value which has a Traversable must provide a `traverse` method. The `traverse`
 method takes two arguments:
 
-    u.traverse(f, of)
+    u.traverse(A, f)
 
-1. `f` must be a function which returns a value
+1. `A` must be the [type representative](#type-representatives) of an
+   Applicative.
+
+2. `f` must be a function which returns a value
 
     1. If `f` is not a function, the behaviour of `traverse` is
        unspecified.
-    2. `f` must return a value of an Applicative
+    2. `f` must return a value of the type represented by `A`.
 
-2. `of` must be the `of` method of the Applicative that `f` returns
-3. `traverse` must return a value of the same Applicative that `f` returns
+3. `traverse` must return a value of the type represented by `A`.
 
 ### Chain
 
