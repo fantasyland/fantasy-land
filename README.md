@@ -4,7 +4,7 @@
 
 (aka "Algebraic JavaScript Specification")
 
-<img src="logo.png" width="200" height="271" />
+<img src="logo.png" width="200" height="200" />
 
 This project specifies interoperability of common algebraic
 structures:
@@ -29,7 +29,7 @@ structures:
 * [Bifunctor](#bifunctor)
 * [Profunctor](#profunctor)
 
-<img src="figures/dependencies.png" width="888" height="340" />
+<img src="figures/dependencies.png" width="1068" height="347" />
 
 ## General
 
