@@ -209,8 +209,9 @@ A value which has a Contravariant must provide a `contramap` method. The
     1. If `f` is not a function, the behaviour of `contramap` is
        unspecified.
     2. `f` can return any value.
+    3. No parts of `f`'s return value should be checked.
 
-2. `contramap` must return a value of the same Functor
+2. `contramap` must return a value of the same Contravariant
 
 ### Apply
 
