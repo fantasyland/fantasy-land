@@ -10,6 +10,7 @@
     concat: 'fantasy-land/concat',
     empty: 'fantasy-land/empty',
     map: 'fantasy-land/map',
+    contramap: 'fantasy-land/contramap',
     ap: 'fantasy-land/ap',
     of: 'fantasy-land/of',
     alt: 'fantasy-land/alt',

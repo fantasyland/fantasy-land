@@ -13,6 +13,7 @@ structures:
 * [Semigroup](#semigroup)
 * [Monoid](#monoid)
 * [Functor](#functor)
+* [Contravariant](#contravariant)
 * [Apply](#apply)
 * [Applicative](#applicative)
 * [Alt](#alt)
@@ -28,7 +29,7 @@ structures:
 * [Bifunctor](#bifunctor)
 * [Profunctor](#profunctor)
 
-<img src="figures/dependencies.png" width="888" height="347" />
+<img src="figures/dependencies.png" width="888" height="289" />
 
 ## General
 
@@ -185,6 +186,32 @@ method takes one argument:
     3. No parts of `f`'s return value should be checked.
 
 2. `map` must return a value of the same Functor
+
+### Contravariant
+
+1. `u.contramap(a => a)` is equivalent to `u` (identity)
+2. `u.contramap(x => f(g(x)))` is equivalent to `u.contramap(f).contramap(g)`
+(composition)
+
+#### `contramap` method
+
+```hs
+contramap :: Contravariant f => f a ~> (b -> a) -> f b
+```
+
+A value which has a Contravariant must provide a `contramap` method. The
+`contramap` method takes one argument:
+
+    u.contramap(f)
+
+1. `f` must be a function,
+
+    1. If `f` is not a function, the behaviour of `contramap` is
+       unspecified.
+    2. `f` can return any value.
+    3. No parts of `f`'s return value should be checked.
+
+2. `contramap` must return a value of the same Contravariant
 
 ### Apply
 
