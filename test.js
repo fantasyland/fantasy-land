@@ -67,7 +67,6 @@ exports.chainRec = {
 exports.comonad = {
   leftIdentity: test(comonad.leftIdentity(Id[fl.of])(equality)),
   rightIdentity: test(comonad.rightIdentity(Id[fl.of])(equality)),
-  associativity: test(comonad.associativity(Id[fl.of])(equality)),
 };
 
 exports.extend = {
@@ -110,7 +109,7 @@ exports.setoid = {
 };
 
 exports.traversable = {
-  naturality: test(x => traversable.naturality(Id[fl.of])(equality)(Id[fl.of](x))),
-  identity: test(traversable.identity(Id[fl.of])(equality)),
-  composition: test(x => traversable.composition(Id[fl.of])(equality)(Id[fl.of](Sum[fl.of](x)))),
+  naturality: test(x => traversable.naturality(Id)(Id[fl.of])(equality)(Id[fl.of](x))),
+  identity: test(traversable.identity(Id)(equality)),
+  composition: test(x => traversable.composition(Id)(Id[fl.of])(equality)(Id[fl.of](Sum[fl.of](x)))),
 };
