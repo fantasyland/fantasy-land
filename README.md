@@ -338,27 +338,108 @@ the [Applicative](#applicative) and [Plus](#plus) specifications.
 
 ### Foldable
 
-1. `u.reduce` is equivalent to `u.reduce((acc, x) => acc.concat([x]), []).reduce`
+1. `u` is equivalent to `u.foldl((acc, x) => acc.concat([x]), [])`
+2. `u.foldr(f, acc)` is equivalent to `u.foldl((a, b) => (c) => a(f(c,
+   b)), id)(acc)`
+3. `u.shortFoldl((acc, x) => {done: false, value: f(acc, x)},
+   initial)` is equivalent to `u.foldl(f, initial)`
+4. `u.shortFoldr((acc, x) => {done: false, value: f(x, acc)},
+   initial)` is equivalent to `u.foldr(f, initial)`
 
-#### `reduce` method
+#### `foldl` method
 
 ```hs
-reduce :: Foldable f => f a ~> ((b, a) -> b, b) -> b
+foldl :: Foldable f => f a ~> (b, a) -> b ~> b -> b
 ```
 
-A value which has a Foldable must provide a `reduce` method. The `reduce`
+A value which has a Foldable must provide a `foldl` method. The `foldl`
 method takes two arguments:
 
-    u.reduce(f, x)
+    u.foldl(f, x)
 
 1. `f` must be a binary function
 
-    1. if `f` is not a function, the behaviour of `reduce` is unspecified.
-    2. The first argument to `f` must be the same type as `x`.
+    1. if `f` is not a function, the behaviour of `foldl` is unspecified.
+    2. The _first_ argument to `f` must be the same type as `x`.
     3. `f` must return a value of the same type as `x`.
     4. No parts of `f`'s return value should be checked.
 
-1. `x` is the initial accumulator value for the reduction
+2. `x` is the initial accumulator value for the fold
+
+    1. No parts of `x` should be checked.
+
+#### `foldr`
+
+```hs
+foldr :: Foldable f => f a ~> (a, b) -> b ~> b -> b
+```
+
+A value which has a Foldable must provide a `foldr` method. The `foldr`
+method takes two arguments:
+
+    u.foldr(f, x)
+
+1. `f` must be a binary function
+
+    1. if `f` is not a function, the behaviour of `foldr` is unspecified.
+    2. The _second_ argument to `f` must be the same type as `x`.
+    3. `f` must return a value of the same type as `x`.
+    4. No parts of `f`'s return value should be checked.
+
+2. `x` is the initial accumulator value for the fold
+
+    1. No parts of `x` should be checked.
+
+#### `shortFoldl`
+
+```hs
+shortFoldl :: Foldable f => f a ~> ((b, a) -> {done :: Boolean, value :: b}) ~> b -> b
+```
+
+A value which has a Foldable must provide a `shortFoldl` method. The `shortFoldl`
+method takes two arguments:
+
+    u.shortFoldl(f, x)
+
+1. `f` must be a binary function
+
+    1. if `f` is not a function, the behaviour of `foldl` is unspecified.
+    2. The _first_ argument to `f` must be the same type as `x`.
+    3. `f` must return an object with two properties, `done` and
+       `value`. `done` must be a boolean and `value` must be of the
+       same type as `x`.
+    4. No parts of the `value` property returned by `f` should be
+       checked.
+    5. If `f` returns an object `o` where `o.done === true` then
+       `o.value` _must_ be the value returned by `shortFoldl`.
+
+1. `x` is the initial accumulator value for the fold
+
+    1. No parts of `x` should be checked.
+
+#### `shortFoldr`
+
+```hs
+shortFoldr :: Foldable f => f a ~> ((a, b) -> {done :: Boolean, value :: b}) ~> b -> b
+```
+
+A value which has a Foldable must provide a `shortFoldr` method. The `shortFoldr`
+method takes two arguments:
+
+    u.shortFoldr(f, x)
+
+1. `f` must be a binary function
+
+    1. if `f` is not a function, the behaviour of `foldl` is unspecified.
+    2. The _second_ argument to `f` must be the same type as `x`.
+    3. `f` must return an object with two properties, `done` and
+       `value`. `done` must be a boolean and `value` must be of the
+       same type as `x`.
+    4. No parts of the `value` property returned by `f` should be checked.
+    5. If `f` returns an object `o` where `o.done === true` then
+       `o.value` _must_ be the value returned by `shortFoldr`.
+
+1. `x` is the initial accumulator value for the fold
 
     1. No parts of `x` should be checked.
 
@@ -635,7 +716,7 @@ to implement certain methods then derive the remaining methods. Derivations:
     function(m) { return m.chain(f => this.map(f)); }
     ```
 
-  - [`reduce`][] may be derived as follows:
+  - [`foldl`][] may be derived as follows:
 
     ```js
     function(f, acc) {
@@ -701,7 +782,7 @@ be equivalent to that of the derivation (or derivations).
 [`map`]: #map-method
 [`of`]: #of-method
 [`promap`]: #promap-method
-[`reduce`]: #reduce-method
+[`foldl`]: #foldl-method
 [`sequence`]: #sequence-method
 
 ## Alternatives
