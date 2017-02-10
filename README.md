@@ -883,4 +883,4 @@ be equivalent to that of the derivation (or derivations).
 ## Alternatives
 
 There also exists [Static Land Specification](https://github.com/rpominov/static-land)
-with the exactly same ideas as Fantasy Land but based on static methods instead of instance methods.
+with exactly the same ideas as Fantasy Land but based on static methods instead of instance methods.
