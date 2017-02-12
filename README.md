@@ -528,7 +528,7 @@ extract :: Comonad w => w a ~> () -> a
 A value which has a Comonad must provide an `extract` method on itself.
 The `extract` method takes no arguments:
 
-    c.extract()
+    w.extract()
 
 1. `extract` must return a value of type `v`, for some variable `v` contained in `w`.
     1. `v` must have the same type that `f` returns in `extend`.
