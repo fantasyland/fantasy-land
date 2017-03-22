@@ -308,7 +308,7 @@ the [Alt](#alt) specification.
 
 1. `x.alt(A.zero())` is equivalent to `x` (right identity)
 2. `A.zero().alt(x)` is equivalent to `x` (left identity)
-2. `A.zero().map(f)` is equivalent to `A.zero()` (annihilation)
+3. `A.zero().map(f)` is equivalent to `A.zero()` (annihilation)
 
 #### `zero` method
 
@@ -334,7 +334,7 @@ A value that implements the Alternative specification must also implement
 the [Applicative](#applicative) and [Plus](#plus) specifications.
 
 1. `x.ap(f.alt(g))` is equivalent to `x.ap(f).alt(x.ap(g))` (distributivity)
-1. `x.ap(A.zero())` is equivalent to `A.zero()` (annihilation)
+2. `x.ap(A.zero())` is equivalent to `A.zero()` (annihilation)
 
 ### Foldable
 
@@ -516,8 +516,8 @@ method takes one argument:
 
 A value that implements the Comonad specification must also implement the [Extend](#extend) specification.
 
-1. `w.extend(_w => _w.extract())` is equivalent to `w`
-2. `w.extend(f).extract()` is equivalent to `f(w)`
+1. `w.extend(_w => _w.extract())` is equivalent to `w` (left identity)
+2. `w.extend(f).extract()` is equivalent to `f(w)` (right identity)
 
 #### `extract` method
 
