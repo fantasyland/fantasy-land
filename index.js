@@ -7,6 +7,7 @@
 
   var mapping = {
     equals: 'fantasy-land/equals',
+    lte: 'fantasy-land/lte',
     concat: 'fantasy-land/concat',
     empty: 'fantasy-land/empty',
     map: 'fantasy-land/map',

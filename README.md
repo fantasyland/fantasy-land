@@ -29,7 +29,7 @@ structures:
 * [Bifunctor](#bifunctor)
 * [Profunctor](#profunctor)
 
-<img src="figures/dependencies.png" width="888" height="289" />
+<img src="figures/dependencies.png" width="888" height="294" />
 
 ## General
 
@@ -113,6 +113,33 @@ A value which has a Setoid must provide an `equals` method. The
        unspecified (returning `false` is recommended).
 
 2. `equals` must return a boolean (`true` or `false`).
+
+### Ord
+
+A value that implements the Ord specification must also implement
+the [Setoid](#setoid) specification.
+
+1. `a.lte(b)` or `b.lte(a)` (totality)
+2. If `a.lte(b)` and `b.lte(a)`, then `a.equals(b)` (antisymmetry)
+3. If `a.lte(b)` and `b.lte(c)`, then `a.lte(c)` (transitivity)
+
+#### `lte` method
+
+```hs
+lte :: Ord a => a ~> a -> Boolean
+```
+
+A value which has an Ord must provide a `lte` method. The
+`lte` method takes one argument:
+
+     a.lte(b)
+
+1. `b` must be a value of the same Ord
+
+    1. If `b` is not the same Ord, behaviour of `lte` is
+       unspecified (returning `false` is recommended).
+
+2. `lte` must return a boolean (`true` or `false`).
 
 ### Semigroup
 
@@ -605,6 +632,12 @@ The `profunctor` method takes two arguments:
 When creating data types which satisfy multiple algebras, authors may choose
 to implement certain methods then derive the remaining methods. Derivations:
 
+  - [`equals`][] may be derived from [`lte`][]:
+
+    ```js
+    function(other) { return this.lte(other) && other.lte(this); }
+    ```
+
   - [`map`][] may be derived from [`ap`][] and [`of`][]:
 
     ```js
@@ -698,6 +731,7 @@ be equivalent to that of the derivation (or derivations).
 [`equals`]: #equals-method
 [`extend`]: #extend-method
 [`extract`]: #extract-method
+[`lte`]: #lte-method
 [`map`]: #map-method
 [`of`]: #of-method
 [`promap`]: #promap-method

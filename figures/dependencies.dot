@@ -16,6 +16,7 @@ digraph {
   Contravariant;
   Monad;
   Monoid;
+  Ord;
   Plus;
   Profunctor;
   Semigroup;
@@ -40,4 +41,5 @@ digraph {
   Functor -> Traversable;
   Plus -> Alternative;
   Semigroup -> Monoid;
+  Setoid -> Ord;
 }

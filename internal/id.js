@@ -1,7 +1,7 @@
 'use strict';
 
 const fl = require('../');
-const {equality} = require('./func');
+const {equality, lte} = require('./func');
 
 const {tagged} = require('daggy');
 
@@ -10,6 +10,11 @@ const Id = module.exports = tagged('value');
 // Setoid
 Id.prototype[fl.equals] = function(b) {
   return equality(this.value, b.value);
+};
+
+// Ord
+Id.prototype[fl.lte] = function(b) {
+  return lte(this.value, b.value);
 };
 
 // Semigroup (value must also be a Semigroup)
