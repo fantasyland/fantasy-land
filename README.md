@@ -10,6 +10,7 @@ This project specifies interoperability of common algebraic
 structures:
 
 * [Setoid](#setoid)
+* [Ord](#ord)
 * [Semigroup](#semigroup)
 * [Monoid](#monoid)
 * [Functor](#functor)
