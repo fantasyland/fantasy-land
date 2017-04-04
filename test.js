@@ -16,6 +16,7 @@ const foldable = require('./laws/foldable');
 const functor = require('./laws/functor');
 const monad = require('./laws/monad');
 const monoid = require('./laws/monoid');
+const ord = require('./laws/ord');
 const plus = require('./laws/plus');
 const semigroup = require('./laws/semigroup');
 const setoid = require('./laws/setoid');
@@ -96,6 +97,12 @@ exports.plus = {
 exports.monoid = {
   leftIdentity: test(monoid.leftIdentity(Sum)(equality)),
   rightIdentity: test(monoid.rightIdentity(Sum)(equality)),
+};
+
+exports.ord = {
+  totality: test(() => ord.totality(equality)(Id[fl.of](1))(Id[fl.of](2))),
+  antisymmetry: test(() => ord.antisymmetry(equality)(Id[fl.of](1))(Id[fl.of](1))),
+  transitivity: test(() => ord.transitivity(equality)(Id[fl.of](1))(Id[fl.of](2))(Id[fl.of](3))),
 };
 
 exports.semigroup = {
