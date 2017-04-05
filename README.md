@@ -94,8 +94,8 @@ a `constructor` property which is a reference to the type representative.
 
 ### Enum
 
-1. `E.toEnum(E.fromEnum(E.a))` must be identical to `E.a`
-2. `E.fromEnum(E.toEnum(n))` must equal `n`
+1. `E.fromEnum(E.a)` is a natural number (countability)
+2. `E.toEnum(E.fromEnum(E.a)) === E.a` (bijection)
 
 #### `fromEnum` and `toEnum` functions
 
