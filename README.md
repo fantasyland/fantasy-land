@@ -9,6 +9,7 @@
 This project specifies interoperability of common algebraic
 structures:
 
+* [Enum](#enum)
 * [Setoid](#setoid)
 * [Ord](#ord)
 * [Semigroup](#semigroup)
@@ -90,6 +91,37 @@ If a type provides a type representative, each member of the type must have
 a `constructor` property which is a reference to the type representative.
 
 ## Algebras
+
+### Enum
+
+1. `E.toEnum(E.fromEnum(E.a))` must be identical to `E.a`
+2. `E.fromEnum(E.toEnum(n))` must equal `n`
+
+#### `fromEnum` and `toEnum` functions
+
+```hs
+fromEnum :: Enum a => a -> Natural
+toEnum :: Enum a => Natural -> a
+```
+A value which has an Enum must provide both a `fromEnum` function and
+a `toEnum` function on its [type representative](#type-representatives).
+The `fromEnum` and `toEnum` functions both take one argument:
+
+    E.fromEnum(a)
+    E.toEnum(n)
+
+Given a value `a`, one can access its type representative via the
+`constructor` property:
+
+    a.constructor.fromEnum(b)
+    a.constructor.toEnum(n)
+
+1. `b` must be of the same Enum
+
+    1. If `b` is not the same Enum, an exception must be thrown.
+
+2. `n` must be a positive, finite whole Number or 0
+   (`n % 1 === 0` and `n <= Number.MAX_SAFE_INTEGER`)
 
 ### Setoid
 
