@@ -65,11 +65,11 @@ module.exports = () => {
 
   Boolean.prototype[fl.equals] = function(that) {
     return this === that;
-  }
+  };
 
   Boolean.prototype[fl.lte] = function(that) {
     return this ? that : true;
-  }
+  };
 
   // Function
 
@@ -91,7 +91,7 @@ module.exports = () => {
   Function[fl.of] = x => _ => x;
 
   Function.prototype[fl.alt] = function(that) {
-    return x => this(x)[fl.alt](that(x))
+    return x => this(x)[fl.alt](that(x));
   };
 
   /* Can't write fl.zero as we don't know the alt :( */
@@ -117,7 +117,7 @@ module.exports = () => {
   // Object
 
   Object.prototype[fl.equals] = function(that) {
-    const keys = Object.keys(this)
+    const keys = Object.keys(this);
 
     return keys[fl.equals](Object.keys(that))
       && keys.every(k => this[k][fl.equals](that[k]));
