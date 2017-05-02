@@ -51,6 +51,73 @@ have dependencies on other algebras which must be implemented.
     - Two promises are equivalent when they yield equivalent values.
     - Two functions are equivalent if they yield equivalent outputs for equivalent inputs.
 
+## Type signature notation
+
+The type signature notation used in this document is described below:<sup
+id="sanctuary-types-return">[1](#sanctuary-types)</sup>
+
+* `::` _"is a member of"._
+    - `e :: t` can be read as: "the expression `e` is a member of type `t`".
+    - `true :: Boolean` - "`true` is a member of type `Boolean`".
+    - `42 :: Integer, Number` - "`42` is a member of type `Integer and
+      Number`".
+* _New types can be created via type constructors._
+    - Type constructors can take zero or more type arguments.
+    - `Array` is a type constructor which takes one type argument.
+    - `Array String` is the type of all arrays of strings. Each of the
+      following has type `Array String`: `[]`, `['foo', 'bar', 'baz']`.
+    - `Array (Array String)` is the type of all arrays of arrays of strings.
+      Each of the following has type `Array (Array String)`: `[]`, `[ [], []
+      ]`, `[ [], ['foo'], ['bar', 'baz'] ]`.
+* _Lowercase letters stand for type variables._
+    - Type variables can take any type unless they have been restricted by
+      means of type constraints (see fat arrow below).
+* `->` (arrow) _Function type constructor._
+    - `->` is an _infix_ type construcor that takes two type arguments and
+      gives the type of functions between these two type arguments.
+    - `->`'s input type can be a grouping of types to create the type of a
+      function which accepts more than one argument (i.e. has arity greater
+      than one). When used in this way, the syntax is: `(<input-types>) ->
+      <output-type>`, where <input-types> comprises two or more comma–space
+      (`, `)-separated type representations.
+    - `String -> Array String` is a type satisfied by functions which take a
+      `String` and return an `Array String`.
+    - `String -> Array String -> Array String` is a type satisfied by functions
+      which take a `String` and return a function which takes an `Array String`
+      and returns an `Array String`.
+    - `(String, Array String) -> Array String` is a type satisfied by functions
+      which take a `String` and an `Array String` as arguments and return an
+      `Array String`.
+* `~>` (squiggly arrow) _Method type constructor._
+    - When a function is a property of an Object, it is called a method. All
+      methods have an implicit parameter type - the type of which they are a
+      property.
+    - `a ~> a -> a` is a type satisfied by methods on Objects of type `a` which
+      take a type `a` as an argument and return a value of type `a`.
+* `=>` (fat arrow) _Expresses constraints on type variables._
+    - In `a ~> a -> a` (see squiggly arrow above), `a` can be of any type.
+      `Semigroup a => a ~> a -> a` adds a constraint such that the type `a`
+      must now satisfy the `Semigroup` typeclass. To satisfy a typeclass means
+      to implement any function/method defined by that typeclass. In
+      addition, any implementation of such function/method must also satisfy
+      any laws defined by a given typeclass for the function/method in
+      question.
+
+For example:
+
+```
+traverse :: Applicative f, Traversable t => t a ~> (TypeRep f, a -> f b) -> f (t b)
+'------'    '--------------------------'    '-'    '-------------------'    '-----'
+ '           '                               '      '                        '
+ '           ' - type constraints            '      ' - argument types       ' - return type
+ '                                           '
+ '- method name                              ' - method target type
+```
+
+- - -
+1. <a name="sanctuary-types"></a>See the [Types](https://sanctuary.js.org/#types)
+   section in Sanctuary's docs for more info. [↩](#sanctuary-types-return)
+
 ## Prefixed method names
 
 In order for a data type to be compatible with Fantasy Land, its values must
