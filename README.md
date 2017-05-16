@@ -11,6 +11,7 @@ structures:
 
 * [Setoid](#setoid)
 * [Ord](#ord)
+* [Semigroupoid](#semigroupoid)
 * [Semigroup](#semigroup)
 * [Monoid](#monoid)
 * [Functor](#functor)
@@ -141,6 +142,28 @@ A value which has an Ord must provide a `lte` method. The
        unspecified (returning `false` is recommended).
 
 2. `lte` must return a boolean (`true` or `false`).
+
+### Semigroupoid
+
+1. `a.compose(b.compose(c)) === a.compose(b).compose(c)` (associativity)
+
+#### `compose` method
+
+```hs
+compose :: Semigroupoid c => c i j ~> c j k -> c i k
+```
+
+A value which has a Semigroupoid must provide a `compose` method. The
+`compose` method takes one argument:
+
+    a.compose(b)
+
+1. `b` must be a value of the same Semigroupoid
+
+    1. If `b` is not the same semigroupoid, behaviour of `compose` is
+       unspecified.
+
+2. `compose` must return a value of the same Semigroupoid.
 
 ### Semigroup
 
