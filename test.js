@@ -20,6 +20,7 @@ const ord = require('./laws/ord');
 const plus = require('./laws/plus');
 const semigroup = require('./laws/semigroup');
 const semigroupoid = require('./laws/semigroupoid');
+const category = require('./laws/category');
 const setoid = require('./laws/setoid');
 const traversable = require('./laws/traversable');
 
@@ -50,6 +51,11 @@ exports.applicative = {
 
 exports.apply = {
   composition: test(apply.composition(Id)(equality)),
+};
+
+exports.category = {
+  leftIdentity: test(category.leftIdentity(x => x + 1)(equality)),
+  rightIdentity: test(category.rightIdentity(x => x + 1)(equality)),
 };
 
 exports.chain = {

@@ -37,4 +37,9 @@ module.exports = () => {
       return f(g(x));
     };
   };
+  Function[fl.id] = function() {
+    return function(x) {
+      return x;
+    };
+  };
 };
