@@ -162,9 +162,9 @@ a `constructor` property which is a reference to the type representative.
 
 ### Setoid
 
-1. `a.equals(a) === true` (reflexivity)
-2. `a.equals(b) === b.equals(a)` (symmetry)
-3. If `a.equals(b)` and `b.equals(c)`, then `a.equals(c)` (transitivity)
+1. `x.equals(y) === true` (reflexivity)
+2. `x.equals(y) === y.equals(x)` (symmetry)
+3. If `x.equals(y)` and `y.equals(z)`, then `x.equals(z)` (transitivity)
 
 #### `equals` method
 
@@ -175,11 +175,11 @@ equals :: Setoid a => a ~> a -> Boolean
 A value which has a Setoid must provide an `equals` method. The
 `equals` method takes one argument:
 
-    a.equals(b)
+    x.equals(y)
 
-1. `b` must be a value of the same Setoid
+1. `x` and `y` must be values of the same Setoid a
 
-    1. If `b` is not the same Setoid, behaviour of `equals` is
+    1. If `x` and `y` are not in the same Setoid a, behaviour of `equals` is
        unspecified (returning `false` is recommended).
 
 2. `equals` must return a boolean (`true` or `false`).
@@ -261,7 +261,7 @@ Given a value `c`, one can access its type representative via the
 
 ### Semigroup
 
-1. `a.concat(b).concat(c)` is equivalent to `a.concat(b.concat(c))` (associativity)
+1. `x.concat(y).concat(z)` is equivalent to `x.concat(y.concat(z))` (associativity)
 
 #### `concat` method
 
@@ -272,11 +272,11 @@ concat :: Semigroup a => a ~> a -> a
 A value which has a Semigroup must provide a `concat` method. The
 `concat` method takes one argument:
 
-    s.concat(b)
+    x.concat(y)
 
-1. `b` must be a value of the same Semigroup
+1. `x` and `y` must be values of the same Semigroup a
 
-    1. If `b` is not the same semigroup, behaviour of `concat` is
+    1. If `x` and `y` are not in the same semigroup, behaviour of `concat` is
        unspecified.
 
 2. `concat` must return a value of the same Semigroup.
@@ -363,7 +363,7 @@ A value which has a Contravariant must provide a `contramap` method. The
 A value that implements the Apply specification must also
 implement the [Functor](#functor) specification.
 
-1. `v.ap(u.ap(a.map(f => g => x => f(g(x)))))` is equivalent to `v.ap(u).ap(a)` (composition)
+1. `x.ap(xy.ap(yz.map(f => g => t => f(g(t)))))` is equivalent to `x.ap(xy).ap(yz)` (composition)
 
 #### `ap` method
 
@@ -374,17 +374,17 @@ ap :: Apply f => f a ~> f (a -> b) -> f b
 A value which has an Apply must provide an `ap` method. The `ap`
 method takes one argument:
 
-    a.ap(b)
+    x.ap(xy)
 
-1. `b` must be an Apply of a function,
+1. `xy` must be an Apply of a function of type a -> b,
 
-    1. If `b` does not represent a function, the behaviour of `ap` is
+    1. If `xy` does not represent a function of type a -> b, the behaviour of `ap` is
        unspecified.
 
-2. `a` must be an Apply of any value
+2. `x` must be an Apply of any value of type a
 
-3. `ap` must apply the function in Apply `b` to the value in
-   Apply `a`
+3. `ap` must apply the function in Apply `xy` to the value in
+   Apply `x`
 
    1. No parts of return value of that function should be checked.
 
@@ -393,9 +393,9 @@ method takes one argument:
 A value that implements the Applicative specification must also
 implement the [Apply](#apply) specification.
 
-1. `v.ap(A.of(x => x))` is equivalent to `v` (identity)
-2. `A.of(x).ap(A.of(f))` is equivalent to `A.of(f(x))` (homomorphism)
-3. `A.of(y).ap(u)` is equivalent to `u.ap(A.of(f => f(y)))` (interchange)
+1. `x.ap(A.of(t => t))` is equivalent to `x` (identity)
+2. `A.of(t).ap(A.of(f))` is equivalent to `A.of(f(t))` (homomorphism)
+3. `A.of(t).ap(xy)` is equivalent to `xy.ap(A.of(f => f(t)))` (interchange)
 
 #### `of` method
 
@@ -407,16 +407,16 @@ A value which has an Applicative must provide an `of` function on its
 [type representative](#type-representatives). The `of` function takes
 one argument:
 
-    F.of(a)
+    F.of(t)
 
 Given a value `f`, one can access its type representative via the
 `constructor` property:
 
-    f.constructor.of(a)
+    f.constructor.of(t)
 
 1. `of` must provide a value of the same Applicative
 
-    1. No parts of `a` should be checked
+    1. No parts of `t` should be checked
 
 ### Alt
 
