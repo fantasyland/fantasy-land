@@ -218,7 +218,7 @@ A value which has an Ord must provide a `lte` method. The
 #### `compose` method
 
 ```hs
-compose :: Semigroupoid c => c i j ~> c j k -> c i k
+compose :: Semigroupoid c => c j k ~> c i j -> c i k
 ```
 
 A value which has a Semigroupoid must provide a `compose` method. The
