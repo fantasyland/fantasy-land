@@ -11,6 +11,8 @@ structures:
 
 * [Setoid](#setoid)
 * [Ord](#ord)
+* [Semigroupoid](#semigroupoid)
+* [Category](#category)
 * [Semigroup](#semigroup)
 * [Monoid](#monoid)
 * [Functor](#functor)
@@ -30,7 +32,7 @@ structures:
 * [Bifunctor](#bifunctor)
 * [Profunctor](#profunctor)
 
-<img src="figures/dependencies.png" width="888" height="294" />
+<img src="figures/dependencies.png" width="888" height="257" />
 
 ## General
 
@@ -208,6 +210,54 @@ A value which has an Ord must provide a `lte` method. The
        unspecified (returning `false` is recommended).
 
 2. `lte` must return a boolean (`true` or `false`).
+
+### Semigroupoid
+
+1. `a.compose(b.compose(c)) === a.compose(b).compose(c)` (associativity)
+
+#### `compose` method
+
+```hs
+compose :: Semigroupoid c => c i j ~> c j k -> c i k
+```
+
+A value which has a Semigroupoid must provide a `compose` method. The
+`compose` method takes one argument:
+
+    a.compose(b)
+
+1. `b` must be a value of the same Semigroupoid
+
+    1. If `b` is not the same semigroupoid, behaviour of `compose` is
+       unspecified.
+
+2. `compose` must return a value of the same Semigroupoid.
+
+### Category
+
+A value that implements the Category specification must also implement
+the [Semigroupoid](#semigroupoid) specification.
+
+1. `a.compose(C.id())` is equivalent to `a` (right identity)
+2. `C.id().compose(a)` is equivalent to `a` (left identity)
+
+#### `id` method
+
+```hs
+id :: Category c => () -> c a a
+```
+
+A value which has a Category must provide an `id` function on its
+[type representative](#type-representatives):
+
+    C.id()
+
+Given a value `c`, one can access its type representative via the
+`constructor` property:
+
+    c.constructor.id()
+
+1. `id` must return a value of the same Category
 
 ### Semigroup
 

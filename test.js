@@ -19,6 +19,8 @@ const monoid = require('./laws/monoid');
 const ord = require('./laws/ord');
 const plus = require('./laws/plus');
 const semigroup = require('./laws/semigroup');
+const semigroupoid = require('./laws/semigroupoid');
+const category = require('./laws/category');
 const setoid = require('./laws/setoid');
 const traversable = require('./laws/traversable');
 
@@ -49,6 +51,11 @@ exports.applicative = {
 
 exports.apply = {
   composition: test(apply.composition(Id)(equality)),
+};
+
+exports.category = {
+  leftIdentity: test(category.leftIdentity(x => x + 1)(equality)),
+  rightIdentity: test(category.rightIdentity(x => x + 1)(equality)),
 };
 
 exports.chain = {
@@ -107,6 +114,10 @@ exports.ord = {
 
 exports.semigroup = {
   associativity: test(semigroup.associativity(Id[fl.of])(equality)),
+};
+
+exports.semigroupoid = {
+  associativity: semigroupoid.associativity(x => x + 1)(x => x * x)(x => x - 2)(equality)(5),
 };
 
 exports.setoid = {

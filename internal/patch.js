@@ -30,4 +30,16 @@ module.exports = () => {
     return this.concat(b);
   };
   Array[fl.zero] = () => [];
+
+  Function.prototype[fl.compose] = function(g) {
+    const f = this;
+    return function(x) {
+      return f(g(x));
+    };
+  };
+  Function[fl.id] = function() {
+    return function(x) {
+      return x;
+    };
+  };
 };

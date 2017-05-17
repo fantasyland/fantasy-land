@@ -8,6 +8,8 @@
   var mapping = {
     equals: 'fantasy-land/equals',
     lte: 'fantasy-land/lte',
+    compose: 'fantasy-land/compose',
+    id: 'fantasy-land/id',
     concat: 'fantasy-land/concat',
     empty: 'fantasy-land/empty',
     map: 'fantasy-land/map',
