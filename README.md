@@ -762,7 +762,7 @@ to implement certain methods then derive the remaining methods. Derivations:
   - [`map`][] may be derived from [`ap`][] and [`of`][]:
 
     ```js
-    function(f) { return this.ap(this.of(f)); }
+    function(f) { return this.of(f).ap(this); }
     ```
 
   - [`map`][] may be derived from [`chain`][] and [`of`][]:
