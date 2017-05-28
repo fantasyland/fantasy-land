@@ -376,10 +376,11 @@ method takes one argument:
 
     a.ap(b)
 
-1. `b` must be an Apply of a function,
+1. `b` must be an Apply of a function
 
     1. If `b` does not represent a function, the behaviour of `ap` is
        unspecified.
+    2. `b` must be same Apply as `a`.
 
 2. `a` must be an Apply of any value
 
@@ -387,6 +388,8 @@ method takes one argument:
    Apply `a`
 
    1. No parts of return value of that function should be checked.
+
+4. The `Apply` returned by `ap` must be the same as `a` and `b`
 
 ### Applicative
 
