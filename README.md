@@ -80,7 +80,7 @@ id="sanctuary-types-return">[1](#sanctuary-types)</sup>
     - `->`'s input type can be a grouping of types to create the type of a
       function which accepts more than one argument (i.e. has arity greater
       than one). When used in this way, the syntax is: `(<input-types>) ->
-      <output-type>`, where <input-types> comprises two or more comma–space
+      <output-type>`, where `<input-types>` comprises two or more comma–space
       (`, `)-separated type representations.
     - `String -> Array String` is a type satisfied by functions which take a
       `String` and return an `Array String`.
