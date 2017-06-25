@@ -75,7 +75,7 @@ id="sanctuary-types-return">[1](#sanctuary-types)</sup>
     - Type variables can take any type unless they have been restricted by
       means of type constraints (see fat arrow below).
 * `->` (arrow) _Function type constructor._
-    - `->` is an _infix_ type construcor that takes two type arguments and
+    - `->` is an _infix_ type constructor that takes two type arguments and
       gives the type of functions between these two type arguments.
     - `->`'s input type can be a grouping of types to create the type of a
       function which accepts more than one argument (i.e. has arity greater
