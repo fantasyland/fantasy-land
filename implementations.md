@@ -30,6 +30,7 @@ Here are a list of implementations that live in Fantasy Land:
 * [Sanctuary](https://github.com/plaid/sanctuary) is a refuge from unsafe JavaScript. It provides FL-compatible Either and Maybe types.
 * [Fluture](https://github.com/Avaq/Fluture) is a high-performance monadic alternative to Promises.
 * [Ramda Adjunct](https://github.com/char0n/ramda-adjunct) is a community-maintained extension of Ramda
+* [Zoom JS](https://github.com/dustinws/zoom) is a collection of common monads and monad transformers for javascript.
 
 Conforming implementations are encouraged to promote the Fantasy Land logo:
 
