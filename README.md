@@ -78,9 +78,8 @@ id="sanctuary-types-return">[1](#sanctuary-types)</sup>
     - `->` is an _infix_ type constructor that takes two type arguments and
       gives the type of functions between these two type arguments.
     - `->`'s input type can be a grouping of types to create the type of a
-      function which accepts more than one argument (i.e. has arity greater
-      than one). When used in this way, the syntax is: `(<input-types>) ->
-      <output-type>`, where `<input-types>` comprises two or more comma–space
+      function which accepts zero or more than one argument (i.e. has arity different to one). When used in this way, the syntax is: `(<input-types>) ->
+      <output-type>`, where `<input-types>` comprises zero or more comma–space
       (`, `)-separated type representations.
     - `String -> Array String` is a type satisfied by functions which take a
       `String` and return an `Array String`.
@@ -90,6 +89,10 @@ id="sanctuary-types-return">[1](#sanctuary-types)</sup>
     - `(String, Array String) -> Array String` is a type satisfied by functions
       which take a `String` and an `Array String` as arguments and return an
       `Array String`.
+    - `() -> Number` is a type satisfied by functions
+      which do not take arguments and return a `Number`.
+    - `(String) -> Number` and `String -> Number` are the same type satisfied by functions
+      which take a `String` as argument and return a `Number`.
 * `~>` (squiggly arrow) _Method type constructor._
     - When a function is a property of an Object, it is called a method. All
       methods have an implicit parameter type - the type of which they are a
