@@ -1,0 +1,7 @@
+.DS_Store
+.travis.yml
+figures
+logo.png
+node_modules
+test.js
+*.md

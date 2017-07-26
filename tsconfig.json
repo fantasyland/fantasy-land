@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "allowSyntheticDefaultImports": false,
+    "declaration": true,
+    "forceConsistentCasingInFileNames": false,
+    "lib": ["es5"],
+    "module": "umd",
+    "moduleResolution": "node",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "preserveConstEnums": true,
+    "outDir": ".",
+    "sourceMap": false,
+    "strict": true,
+    "target": "es5"
+  },
+  "files": [
+    "index.ts"
+  ]
+}
