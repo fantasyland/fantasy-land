@@ -28,7 +28,6 @@
     "rollup": "^0.45.2",
     "rollup-plugin-typescript": "^0.8.1",
     "sanctuary-style": "0.2.x",
-    "tslint": "^5.5.0",
     "typescript": "^2.4.2",
     "xyz": "2.0.x"
   },
@@ -45,7 +44,7 @@
   "types": "index.d.ts",
   "scripts": {
     "build": "tsc -d && rm index.js && rollup -c > index.js",
-    "lint": "tslint . && eslint --config node_modules/sanctuary-style/eslint-es6.json --env es6 --env node --rule 'max-len: [off]' -- *.js laws/*.js internal/*.js",
+    "lint": "eslint --config node_modules/sanctuary-style/eslint-es6.json --env es6 --env node --rule 'max-len: [off]' -- *.js laws/*.js internal/*.js",
     "unit": "nodeunit test.js",
     "prepublish": "npm run build",
     "test": "npm run lint && npm run build && npm run unit",
