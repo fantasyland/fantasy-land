@@ -102,10 +102,7 @@ id="sanctuary-types-return">[1](#sanctuary-types)</sup>
     - In `a ~> a -> a` (see squiggly arrow above), `a` can be of any type.
       `Semigroup a => a ~> a -> a` adds a constraint such that the type `a`
       must now satisfy the `Semigroup` typeclass. To satisfy a typeclass means
-      to implement any function/method defined by that typeclass. In
-      addition, any implementation of such function/method must also satisfy
-      any laws defined by a given typeclass for the function/method in
-      question.
+      to lawfully implement all functions/methods specified by that typeclass.
 
 For example:
 
