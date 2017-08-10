@@ -36,6 +36,7 @@
     "url": "https://github.com/fantasyland/fantasy-land.git"
   },
   "files": [
+    "index.d.ts",
     "index.js",
     "internal/*.js",
     "laws/*.js"
