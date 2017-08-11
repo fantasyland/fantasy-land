@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-make
-git add LICENSE
+year="$(git log --date=short --pretty=format:%ad | sort -r | head -n 1 | cut -d - -f 1)"
+echo "Setting copyright year to $year"
+sed "s/Copyright (c) .* Fantasy Land/Copyright (c) $year Fantasy Land/" LICENSE >LICENSE.updated
+mv LICENSE{.updated,}

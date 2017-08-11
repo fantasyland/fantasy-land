@@ -7,13 +7,7 @@ ESC = $(shell printf '\033')
 
 
 .PHONY: all
-all: LICENSE index.d.ts index.js
-
-.PHONY: LICENSE
-LICENSE:
-	cp -- '$@' '$@.orig'
-	sed 's/Copyright (c) .* Fantasy Land/Copyright (c) $(shell git log --date=short --pretty=format:%ad | sort -r | head -n 1 | cut -d - -f 1) Fantasy Land/' '$@.orig' >'$@'
-	rm -- '$@.orig'
+all: index.d.ts index.js
 
 index.d.ts: names Makefile
 	awk '{ print "export const " $$1 ": string;" }' '$<' >'$@'
