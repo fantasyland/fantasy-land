@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euf -o pipefail
+
+cat >index.js <<EOF
+(function() {
+
+  'use strict';
+
+  var mapping = {
+    $(awk '{ printf (NR > 1 ? ",\n    " : "") $0 ": \047fantasy-land/" $0 "\047" }' names)
+  };
+
+  /* istanbul ignore else */
+  if (typeof module === 'object' && typeof module.exports === 'object') {
+    module.exports = mapping;
+  } else {
+    self.FantasyLand = mapping;
+  }
+
+} ());
+EOF

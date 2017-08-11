@@ -29,12 +29,16 @@
   "files": [
     "/LICENSE",
     "/README.md",
+    "/index.d.ts",
     "/index.js",
     "/package.json"
   ],
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "doctest": "sanctuary-doctest",
+    "generate-js": "scripts/generate-js",
+    "generate-ts": "scripts/generate-ts",
     "lint": "sanctuary-lint",
     "release": "sanctuary-release",
     "test": "npm run lint && sanctuary-test && npm run doctest"
