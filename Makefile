@@ -22,7 +22,7 @@ index.js: src/index.js names Makefile
 	# Use BEL character as \n to avoid difficulties with including \n in sed
 	# replacement strings. Use ESC character as ' to avoid "'"'"'" silliness.
 	sed "s;/[*] MAPPING [*]/;$(shell awk '{ printf (NR > 1 ? "," : "") "$(BEL)    " $$1 ": $(ESC)fantasy-land/" $$1 "$(ESC)" }' names)$(BEL)  ;" '$<' \
-	| tr $(BEL) $$'\n' \
+	| tr $(BEL) '\n' \
 	| tr $(ESC) "'" \
 	>'$@'
 
