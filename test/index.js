@@ -1,28 +1,28 @@
 'use strict';
 
-const fl = require('.');
-const {Id, equality, Sum, patch} = require('./internal');
+const fl = require('..');
+const {Id, equality, Sum, patch} = require('../internal');
 patch();
 
-const alt = require('./laws/alt');
-const alternative = require('./laws/alternative');
-const applicative = require('./laws/applicative');
-const apply = require('./laws/apply');
-const chain = require('./laws/chain');
-const chainRec = require('./laws/chainrec');
-const comonad = require('./laws/comonad');
-const extend = require('./laws/extend');
-const foldable = require('./laws/foldable');
-const functor = require('./laws/functor');
-const monad = require('./laws/monad');
-const monoid = require('./laws/monoid');
-const ord = require('./laws/ord');
-const plus = require('./laws/plus');
-const semigroup = require('./laws/semigroup');
-const semigroupoid = require('./laws/semigroupoid');
-const category = require('./laws/category');
-const setoid = require('./laws/setoid');
-const traversable = require('./laws/traversable');
+const alt = require('../laws/alt');
+const alternative = require('../laws/alternative');
+const applicative = require('../laws/applicative');
+const apply = require('../laws/apply');
+const chain = require('../laws/chain');
+const chainRec = require('../laws/chainrec');
+const comonad = require('../laws/comonad');
+const extend = require('../laws/extend');
+const foldable = require('../laws/foldable');
+const functor = require('../laws/functor');
+const monad = require('../laws/monad');
+const monoid = require('../laws/monoid');
+const ord = require('../laws/ord');
+const plus = require('../laws/plus');
+const semigroup = require('../laws/semigroup');
+const semigroupoid = require('../laws/semigroupoid');
+const category = require('../laws/category');
+const setoid = require('../laws/setoid');
+const traversable = require('../laws/traversable');
 
 const test = f => t => {
   t.ok(f('x') === true);
