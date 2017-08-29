@@ -15,6 +15,7 @@ structures:
 * [Category](#category)
 * [Semigroup](#semigroup)
 * [Monoid](#monoid)
+* [Group](#group)
 * [Functor](#functor)
 * [Contravariant](#contravariant)
 * [Apply](#apply)
@@ -305,6 +306,26 @@ Given a value `m`, one can access its type representative via the
     m.constructor.empty()
 
 1. `empty` must return a value of the same Monoid
+
+### Group
+
+A value that implements the Group specification must also implement
+the [Monoid](#monoid) specification.
+
+1. `g.concat(g.invert())` is equivalent to `g.empty()` (right inverse)
+2. `g.invert().concat(g)` is equivalent to `g.empty()` (left inverse)
+
+#### `invert` method
+
+```hs
+invert :: Group g => g ~> () -> g
+```
+A value which has a Group must provide an `invert` method. The
+`invert` method takes no arguments:
+
+    g.invert()
+
+1. `invert` must return a value of the same Group.
 
 ### Functor
 
