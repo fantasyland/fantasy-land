@@ -42,8 +42,9 @@ digraph {
   Functor -> Extend;
   Functor -> Profunctor;
   Functor -> Traversable;
+  Monoid -> Group;
   Plus -> Alternative;
-  Semigroup -> Monoid -> Group;
+  Semigroup -> Monoid;
   Semigroupoid -> Category;
   Setoid -> Ord;
 }
