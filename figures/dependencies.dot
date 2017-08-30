@@ -14,6 +14,7 @@ digraph {
   Extend;
   Foldable;
   Functor;
+  Group;
   Contravariant;
   Monad;
   Monoid;
@@ -42,7 +43,7 @@ digraph {
   Functor -> Profunctor;
   Functor -> Traversable;
   Plus -> Alternative;
-  Semigroup -> Monoid;
+  Semigroup -> Monoid -> Group;
   Semigroupoid -> Category;
   Setoid -> Ord;
 }
