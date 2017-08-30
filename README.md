@@ -312,8 +312,8 @@ Given a value `m`, one can access its type representative via the
 A value that implements the Group specification must also implement
 the [Monoid](#monoid) specification.
 
-1. `g.concat(g.invert())` is equivalent to `g.empty()` (right inverse)
-2. `g.invert().concat(g)` is equivalent to `g.empty()` (left inverse)
+1. `g.concat(g.invert())` is equivalent to `g.empty()` (right cancellation)
+2. `g.invert().concat(g)` is equivalent to `g.empty()` (left cancellation)
 
 #### `invert` method
 

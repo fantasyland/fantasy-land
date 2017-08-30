@@ -92,8 +92,8 @@ exports.functor = {
 };
 
 exports.group = {
-  rightInverse: test(() => group.rightInverse(Sum[fl.of])(equality)(42)),
-  leftInverse: test(() => group.leftInverse(Sum[fl.of])(equality)(42)),
+  rightCancellation: test(() => group.rightCancellation(Sum[fl.of])(equality)(42)),
+  leftCancellation: test(() => group.leftCancellation(Sum[fl.of])(equality)(42)),
 };
 
 exports.monad = {
