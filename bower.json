@@ -25,13 +25,16 @@
     "/.git/",
     "/bower_components/",
     "/figures/",
+    "/internal/",
     "/laws/",
     "/node_modules/",
+    "/scripts/",
+    "/src/",
+    "/test/",
     "/.*",
-    "/id.js",
-    "/test.js",
     "/implementations.md",
     "/logo.png",
+    "/names",
     "/package.json"
   ]
 }
