@@ -212,7 +212,7 @@ A value which has an Ord must provide a `lte` method. The
 
 ### Semigroupoid
 
-1. `a.compose(b.compose(c)) === a.compose(b).compose(c)` (associativity)
+1. `a.compose(b).compose(c) === a.compose(b.compose(c))` (associativity)
 
 #### `compose` method
 
