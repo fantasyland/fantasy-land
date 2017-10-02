@@ -716,7 +716,7 @@ method takes two arguments:
 ### Profunctor
 
 A value that implements the Profunctor specification must also implement
-the [Functor](#functor) specification.
+the [Functor](#functor) and [Contravariant](#contravariant) specifications.
 
 1. `p.promap(a => a, b => b)` is equivalent to `p` (identity)
 2. `p.promap(a => f(g(a)), b => h(i(b)))` is equivalent to `p.promap(f, i).promap(g, h)` (composition)

@@ -33,6 +33,7 @@ digraph {
   Apply -> Chain;
   Chain -> ChainRec;
   Chain -> Monad;
+  Contravariant -> Profunctor;
   Extend -> Comonad;
   Foldable -> Traversable;
   Functor -> Alt;
