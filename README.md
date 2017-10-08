@@ -16,6 +16,7 @@ structures:
 * [Semigroup](#semigroup)
 * [Monoid](#monoid)
 * [Group](#group)
+* [Filterable](#filterable)
 * [Functor](#functor)
 * [Contravariant](#contravariant)
 * [Apply](#apply)
@@ -33,7 +34,7 @@ structures:
 * [Bifunctor](#bifunctor)
 * [Profunctor](#profunctor)
 
-<img src="figures/dependencies.png" width="888" height="257" />
+<img src="figures/dependencies.png" width="888" height="234" />
 
 ## General
 
@@ -327,6 +328,32 @@ A value which has a Group must provide an `invert` method. The
     g.invert()
 
 1. `invert` must return a value of the same Group.
+
+### Filterable
+
+1. `v.filter(x => p(x) && q(x))` is equivalent to `v.filter(p).filter(q)` (distributivity)
+2. `v.filter(x => true)` is equivalent to `v` (identity)
+3. `v.filter(x => false)` is equivalent to `w.filter(x => false)`
+   if `v` and `w` are values of the same Filterable (annihilation)
+
+#### `filter` method
+
+```hs
+filter :: Filterable f => f a ~> (a -> Boolean) -> f a
+```
+
+A value which has a Filterable must provide a `filter` method. The `filter`
+method takes one argument:
+
+    v.filter(p)
+
+1. `p` must be a function.
+
+    1. If `p` is not a function, the behaviour of `filter` is unspecified.
+    2. `p` must return either `true` or `false`. If it returns any other value,
+       the behaviour of `filter` is unspecified.
+
+2. `filter` must return a value of the same Filterable.
 
 ### Functor
 
@@ -836,7 +863,7 @@ to implement certain methods then derive the remaining methods. Derivations:
     function(f) {
       function Id(value) {
         this.value = value;
-      };
+      }
       Id.of = function(x) {
         return new Id(x);
       };
@@ -847,6 +874,25 @@ to implement certain methods then derive the remaining methods. Derivations:
         return new Id(this.value(b.value));
       };
       return this.traverse(x => Id.of(f(x)), Id.of).value;
+    }
+    ```
+
+  - [`filter`][] may be derived from [`of`][], [`chain`][], and [`zero`][]:
+
+    ```js
+    function(pred) {
+      var F = this.constructor;
+      return this.chain(x => pred(x) ? F.of(x) : F.zero());
+    }
+    ```
+
+  - [`filter`][] may be derived from [`concat`][], [`of`][], [`zero`][], and
+    [`reduce`][]:
+
+    ```js
+    function(pred) {
+      var F = this.constructor;
+      return this.reduce((f, x) => pred(x) ? f.concat(F.of(x)) : f, F.zero());
     }
     ```
 
@@ -873,12 +919,14 @@ be equivalent to that of the derivation (or derivations).
 [`equals`]: #equals-method
 [`extend`]: #extend-method
 [`extract`]: #extract-method
+[`filter`]: #filter-method
 [`lte`]: #lte-method
 [`map`]: #map-method
 [`of`]: #of-method
 [`promap`]: #promap-method
 [`reduce`]: #reduce-method
 [`sequence`]: #sequence-method
+[`zero`]: #zero-method
 
 ## Alternatives
 

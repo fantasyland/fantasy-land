@@ -13,6 +13,7 @@
     concat: 'fantasy-land/concat',
     empty: 'fantasy-land/empty',
     invert: 'fantasy-land/invert',
+    filter: 'fantasy-land/filter',
     map: 'fantasy-land/map',
     contramap: 'fantasy-land/contramap',
     ap: 'fantasy-land/ap',

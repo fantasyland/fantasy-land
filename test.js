@@ -8,10 +8,12 @@ const alt = require('./laws/alt');
 const alternative = require('./laws/alternative');
 const applicative = require('./laws/applicative');
 const apply = require('./laws/apply');
+const category = require('./laws/category');
 const chain = require('./laws/chain');
 const chainRec = require('./laws/chainrec');
 const comonad = require('./laws/comonad');
 const extend = require('./laws/extend');
+const filterable = require('./laws/filterable');
 const foldable = require('./laws/foldable');
 const functor = require('./laws/functor');
 const group = require('./laws/group');
@@ -21,7 +23,6 @@ const ord = require('./laws/ord');
 const plus = require('./laws/plus');
 const semigroup = require('./laws/semigroup');
 const semigroupoid = require('./laws/semigroupoid');
-const category = require('./laws/category');
 const setoid = require('./laws/setoid');
 const traversable = require('./laws/traversable');
 
@@ -80,6 +81,12 @@ exports.comonad = {
 
 exports.extend = {
   associativity: test(extend.associativity(Id[fl.of])(equality)),
+};
+
+exports.filterable = {
+  distributivity: test(x => filterable.distributivity(equality)(Id[fl.of]([0, 1, 2, 3, 4]))(x => x % 2 === 0)(x => x > 0)),
+  identity: test(x => filterable.identity(equality)(Id[fl.of]([1, 2, 3]))),
+  annihilation: test(x => filterable.annihilation(equality)(Id[fl.of]([1, 2, 3]))(Id[fl.of]([4, 5, 6]))),
 };
 
 exports.foldable = {
