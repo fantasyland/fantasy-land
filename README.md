@@ -312,14 +312,15 @@ Given a value `m`, one can access its type representative via the
 A value that implements the Group specification must also implement
 the [Monoid](#monoid) specification.
 
-1. `g.concat(g.invert())` is equivalent to `g.empty()` (right inverse)
-2. `g.invert().concat(g)` is equivalent to `g.empty()` (left inverse)
+1. `g.concat(g.invert())` is equivalent to `g.constructor.empty()` (right inverse)
+2. `g.invert().concat(g)` is equivalent to `g.constructor.empty()` (left inverse)
 
 #### `invert` method
 
 ```hs
 invert :: Group g => g ~> () -> g
 ```
+
 A value which has a Group must provide an `invert` method. The
 `invert` method takes no arguments:
 
