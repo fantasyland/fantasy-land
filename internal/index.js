@@ -2,7 +2,7 @@
 
 const patch = require('./patch');
 const Id = require('./id');
-const Sum = require('./string_sum');
+const Sum = require('./sum');
 const Compose = require('./compose');
 const {equality} = require('./func');
 

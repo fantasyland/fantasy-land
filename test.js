@@ -14,6 +14,7 @@ const comonad = require('./laws/comonad');
 const extend = require('./laws/extend');
 const foldable = require('./laws/foldable');
 const functor = require('./laws/functor');
+const group = require('./laws/group');
 const monad = require('./laws/monad');
 const monoid = require('./laws/monoid');
 const ord = require('./laws/ord');
@@ -90,6 +91,11 @@ exports.functor = {
   composition: test(functor.composition(Id[fl.of])(equality)(a => [a, a])(a => [a])),
 };
 
+exports.group = {
+  rightInverse: test(() => group.rightInverse(Sum[fl.of])(equality)(42)),
+  leftInverse: test(() => group.leftInverse(Sum[fl.of])(equality)(42)),
+};
+
 exports.monad = {
   leftIdentity: test(monad.leftIdentity(Id)(equality)(Id[fl.of])),
   rightIdentity: test(monad.rightIdentity(Id)(equality)),
@@ -102,8 +108,8 @@ exports.plus = {
 };
 
 exports.monoid = {
-  leftIdentity: test(monoid.leftIdentity(Sum)(equality)),
-  rightIdentity: test(monoid.rightIdentity(Sum)(equality)),
+  leftIdentity: test(() => monoid.leftIdentity(Sum)(equality)(23)),
+  rightIdentity: test(() => monoid.rightIdentity(Sum)(equality)(23)),
 };
 
 exports.ord = {
@@ -117,7 +123,7 @@ exports.semigroup = {
 };
 
 exports.semigroupoid = {
-  associativity: semigroupoid.associativity(x => x + 1)(x => x * x)(x => x - 2)(equality)(5),
+  associativity: test(() => semigroupoid.associativity(x => x + 1)(x => x * x)(x => x - 2)(equality)(5)),
 };
 
 exports.setoid = {
@@ -129,5 +135,5 @@ exports.setoid = {
 exports.traversable = {
   naturality: test(x => traversable.naturality(Id)(Id[fl.of])(equality)(Id[fl.of](x))),
   identity: test(traversable.identity(Id)(equality)),
-  composition: test(x => traversable.composition(Id)(Id[fl.of])(equality)(Id[fl.of](Sum[fl.of](x)))),
+  composition: test(() => traversable.composition(Id)(Id[fl.of])(equality)(Id[fl.of](Sum[fl.of](37)))),
 };
