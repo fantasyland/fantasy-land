@@ -19,6 +19,7 @@
     of: 'fantasy-land/of',
     alt: 'fantasy-land/alt',
     zero: 'fantasy-land/zero',
+    compact: 'fantasy-land/compact',
     reduce: 'fantasy-land/reduce',
     traverse: 'fantasy-land/traverse',
     chain: 'fantasy-land/chain',

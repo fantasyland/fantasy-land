@@ -22,6 +22,7 @@ structures:
 * [Applicative](#applicative)
 * [Alt](#alt)
 * [Plus](#plus)
+* [Compactable](#compactable)
 * [Alternative](#alternative)
 * [Foldable](#foldable)
 * [Traversable](#traversable)
@@ -33,7 +34,7 @@ structures:
 * [Bifunctor](#bifunctor)
 * [Profunctor](#profunctor)
 
-<img src="figures/dependencies.png" width="888" height="257" />
+<img src="figures/dependencies.png" width="888" height="230" />
 
 ## General
 
@@ -497,6 +498,40 @@ Given a value `x`, one can access its type representative via the
 
 1. `zero` must return a value of the same Plus
 
+### Compactable
+
+A value that implements the Compactable specification need not implement
+any other specifications. There are, though, laws which must be obeyed if
+certain other specifications are implemented.
+
+If value satisfies [Functor][]:
+
+1. `c.map(Just).compact()` is equivalent to `c` (identity)
+
+If value satisfies [Applicative][]:
+
+1. `c.ap(c.constructor.of(Just)).compact()` is equivalent to `c` (identity)
+
+If value satisfies [Plus][]:
+
+1. `c.map(x => Nothing).compact()` is equivalent to `c.constructor.zero()` (annihilation)
+
+#### `compact` method
+
+```hs
+compact :: Compactable f => f (Maybe a) ~> () -> f a
+```
+
+A value which has a Compactable must provide a `compact` method. The `compact`
+method takes no arguments:
+
+    c.compact()
+
+1. `compact` must return a value of the same Compactable.
+
+If the inner values of `c` are not of type <code>[Maybe][] a</code>, the
+behaviour of `compact` is unspecified.
+
 ### Alternative
 
 A value that implements the Alternative specification must also implement
@@ -769,6 +804,41 @@ The `profunctor` method takes two arguments:
 
 3. `promap` must return a value of the same Profunctor
 
+## Maybe type
+
+In Haskell, the Maybe type is defined as:
+
+```hs
+data Maybe a = Nothing | Just a
+```
+
+`Maybe a` is used in type signatures in this specification. A JavaScript value
+`x` is of type `Maybe a` if:
+
+  - `x.isJust` is `false`; or
+  - `x.isJust` is `true` and `x.value` is of type `a`.
+
+`{isJust: false}` represents `Nothing`; `{isJust: true, value: 42}` represents
+`Just 42`.
+
+### `Nothing`
+
+`Nothing` is defined as:
+
+```js
+//    Nothing :: Maybe a
+const Nothing = {isJust: false};
+```
+
+### `Just`
+
+`Just` is defined as:
+
+```js
+//    Just :: a -> Maybe a
+const Just = value => ({isJust: true, value});
+```
+
 ## Derivations
 
 When creating data types which satisfy multiple algebras, authors may choose
@@ -836,7 +906,7 @@ to implement certain methods then derive the remaining methods. Derivations:
     function(f) {
       function Id(value) {
         this.value = value;
-      };
+      }
       Id.of = function(x) {
         return new Id(x);
       };
@@ -865,6 +935,9 @@ be equivalent to that of the derivation (or derivations).
    `internal/id.js`.
 
 
+[Just]: #just
+[Maybe]: #maybe-type
+[Nothing]: #nothing
 [`ap`]: #ap-method
 [`bimap`]: #bimap-method
 [`chain`]: #chain-method
