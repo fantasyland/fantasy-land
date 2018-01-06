@@ -399,7 +399,7 @@ method takes one argument:
 
 1. `b` must be an Apply of a function
 
-    1. If `b` does not represent a function, the behaviour of `ap` is
+    1. If `b` does not represent an Apply of a function, the behaviour of `ap` is
        unspecified.
     2. `b` must be same Apply as `a`.
 
