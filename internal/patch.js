@@ -7,6 +7,9 @@ module.exports = () => {
   Array.prototype[fl.equals] = function(y) {
     return this.length === y.length && this.join('') === y.join('');
   };
+  Array.prototype[fl.filter] = function(pred) {
+    return this.filter(x => pred(x));
+  };
   Array.prototype[fl.map] = function(f) {
     return this.map(x => f(x));
   };

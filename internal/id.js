@@ -24,6 +24,11 @@ Id.prototype[fl.concat] = function(b) {
 
 // Monoid is not satisfiable since the type lacks a universal empty value
 
+// Filterable
+Id.prototype[fl.filter] = function(pred) {
+  return new Id(this.value[fl.filter](pred));
+};
+
 // Foldable
 Id.prototype[fl.reduce] = function(f, acc) {
   return f(acc, this.value);

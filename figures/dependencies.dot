@@ -11,11 +11,12 @@ digraph {
   Chain;
   ChainRec;
   Comonad;
+  Contravariant;
   Extend;
+  Filterable;
   Foldable;
   Functor;
   Group;
-  Contravariant;
   Monad;
   Monoid;
   Ord;
