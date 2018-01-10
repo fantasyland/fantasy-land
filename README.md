@@ -796,6 +796,54 @@ The `profunctor` method takes two arguments:
 
 3. `promap` must return a value of the same Profunctor
 
+## Types
+
+In Fantasy Land, types are specified by a capitalized name and a catamorphic
+method of the same name, without capitalization. The method allows access to
+the values contained within the structure or the ability to provide a default
+value when the structure is nullary. When defined on a value, a method name
+contains the same 'fantasy-land/' prefix.
+
+Additionally, data constructors may be referenced in the specification by name
+and arity. Conforming data structures are not required to provide these
+constructors nor are any provided constructors required to share these names.
+For example, instead of `Left` and `Right`, the constructors could be named
+`Failure` and `Success`.
+
+### Either
+
+The `Either` type encodes the concept of binary possibility (Left a and Right b).
+
+If e has constructors unary constructors `Left` and `Right`
+
+e.either(Left, Right) === e (identity)
+
+#### `either` method
+
+```hs
+either :: Either e => e a b ~> ((a -> c), (b -> c)) -> c
+```
+
+A value which conforms to the Either specification must provide an `either` method.
+
+The `either` method takes two arguments:
+
+    e.either(f, g)
+
+1. `f` must be a function which returns a value
+
+    1. If `f` is not a function, the behaviour of `either` is unspecified.
+    2. `f` can return any value.
+    3. No parts of `f`'s return value should be checked.
+
+2. `g` must be a function which returns a value
+
+    1. If `g` is not a function, the behaviour of `either` is unspecified.
+    2. `g` can return any value.
+    3. No parts of `g`'s return value should be checked.
+
+3. `f`, `g`, and `either` must return a value of the same type
+
 ## Derivations
 
 When creating data types which satisfy multiple algebras, authors may choose
