@@ -850,7 +850,7 @@ nothing :: Maybe a
 just :: a -> Maybe a
 ```
 
-A value which conforms to the Maybe specification must provide an `cata` method.
+A value which conforms to the Maybe specification must provide a `cata` method.
 
 The `cata` method takes two arguments:
 
@@ -875,7 +875,7 @@ left :: a -> Either a b
 right :: b -> Either a b
 ```
 
-A value which conforms to the Either specification must provide an `cata` method.
+A value which conforms to the Either specification must provide a `cata` method.
 
 The `cata` method takes two arguments:
 
@@ -890,6 +890,27 @@ The `cata` method takes two arguments:
 
     1. If `g` is not a function, the behaviour of `cata` is unspecified.
     2. No parts of `g`'s return value should be checked.
+
+### Tuple
+
+`Tuple` is the canonical product type and represents a structure containing two
+values (Tuple a b).
+
+```hs
+Tuple a b = { cata :: ((a, b) -> c) -> c }
+tuple :: (a, b) -> Tuple a b
+```
+
+A value which conforms to the Tuple specification must provide a `cata` method.
+
+The `cata` method takes a single argument:
+
+    t.cata(f)
+
+1. `f` must be a function of two arguments which returns a value
+
+    1. If `f` is not a function, the behaviour of `cata` is unspecified.
+    2. No parts of `f`'s return value should be checked.
 
 ## Derivations
 
