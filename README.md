@@ -840,6 +840,31 @@ Id.prototype['fantasy-land/cata'] = function cata(f) {
 (new Id(42)).cata(x => x) === identity(42).cata(x => x);
 ```
 
+### Maybe
+
+The `Maybe` type encodes the concept of optionality (Nothing and Just a).
+
+```hs
+Maybe a = { cata :: (b, (a -> b)) -> b }
+nothing :: Maybe a
+just :: a -> Maybe a
+```
+
+A value which conforms to the Maybe specification must provide an `cata` method.
+
+The `cata` method takes two arguments:
+
+    m.cata(x, f)
+
+1. `x` is the default value for the `Nothing` case
+
+    1. No parts of `x` should be checked.
+
+2. `f` must be a function which returns a value
+
+    1. If `f` is not a function, the behaviour of `cata` is unspecified.
+    2. No parts of `f`'s return value should be checked.
+
 ## Derivations
 
 When creating data types which satisfy multiple algebras, authors may choose
