@@ -865,6 +865,32 @@ The `cata` method takes two arguments:
     1. If `f` is not a function, the behaviour of `cata` is unspecified.
     2. No parts of `f`'s return value should be checked.
 
+### Either
+
+The `Either` type encodes the concept of binary possibility (Left a and Right b).
+
+```hs
+Either a b = { cata :: ((a -> c), (b -> c)) -> c }
+left :: a -> Either a b
+right :: b -> Either a b
+```
+
+A value which conforms to the Either specification must provide an `cata` method.
+
+The `cata` method takes two arguments:
+
+    e.cata(f, g)
+
+1. `f` must be a function which returns a value
+
+    1. If `f` is not a function, the behaviour of `cata` is unspecified.
+    2. No parts of `f`'s return value should be checked.
+
+2. `g` must be a function which returns a value
+
+    1. If `g` is not a function, the behaviour of `cata` is unspecified.
+    2. No parts of `g`'s return value should be checked.
+
 ## Derivations
 
 When creating data types which satisfy multiple algebras, authors may choose
