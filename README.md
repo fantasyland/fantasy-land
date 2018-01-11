@@ -796,6 +796,50 @@ The `profunctor` method takes two arguments:
 
 3. `promap` must return a value of the same Profunctor
 
+## Types
+
+In Fantasy Land, types are specified by an object containing a catamorphic
+method `cata`. `cata` has an arity matching the number of constructor functions
+belonging to each type. Each argument to `cata` is either:
+
+1. a value
+2. a function with an arity matching the number of arguments to the constructor
+   function.
+   1. Each function argument to `cata` must return a value of the same type as
+      `cata` itself.
+
+ex.
+```hs
+Identity a = { cata :: (a -> b) -> b }
+identity :: a -> Identity a
+```
+
+Libraries conforming to this specification may provide custom data constructors
+corresponding with the constructor functions. No provided constructors are
+required to share the names of the constructor functions defined herein. For
+example, instead of `Identity`, the constructor could be named `Id`. If custom
+constructors _are_ provided, they must return values which contain a `cata`
+method. This method must exhibit the same behaviour as described above.
+
+ex.
+```js
+var identity = require('fantasy-land/identity');
+
+function Id(x) {
+  this.x = x;
+}
+Id.prototype['fantasy-land/cata'] = function cata(f) {
+  return f(this.x);
+}
+
+// Alternatively
+Id.prototype['fantasy-land/cata'] = function cata(f) {
+  return identity(this.x).cata(f);
+}
+
+(new Id(42)).cata(x => x) === identity(42).cata(x => x);
+```
+
 ## Derivations
 
 When creating data types which satisfy multiple algebras, authors may choose
