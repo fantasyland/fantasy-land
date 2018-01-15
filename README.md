@@ -874,16 +874,17 @@ A value which conforms to the Maybe specification must provide a `cata` method.
 
 The `cata` method takes two arguments:
 
-    m.cata(x, f)
+    m.cata(f, g)
 
-1. `x` is the default value for the `Nothing` case
+1. `f` must be a nullary function. It is called in the `Nothing` case
 
-    1. No parts of `x` should be checked.
+    1. If `f` is not a nullary function or the return value of `f` does not
+       match the return value of `cata`, the behaviour of `cata` is unspecified.
 
-2. `f` must be a function which returns a value
+2. `g` must be a unary function. It is called in the `Just` case
 
-    1. If `f` is not a function, the behaviour of `cata` is unspecified.
-    2. No parts of `f`'s return value should be checked.
+    1. If `g` is not a unary function or the return value of `g` does not match
+       the return value of `cata`, the behaviour of `cata` is unspecified.
 
 ### Either
 
@@ -901,15 +902,15 @@ The `cata` method takes two arguments:
 
     e.cata(f, g)
 
-1. `f` must be a function which returns a value
+1. `f` must be a unary function. It is called in the `Left` case
 
-    1. If `f` is not a function, the behaviour of `cata` is unspecified.
-    2. No parts of `f`'s return value should be checked.
+    1. If `f` is not a unary function or the return value of `f` does not match
+       the return value of `cata`, the behaviour of `cata` is unspecified.
 
-2. `g` must be a function which returns a value
+2. `g` must be a unary function. It is called in the `Right` case
 
-    1. If `g` is not a function, the behaviour of `cata` is unspecified.
-    2. No parts of `g`'s return value should be checked.
+    1. If `g` is not a unary function or the return value of `g` does not match
+       the return value of `cata`, the behaviour of `cata` is unspecified.
 
 ### Tuple
 
@@ -927,10 +928,10 @@ The `cata` method takes a single argument:
 
     t.cata(f)
 
-1. `f` must be a function of two arguments which returns a value
+1. `f` must be a binary function
 
-    1. If `f` is not a function, the behaviour of `cata` is unspecified.
-    2. No parts of `f`'s return value should be checked.
+    1. If `f` is not a binary function or the return value of `f` does not match
+       the return value of `cata`, the behaviour of `cata` is unspecified.
 
 ## Derivations
 
