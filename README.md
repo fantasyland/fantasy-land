@@ -812,10 +812,26 @@ belonging to each type. Each argument to `cata` is either:
    1. Function arguments to `cata` must return values of the same type as
       `cata` itself.
 
-ex.
+For example
 ```hs
 Identity a = { cata :: (a -> b) -> b }
+'------' '             '------'    '
+ '       '              '          ' - return type
+ '       '              '
+ '       '              ' - destructor function
+ '       '
+ '       ' - type variable
+ '
+ ' - type name
+
 identity :: a -> Identity a
+'------'    '    '--------'
+ '          '     '
+ '          '     ' - return type
+ '          '
+ '          ' - constructor argument
+ '
+ ' - constructor name
 ```
 
 Libraries conforming to this specification may provide custom data constructors
@@ -825,7 +841,7 @@ example, instead of `Identity`, the constructor could be named `Id`. If custom
 constructors _are_ provided, they must return values which contain a `cata`
 method. This method must exhibit the same behaviour as described above.
 
-ex.
+For example
 ```js
 var identity = require('fantasy-land/identity');
 
