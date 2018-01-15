@@ -849,7 +849,7 @@ Id.prototype['fantasy-land/cata'] = function cata(f) {
 The `Maybe` type encodes the concept of optionality (Nothing and Just a).
 
 ```hs
-Maybe a = { cata :: (b, (a -> b)) -> b }
+Maybe a = { cata :: (b, a -> b) -> b }
 nothing :: Maybe a
 just :: a -> Maybe a
 ```
@@ -874,7 +874,7 @@ The `cata` method takes two arguments:
 The `Either` type encodes the concept of binary possibility (Left a and Right b).
 
 ```hs
-Either a b = { cata :: ((a -> c), (b -> c)) -> c }
+Either a b = { cata :: (a -> c, b -> c) -> c }
 left :: a -> Either a b
 right :: b -> Either a b
 ```
