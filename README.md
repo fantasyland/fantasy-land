@@ -802,10 +802,14 @@ In Fantasy Land, types are specified by an object containing a catamorphic
 method `cata`. `cata` has an arity matching the number of constructor functions
 belonging to each type. Each argument to `cata` is either:
 
-1. a value
-2. a function with an arity matching the number of arguments to the constructor
-   function.
-   1. Each function argument to `cata` must return a value of the same type as
+1. a value corresponding to a nullary constructor
+
+   1. Value arguments to `cata` must match the return type of `cata` itself.
+
+2. a function with an arity matching the number of arguments to the
+   corresponding constructor function
+
+   1. Function arguments to `cata` must return values of the same type as
       `cata` itself.
 
 ex.
