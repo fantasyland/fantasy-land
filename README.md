@@ -802,7 +802,12 @@ In Fantasy Land, types are specified by a capitalized name and a catamorphic
 method of the same name, without capitalization. The method allows access to
 the values contained within the structure or the ability to provide a default
 value when the structure is nullary. When defined on a value, a method name
-contains the same 'fantasy-land/' prefix.
+contains the same 'fantasy-land/' as other methods described in the spec prefix.
+
+For example
+```hs
+identity :: Identity i => i a ~> (a -> b) -> b
+```
 
 Additionally, data constructors may be referenced in the specification by name
 and arity. Conforming data structures are not required to provide these
@@ -810,13 +815,54 @@ constructors nor are any provided constructors required to share these names.
 For example, instead of `Left` and `Right`, the constructors could be named
 `Failure` and `Success`.
 
+For example
+```js
+function Id(x) {
+  this.x = x;
+}
+
+Id.prototype['fantasy-land/identity'] = function identity(f) {
+  return f(this.x);
+};
+
+Array.prototype['fantasy-land/identity'] = function identity(f) {
+  return f(this[0]);
+};
+
+var identity = 'fantasy-land/identity';
+
+(new Id(42))[identity](x => x) === [42][identity](x => x);
+```
+
+### Maybe
+
+The `Maybe` type encodes the concept of optionality (Nothing and Just a).
+
+#### `maybe` method
+
+```hs
+maybe :: Maybe m => m a ~> (b, (a -> b)) -> b
+```
+
+A value which conforms to the Maybe specification must provide a `maybe` method.
+
+The `maybe` method takes two arguments:
+
+    m.maybe(x, f)
+
+1. `x` is the default value in the `Nothing` case
+
+    1. If `x` does not match the return value of `maybe`, the behaviour of
+       `maybe` is unspecified.
+
+2. `f` must be a unary function. It is called in the `Just` case
+
+    1. If `f` is not a unary function or the return value of `f` does not match
+       the return value of `maybe`, the behaviour of `maybe` is unspecified.
+ 
 ### Either
 
 The `Either` type encodes the concept of binary possibility (Left a and Right b).
-
-If e has constructors unary constructors `Left` and `Right`
-
-e.either(Left, Right) === e (identity)
 
 #### `either` method
 
@@ -830,19 +876,35 @@ The `either` method takes two arguments:
 
     e.either(f, g)
 
-1. `f` must be a function which returns a value
+1. `f` must be a unary function. It is called in the `Left` case
 
-    1. If `f` is not a function, the behaviour of `either` is unspecified.
-    2. `f` can return any value.
-    3. No parts of `f`'s return value should be checked.
+    1. If `f` is not a unary function or the return value of `f` does not match
+       the return value of `either`, the behaviour of `either` is unspecified.
 
-2. `g` must be a function which returns a value
+2. `g` must be a unary function. It is called in the `Right` case
 
-    1. If `g` is not a function, the behaviour of `either` is unspecified.
-    2. `g` can return any value.
-    3. No parts of `g`'s return value should be checked.
+    1. If `g` is not a unary function or the return value of `g` does not match
+       the return value of `either`, the behaviour of `either` is unspecified.
 
-3. `f`, `g`, and `either` must return a value of the same type
+### Pair
+
+`Pair` is the canonical product type and represents a structure containing two
+values (Pair a b).
+
+```hs
+pair :: Pair p => p a b ~> ((a, b) -> c) -> c
+```
+
+A value which conforms to the Pair specification must provide a `pair` method.
+
+The `pair` method takes a single argument:
+
+    p.pair(f)
+
+1. `f` must be a binary function
+
+    1. If `f` is not a binary function or the return value of `f` does not match
+       the return value of `pair`, the behaviour of `pair` is unspecified.
 
 ## Derivations
 
