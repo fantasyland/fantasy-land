@@ -101,6 +101,7 @@ An algebra may also state other algebra methods which can be derived from new me
 * [Group](#group)
 * [Semigroupoid](#semigroupoid)
 * [Category](#category)
+* [Filterable](#filterable)
 * [Functor](#functor)
 * [Bifunctor](#bifunctor)
 * [Contravariant](#contravariant)
@@ -215,6 +216,21 @@ Module must match the `Category` signature for some type `T`, support `Semigroup
 
   1. Right identity: `M.compose(a, M.id()) ≡ a`
   1. Left identity: `M.compose(M.id(), a) ≡ a`
+
+
+### Filterable
+
+```js
+Filterable<T> {
+  filter: <a>(a => boolean, T<a>) => T<a>
+}
+```
+
+Module must match the `Filterable` signature for some type `T`, and obey following laws:
+
+  1. Distributivity: `F.filter(x => f(x) && g(x), a) ≡ F.filter(g, F.filter(f, a))`
+  1. Identity: `F.filter(x => true, a) ≡ a`
+  1. Annihilation: `F.filter(x => false, a) ≡ F.filter(x => false, b)`
 
 
 ### Functor
