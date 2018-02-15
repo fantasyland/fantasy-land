@@ -88,6 +88,39 @@ We use `≡` symbol to denote equivalence.
 All methods' implementations should only use type information about arguments that is known from the signatures. It's not allowed to inspect arguments or values that they produce or contain to get more information about their types. In other words, methods should be [parametrically polymorphic](https://en.wikipedia.org/wiki/Parametric_polymorphism).
 
 
+## Canonical Module
+
+A value may have a reference to a canonical module that works with values of that value's type. The reference should be in the `fantasy-land/canonical` property. For example:
+
+```js
+const ListModule = {
+  of(x) {
+    return {'fantasy-land/canonical': ListModule, data: [x]}
+  },
+  map(f, v) {
+    return {'fantasy-land/canonical': ListModule, data: v.data.map(f)}
+  }
+}
+```
+
+In case a value has a reference to a canonical module, that module must produce values with references to itself. In the following example, `list` is an incorrect value, because `ListModule2` does not produce values with references to itself:
+
+```js
+const ListModule2 = {
+  of(x) {
+    return {data: [x]}
+  },
+  map(f, v) {
+    return {data: v.data.map(f)}
+  }
+}
+
+const list = {'fantasy-land/canonical': ListModule2, data: [1]}
+```
+
+Note that the `ListModule2` here is correct. Only the `list` value doesn't follow the specification.
+
+
 ## Algebra
 
 Algebra is a set of requirements for modules, like to match a signature and to obey some laws. If a module satisfies all requirements of an algebra it supports that algebra. An algebra may require supporting other algebras.
