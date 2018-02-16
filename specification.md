@@ -152,6 +152,8 @@ An algebra may also state other algebra methods which can be derived from new me
 * [Comonad](#comonad)
 * [Traversable](#traversable)
 
+<img src="figures/dependencies.png" width="888" height="234" />
+
 
 ### Setoid
 
