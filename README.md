@@ -812,26 +812,46 @@ identity :: Identity i => i a ~> (a -> b) -> b
 Additionally, data constructors may be referenced in the specification by name
 and arity. Conforming data structures are not required to provide these
 constructors nor are any provided constructors required to share these names.
-For example, instead of `Left` and `Right`, the constructors could be named
-`Failure` and `Success`.
+Instead of `Just` and `Nothing`, the constructors could be named `Some` and
+`None`.
 
 For example
 ```js
-function Id(x) {
+function Some(x) {
+  if (!(this instanceof Some)) return new Some(x);
   this.x = x;
-}
-
-Id.prototype['fantasy-land/identity'] = function identity(f) {
+};
+Some.prototype['fantasy-land/maybe'] = function maybe(_, f) {
   return f(this.x);
 };
 
-Array.prototype['fantasy-land/identity'] = function identity(f) {
-  return f(this[0]);
+var None = {
+  'fantasy-land/maybe': function maybe(d, _) {
+    return d;
+  }
 };
 
-var identity = 'fantasy-land/identity';
+Array.prototype['fantasy-land/maybe'] = function maybe(d, f) {
+  return this.length === 0 ? d : f(this[0]);
+};
 
-(new Id(42))[identity](x => x) === [42][identity](x => x);
+function maybe(d, f, m) {
+  return m['fantasy-land/maybe'](d, f);
+}
+
+var head = maybe.bind(null, None, Some);
+
+var none = head([]);
+none // None
+
+var some = head([1, 2, 3]);
+some // Some(1);
+
+function fromMaybe(d, m) {
+  return maybe(d, x => x, m);
+}
+fromMaybe(0, none) // 0
+fromMaybe(0, some) // 1
 ```
 
 ### Maybe
