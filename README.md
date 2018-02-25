@@ -31,3 +31,15 @@ In rare cases when it's impossible to add the property to values, for example wh
 ### Compatible libraries
 
 TODO: we probably should have a document in wiki for this.
+
+Conforming implementations are encouraged to promote the Fantasy Land logo:
+
+<a href="https://github.com/fantasyland/fantasy-land">
+  <img width="100" height="100" src="https://raw.githubusercontent.com/fantasyland/fantasy-land/master/logo.png" />
+</a>
+
+```html
+<a href="https://github.com/fantasyland/fantasy-land">
+  <img width="100" height="100" src="https://raw.githubusercontent.com/fantasyland/fantasy-land/master/logo.png" />
+</a>
+```
