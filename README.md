@@ -28,18 +28,19 @@ If your library defines a new type make sure that the values of that type have a
 In rare cases when it's impossible to add the property to values, for example when you define a module for a type that you cannot control, it's still useful to expose compatible [module objects](specification.md#module). Simply say in your documentation where the modules are located.
 
 
-### Compatible libraries
+### Conformant Implementations
 
-TODO: we probably should have a document in wiki for this.
+We have a list in the wiki. Feel free to add your projects there.
+
+ - TODO: link to a wiki page
 
 Conforming implementations are encouraged to promote the Fantasy Land logo:
 
-<a href="https://github.com/fantasyland/fantasy-land">
-  <img width="100" height="100" src="https://raw.githubusercontent.com/fantasyland/fantasy-land/master/logo.png" />
-</a>
-
 ```html
 <a href="https://github.com/fantasyland/fantasy-land">
-  <img width="100" height="100" src="https://raw.githubusercontent.com/fantasyland/fantasy-land/master/logo.png" />
+  <img
+    width="100" height="100"
+    src="https://raw.githubusercontent.com/fantasyland/fantasy-land/master/logo.png"
+  />
 </a>
 ```
