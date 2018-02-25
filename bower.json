@@ -25,11 +25,8 @@
     "/.git/",
     "/bower_components/",
     "/figures/",
-    "/laws/",
     "/node_modules/",
     "/.*",
-    "/id.js",
-    "/test.js",
     "/implementations.md",
     "/logo.png",
     "/package.json"
