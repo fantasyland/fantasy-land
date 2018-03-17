@@ -28,6 +28,8 @@ Foo {
 }
 ```
 
+Note that we omit argument names in function types. In TypeScript or Flow `(number) => number` is usually written as `(a: number) => number`. We omit that for brevity.
+
 A signature can be parameterized by a type, which looks like this:
 
 ```js
