@@ -2,9 +2,6 @@
 
   'use strict';
 
-  /* eslint comma-dangle: ["off"], no-var: ["off"], strict: ["error", "function"] */
-  /* global self */
-
   var mapping = {
     equals: 'fantasy-land/equals',
     lte: 'fantasy-land/lte',
@@ -30,10 +27,11 @@
     promap: 'fantasy-land/promap'
   };
 
+  /* istanbul ignore else */
   if (typeof module === 'object' && typeof module.exports === 'object') {
     module.exports = mapping;
   } else {
     self.FantasyLand = mapping;
   }
 
-}());
+} ());
