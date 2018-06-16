@@ -907,8 +907,8 @@ be equivalent to that of the derivation (or derivations).
 2. It's discouraged to overload the specified methods. It can easily
    result in broken and buggy behaviour.
 3. It is recommended to throw an exception on unspecified behaviour.
-4. An `Id` container which implements many of the methods is provided in
-   `internal/id.js`.
+4. An `Identity` container which implements many of the methods is provided by
+   [sanctuary-identity](https://github.com/sanctuary-js/sanctuary-identity).
 
 
 [`ap`]: #ap-method
