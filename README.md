@@ -52,7 +52,7 @@ have dependencies on other algebras which must be implemented.
     The definition should ensure that the two values can be safely swapped out in a program that respects abstractions. For example:
     - Two lists are equivalent if they are equivalent at all indices.
     - Two plain old JavaScript objects, interpreted as dictionaries, are equivalent when they are equivalent for all keys.
-    - Two promises are equivalent when they yield equivalent values.
+    - Two values are equivalent if they are [referentially transparent](https://en.wikipedia.org/wiki/Referential_transparency).
     - Two functions are equivalent if they yield equivalent outputs for equivalent inputs.
 
 ## Type signature notation
