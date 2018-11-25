@@ -327,7 +327,7 @@ A value which has a Group must provide an `invert` method. The
 
     g.invert()
 
-1. `invert` must return a value of the same Group.
+1. `invert` must return a value of the same Group. If retrun value is not from the same Group, behaviour of invert is unspecified.
 
 ### Filterable
 
