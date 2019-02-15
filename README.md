@@ -819,13 +819,13 @@ to implement certain methods then derive the remaining methods. Derivations:
     function(f) { return this.chain(a => this.of(f(a))); }
     ```
 
-  - [`map`][] may be derived from [`bimap`]:
+  - [`map`][] may be derived from [`bimap`][]:
 
     ```js
     function(f) { return this.bimap(a => a, f); }
     ```
 
-  - [`map`][] may be derived from [`promap`]:
+  - [`map`][] may be derived from [`promap`][]:
 
     ```js
     function(f) { return this.promap(a => a, f); }
@@ -915,17 +915,13 @@ be equivalent to that of the derivation (or derivations).
 [`bimap`]: #bimap-method
 [`chain`]: #chain-method
 [`concat`]: #concat-method
-[`empty`]: #empty-method
 [`equals`]: #equals-method
-[`extend`]: #extend-method
-[`extract`]: #extract-method
 [`filter`]: #filter-method
 [`lte`]: #lte-method
 [`map`]: #map-method
 [`of`]: #of-method
 [`promap`]: #promap-method
 [`reduce`]: #reduce-method
-[`sequence`]: #sequence-method
 [`zero`]: #zero-method
 
 ## Alternatives
