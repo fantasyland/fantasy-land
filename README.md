@@ -810,13 +810,13 @@ to implement certain methods then derive the remaining methods. Derivations:
   - [`map`][] may be derived from [`ap`][] and [`of`][]:
 
     ```js
-    function(f) { return this.ap(this.of(f)); }
+    function(f) { return this.ap(this.constructor.of(f)); }
     ```
 
   - [`map`][] may be derived from [`chain`][] and [`of`][]:
 
     ```js
-    function(f) { return this.chain(a => this.of(f(a))); }
+    function(f) { return this.chain(a => this.constructor.of(f(a))); }
     ```
 
   - [`map`][] may be derived from [`bimap`][]:
