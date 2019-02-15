@@ -778,7 +778,7 @@ promap :: Profunctor p => p b c ~> (a -> b, c -> d) -> p a d
 
 A value which has a Profunctor must provide a `promap` method.
 
-The `profunctor` method takes two arguments:
+The `promap` method takes two arguments:
 
     c.promap(f, g)
 
