@@ -159,6 +159,14 @@ Identity type, for example, could provide `Id` as its type representative:
 If a type provides a type representative, each member of the type must have
 a `constructor` property which is a reference to the type representative.
 
+
+## `forAll`
+
+[Parametric polymorphism][pp] is essential to these algebras.  When the rules for any type are specified as applied to all values (`forall a b`) of the given generic types (here `a` and `b`), the rule must hold for any Javascript values unless otherwise specified.  This implies, for instance, that code that behaves differently for the `null` or `undefined` value than for other values is unlikely to comply with the rule.
+
+  [pp]: https://en.wikipedia.org/wiki/Parametricity
+
+
 ## Algebras
 
 ### Setoid
@@ -363,7 +371,7 @@ method takes one argument:
 #### `map` method
 
 ```hs
-map :: Functor f => f a ~> (a -> b) -> f b
+map :: forall a b . Functor f => f a ~> (a -> b) -> f b
 ```
 
 A value which has a Functor must provide a `map` method. The `map`
@@ -376,7 +384,6 @@ method takes one argument:
     1. If `f` is not a function, the behaviour of `map` is
        unspecified.
     2. `f` can return any value.
-    3. No parts of `f`'s return value should be checked.
 
 2. `map` must return a value of the same Functor
 
@@ -389,7 +396,7 @@ method takes one argument:
 #### `contramap` method
 
 ```hs
-contramap :: Contravariant f => f a ~> (b -> a) -> f b
+contramap :: forall a b . Contravariant f => f a ~> (b -> a) -> f b
 ```
 
 A value which has a Contravariant must provide a `contramap` method. The
@@ -402,7 +409,6 @@ A value which has a Contravariant must provide a `contramap` method. The
     1. If `f` is not a function, the behaviour of `contramap` is
        unspecified.
     2. `f` can return any value.
-    3. No parts of `f`'s return value should be checked.
 
 2. `contramap` must return a value of the same Contravariant
 
@@ -416,7 +422,7 @@ implement the [Functor](#functor) specification.
 #### `ap` method
 
 ```hs
-ap :: Apply f => f a ~> f (a -> b) -> f b
+ap :: forall a b . Apply f => f a ~> f (a -> b) -> f b
 ```
 
 A value which has an Apply must provide an `ap` method. The `ap`
@@ -435,8 +441,6 @@ method takes one argument:
 3. `ap` must apply the function in Apply `b` to the value in
    Apply `a`
 
-   1. No parts of return value of that function should be checked.
-
 4. The `Apply` returned by `ap` must be the same as `a` and `b`
 
 ### Applicative
@@ -451,7 +455,7 @@ implement the [Apply](#apply) specification.
 #### `of` method
 
 ```hs
-of :: Applicative f => a -> f a
+of :: forall a . Applicative f => a -> f a
 ```
 
 A value which has an Applicative must provide an `of` function on its
@@ -467,8 +471,6 @@ Given a value `f`, one can access its type representative via the
 
 1. `of` must provide a value of the same Applicative
 
-    1. No parts of `a` should be checked
-
 ### Alt
 
 A value that implements the Alt specification must also implement
@@ -480,7 +482,7 @@ the [Functor](#functor) specification.
 #### `alt` method
 
 ```hs
-alt :: Alt f => f a ~> f a -> f a
+alt :: forall a . Alt f => f a ~> f a -> f a
 ```
 
 A value which has a Alt must provide a `alt` method. The
@@ -493,7 +495,7 @@ A value which has a Alt must provide a `alt` method. The
     1. If `b` is not the same Alt, behaviour of `alt` is
        unspecified.
     2. `a` and `b` can contain any value of same type.
-    3. No parts of `a`'s and `b`'s containing value should be checked.
+
 
 2. `alt` must return a value of the same Alt.
 
@@ -539,7 +541,7 @@ the [Applicative](#applicative) and [Plus](#plus) specifications.
 #### `reduce` method
 
 ```hs
-reduce :: Foldable f => f a ~> ((b, a) -> b, b) -> b
+reduce :: forall a b . Foldable f => f a ~> ((b, a) -> b, b) -> b
 ```
 
 A value which has a Foldable must provide a `reduce` method. The `reduce`
@@ -552,11 +554,7 @@ method takes two arguments:
     1. if `f` is not a function, the behaviour of `reduce` is unspecified.
     2. The first argument to `f` must be the same type as `x`.
     3. `f` must return a value of the same type as `x`.
-    4. No parts of `f`'s return value should be checked.
 
-1. `x` is the initial accumulator value for the reduction
-
-    1. No parts of `x` should be checked.
 
 ### Traversable
 
@@ -691,7 +689,7 @@ A value that implements the Extend specification must also implement the [Functo
 #### `extend` method
 
 ```hs
-extend :: Extend w => w a ~> (w a -> b) -> w b
+extend :: forall a b . Extend w => w a ~> (w a -> b) -> w b
 ```
 
 An Extend must provide an `extend` method. The `extend`
@@ -704,7 +702,6 @@ method takes one argument:
     1. If `f` is not a function, the behaviour of `extend` is
        unspecified.
     2. `f` must return a value of type `v`, for some variable `v` contained in `w`.
-    3. No parts of `f`'s return value should be checked.
 
 2. `extend` must return a value of the same Extend.
 
@@ -740,7 +737,7 @@ the [Functor](#functor) specification.
 #### `bimap` method
 
 ```hs
-bimap :: Bifunctor f => f a c ~> (a -> b, c -> d) -> f b d
+bimap :: forall a b c d . Bifunctor f => f a c ~> (a -> b, c -> d) -> f b d
 ```
 
 A value which has a Bifunctor must provide a `bimap` method. The `bimap`
@@ -752,13 +749,11 @@ method takes two arguments:
 
     1. If `f` is not a function, the behaviour of `bimap` is unspecified.
     2. `f` can return any value.
-    3. No parts of `f`'s return value should be checked.
 
 2. `g` must be a function which returns a value
 
     1. If `g` is not a function, the behaviour of `bimap` is unspecified.
     2. `g` can return any value.
-    3. No parts of `g`'s return value should be checked.
 
 3. `bimap` must return a value of the same Bifunctor.
 
@@ -773,7 +768,7 @@ the [Functor](#functor) specification.
 #### `promap` method
 
 ```hs
-promap :: Profunctor p => p b c ~> (a -> b, c -> d) -> p a d
+promap :: forall a b c d . Profunctor p => p b c ~> (a -> b, c -> d) -> p a d
 ```
 
 A value which has a Profunctor must provide a `promap` method.
@@ -786,13 +781,11 @@ The `promap` method takes two arguments:
 
     1. If `f` is not a function, the behaviour of `promap` is unspecified.
     2. `f` can return any value.
-    3. No parts of `f`'s return value should be checked.
 
 2. `g` must be a function which returns a value
 
     1. If `g` is not a function, the behaviour of `promap` is unspecified.
     2. `g` can return any value.
-    3. No parts of `g`'s return value should be checked.
 
 3. `promap` must return a value of the same Profunctor
 
