@@ -376,7 +376,7 @@ method takes one argument:
 #### `map` method
 
 ```hs
-map :: forall a b . Functor f => f a ~> (a -> b) -> f b
+map :: forall a b. Functor f => f a ~> (a -> b) -> f b
 ```
 
 A value which has a Functor must provide a `map` method. The `map`
@@ -401,7 +401,7 @@ method takes one argument:
 #### `contramap` method
 
 ```hs
-contramap :: forall a b . Contravariant f => f a ~> (b -> a) -> f b
+contramap :: forall a b. Contravariant f => f a ~> (b -> a) -> f b
 ```
 
 A value which has a Contravariant must provide a `contramap` method. The
@@ -427,7 +427,7 @@ implement the [Functor](#functor) specification.
 #### `ap` method
 
 ```hs
-ap :: forall a b . Apply f => f a ~> f (a -> b) -> f b
+ap :: forall a b. Apply f => f a ~> f (a -> b) -> f b
 ```
 
 A value which has an Apply must provide an `ap` method. The `ap`
@@ -460,7 +460,7 @@ implement the [Apply](#apply) specification.
 #### `of` method
 
 ```hs
-of :: forall a . Applicative f => a -> f a
+of :: forall a. Applicative f => a -> f a
 ```
 
 A value which has an Applicative must provide an `of` function on its
@@ -487,7 +487,7 @@ the [Functor](#functor) specification.
 #### `alt` method
 
 ```hs
-alt :: forall a . Alt f => f a ~> f a -> f a
+alt :: forall a. Alt f => f a ~> f a -> f a
 ```
 
 A value which has a Alt must provide a `alt` method. The
@@ -546,7 +546,7 @@ the [Applicative](#applicative) and [Plus](#plus) specifications.
 #### `reduce` method
 
 ```hs
-reduce :: forall a b . Foldable f => f a ~> ((b, a) -> b, b) -> b
+reduce :: forall a b. Foldable f => f a ~> ((b, a) -> b, b) -> b
 ```
 
 A value which has a Foldable must provide a `reduce` method. The `reduce`
@@ -694,7 +694,7 @@ A value that implements the Extend specification must also implement the [Functo
 #### `extend` method
 
 ```hs
-extend :: forall a b . Extend w => w a ~> (w a -> b) -> w b
+extend :: forall a b. Extend w => w a ~> (w a -> b) -> w b
 ```
 
 An Extend must provide an `extend` method. The `extend`
@@ -742,7 +742,7 @@ the [Functor](#functor) specification.
 #### `bimap` method
 
 ```hs
-bimap :: forall a b c d . Bifunctor f => f a c ~> (a -> b, c -> d) -> f b d
+bimap :: forall a b c d. Bifunctor f => f a c ~> (a -> b, c -> d) -> f b d
 ```
 
 A value which has a Bifunctor must provide a `bimap` method. The `bimap`
@@ -773,7 +773,7 @@ the [Functor](#functor) specification.
 #### `promap` method
 
 ```hs
-promap :: forall a b c d . Profunctor p => p b c ~> (a -> b, c -> d) -> p a d
+promap :: forall a b c d. Profunctor p => p b c ~> (a -> b, c -> d) -> p a d
 ```
 
 A value which has a Profunctor must provide a `promap` method.
