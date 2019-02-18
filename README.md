@@ -162,7 +162,12 @@ a `constructor` property which is a reference to the type representative.
 
 ## `forAll`
 
-[Parametric polymorphism][pp] is essential to these algebras.  When the rules for any type are specified as applied to all values (`forall a b`) of the given generic types (here `a` and `b`), the rule must hold for any Javascript values unless otherwise specified.  This implies, for instance, that code that behaves differently for the `null` or `undefined` value than for other values is unlikely to comply with the rule.
+[Parametric polymorphism][pp] is essential to these algebras.  When the rules
+for any type are specified as applied to all values (`forall a b`) of the 
+given generic types (here `a` and `b`), the rule must hold for any JavaScript
+values unless otherwise specified.  This implies, for instance, that code that
+behaves differently for the `null` or `undefined` value than for other values
+is unlikely to comply with the rule.
 
   [pp]: https://en.wikipedia.org/wiki/Parametricity
 
