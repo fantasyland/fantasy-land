@@ -69,9 +69,7 @@ id="sanctuary-types-return">[1](#sanctuary-types)</sup>
     - Type constructors can take zero or more type arguments.
     - `Array` is a type constructor which takes one type argument.
     - `Array String` is the type of all arrays of strings. Each of the
-      following has type `Array String`: `[]`,1. `x` is the initial accumulator value for the reduction
-
-    1. No parts of `x` should be checked. `['foo', 'bar', 'baz']`.
+      following has type `Array String`: `[]`, `['foo', 'bar', 'baz']`.
     - `Array (Array String)` is the type of all arrays of arrays of strings.
       Each of the following has type `Array (Array String)`: `[]`, `[ [], []
       ]`, `[ [], ['foo'], ['bar', 'baz'] ]`.
