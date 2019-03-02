@@ -109,44 +109,17 @@ id="sanctuary-types-return">[1](#sanctuary-types)</sup>
 For example:
 
 ```
-traverse :: Applicative f, Traversable t => t a ~> (TypeRep f, a -> f b) -> f (t b)
-'------'    '--------------------------'    '-'    '-------------------'    '-----'
- '           '                               '      '                        '
- '           ' - type constraints            '      ' - argument types       ' - return type
- '                                           '
- '- method name                              ' - method target type
+fantasy-land/traverse :: Applicative f, Traversable t => t a ~> (TypeRep f, a -> f b) -> f (t b)
+'-------------------'    '--------------------------'    '-'    '-------------------'    '-----'
+ '                        '                               '      '                        '
+ '                        ' - type constraints            '      ' - argument types       ' - return type
+ '                                                        '
+ '- method name                                           ' - method target type
 ```
 
 - - -
 1. <a name="sanctuary-types"></a>See the [Types](https://sanctuary.js.org/#types)
    section in Sanctuary's docs for more info. [↩](#sanctuary-types-return)
-
-## Prefixed method names
-
-In order for a data type to be compatible with Fantasy Land, its values must
-have certain properties. These properties are all prefixed by `fantasy-land/`.
-For example:
-
-```js
-//  MyType#fantasy-land/map :: MyType a ~> (a -> b) -> MyType b
-MyType.prototype['fantasy-land/map'] = ...
-```
-
-Further in this document unprefixed names are used just to reduce noise.
-
-For convenience you can use `fantasy-land` package:
-
-```js
-var fl = require('fantasy-land')
-
-// ...
-
-MyType.prototype[fl.map] = ...
-
-// ...
-
-var foo = bar[fl.map](x => x + 1)
-```
 
 ## Type representatives
 
@@ -163,309 +136,333 @@ a `constructor` property which is a reference to the type representative.
 
 ### Setoid
 
-1. `a.equals(a) === true` (reflexivity)
-2. `a.equals(b) === b.equals(a)` (symmetry)
-3. If `a.equals(b)` and `b.equals(c)`, then `a.equals(c)` (transitivity)
+1. `a['fantasy-land/equals'](a) === true` (reflexivity)
+2. `a['fantasy-land/equals'](b) === b['fantasy-land/equals'](a)` (symmetry)
+3. If `a['fantasy-land/equals'](b)` and `b['fantasy-land/equals'](c)`, then `a['fantasy-land/equals'](c)` (transitivity)
 
-#### `equals` method
+<a name="equals-method"></a>
+
+#### `fantasy-land/equals` method
 
 ```hs
-equals :: Setoid a => a ~> a -> Boolean
+fantasy-land/equals :: Setoid a => a ~> a -> Boolean
 ```
 
-A value which has a Setoid must provide an `equals` method. The
-`equals` method takes one argument:
+A value which has a Setoid must provide a `fantasy-land/equals` method. The
+`fantasy-land/equals` method takes one argument:
 
-    a.equals(b)
+    a['fantasy-land/equals'](b)
 
 1. `b` must be a value of the same Setoid
 
-    1. If `b` is not the same Setoid, behaviour of `equals` is
+    1. If `b` is not the same Setoid, behaviour of `fantasy-land/equals` is
        unspecified (returning `false` is recommended).
 
-2. `equals` must return a boolean (`true` or `false`).
+2. `fantasy-land/equals` must return a boolean (`true` or `false`).
 
 ### Ord
 
 A value that implements the Ord specification must also implement
 the [Setoid](#setoid) specification.
 
-1. `a.lte(b)` or `b.lte(a)` (totality)
-2. If `a.lte(b)` and `b.lte(a)`, then `a.equals(b)` (antisymmetry)
-3. If `a.lte(b)` and `b.lte(c)`, then `a.lte(c)` (transitivity)
+1. `a['fantasy-land/lte'](b)` or `b['fantasy-land/lte'](a)` (totality)
+2. If `a['fantasy-land/lte'](b)` and `b['fantasy-land/lte'](a)`, then `a['fantasy-land/equals'](b)` (antisymmetry)
+3. If `a['fantasy-land/lte'](b)` and `b['fantasy-land/lte'](c)`, then `a['fantasy-land/lte'](c)` (transitivity)
 
-#### `lte` method
+<a name="lte-method"></a>
+
+#### `fantasy-land/lte` method
 
 ```hs
-lte :: Ord a => a ~> a -> Boolean
+fantasy-land/lte :: Ord a => a ~> a -> Boolean
 ```
 
-A value which has an Ord must provide a `lte` method. The
-`lte` method takes one argument:
+A value which has an Ord must provide a `fantasy-land/lte` method. The
+`fantasy-land/lte` method takes one argument:
 
-     a.lte(b)
+     a['fantasy-land/lte'](b)
 
 1. `b` must be a value of the same Ord
 
-    1. If `b` is not the same Ord, behaviour of `lte` is
+    1. If `b` is not the same Ord, behaviour of `fantasy-land/lte` is
        unspecified (returning `false` is recommended).
 
-2. `lte` must return a boolean (`true` or `false`).
+2. `fantasy-land/lte` must return a boolean (`true` or `false`).
 
 ### Semigroupoid
 
-1. `a.compose(b).compose(c) === a.compose(b.compose(c))` (associativity)
+1. `a['fantasy-land/compose'](b)['fantasy-land/compose'](c) === a['fantasy-land/compose'](b['fantasy-land/compose'](c))` (associativity)
 
-#### `compose` method
+<a name="compose-method"></a>
+
+#### `fantasy-land/compose` method
 
 ```hs
-compose :: Semigroupoid c => c i j ~> c j k -> c i k
+fantasy-land/compose :: Semigroupoid c => c i j ~> c j k -> c i k
 ```
 
-A value which has a Semigroupoid must provide a `compose` method. The
-`compose` method takes one argument:
+A value which has a Semigroupoid must provide a `fantasy-land/compose` method. The
+`fantasy-land/compose` method takes one argument:
 
-    a.compose(b)
+    a['fantasy-land/compose'](b)
 
 1. `b` must be a value of the same Semigroupoid
 
-    1. If `b` is not the same semigroupoid, behaviour of `compose` is
+    1. If `b` is not the same semigroupoid, behaviour of `fantasy-land/compose` is
        unspecified.
 
-2. `compose` must return a value of the same Semigroupoid.
+2. `fantasy-land/compose` must return a value of the same Semigroupoid.
 
 ### Category
 
 A value that implements the Category specification must also implement
 the [Semigroupoid](#semigroupoid) specification.
 
-1. `a.compose(C.id())` is equivalent to `a` (right identity)
-2. `C.id().compose(a)` is equivalent to `a` (left identity)
+1. `a['fantasy-land/compose'](C['fantasy-land/id']())` is equivalent to `a` (right identity)
+2. `C['fantasy-land/id']()['fantasy-land/compose'](a)` is equivalent to `a` (left identity)
 
-#### `id` method
+<a name="id-method"></a>
+
+#### `fantasy-land/id` method
 
 ```hs
-id :: Category c => () -> c a a
+fantasy-land/id :: Category c => () -> c a a
 ```
 
-A value which has a Category must provide an `id` function on its
+A value which has a Category must provide a `fantasy-land/id` function on its
 [type representative](#type-representatives):
 
-    C.id()
+    C['fantasy-land/id']()
 
 Given a value `c`, one can access its type representative via the
 `constructor` property:
 
-    c.constructor.id()
+    c.constructor['fantasy-land/id']()
 
-1. `id` must return a value of the same Category
+1. `fantasy-land/id` must return a value of the same Category
 
 ### Semigroup
 
-1. `a.concat(b).concat(c)` is equivalent to `a.concat(b.concat(c))` (associativity)
+1. `a['fantasy-land/concat'](b)['fantasy-land/concat'](c)` is equivalent to `a['fantasy-land/concat'](b['fantasy-land/concat'](c))` (associativity)
 
-#### `concat` method
+<a name="concat-method"></a>
+
+#### `fantasy-land/concat` method
 
 ```hs
-concat :: Semigroup a => a ~> a -> a
+fantasy-land/concat :: Semigroup a => a ~> a -> a
 ```
 
-A value which has a Semigroup must provide a `concat` method. The
-`concat` method takes one argument:
+A value which has a Semigroup must provide a `fantasy-land/concat` method. The
+`fantasy-land/concat` method takes one argument:
 
-    s.concat(b)
+    s['fantasy-land/concat'](b)
 
 1. `b` must be a value of the same Semigroup
 
-    1. If `b` is not the same semigroup, behaviour of `concat` is
+    1. If `b` is not the same semigroup, behaviour of `fantasy-land/concat` is
        unspecified.
 
-2. `concat` must return a value of the same Semigroup.
+2. `fantasy-land/concat` must return a value of the same Semigroup.
 
 ### Monoid
 
 A value that implements the Monoid specification must also implement
 the [Semigroup](#semigroup) specification.
 
-1. `m.concat(M.empty())` is equivalent to `m` (right identity)
-2. `M.empty().concat(m)` is equivalent to `m` (left identity)
+1. `m['fantasy-land/concat'](M['fantasy-land/empty']())` is equivalent to `m` (right identity)
+2. `M['fantasy-land/empty']()['fantasy-land/concat'](m)` is equivalent to `m` (left identity)
 
-#### `empty` method
+<a name="empty-method"></a>
+
+#### `fantasy-land/empty` method
 
 ```hs
-empty :: Monoid m => () -> m
+fantasy-land/empty :: Monoid m => () -> m
 ```
 
-A value which has a Monoid must provide an `empty` function on its
+A value which has a Monoid must provide a `fantasy-land/empty` function on its
 [type representative](#type-representatives):
 
-    M.empty()
+    M['fantasy-land/empty']()
 
 Given a value `m`, one can access its type representative via the
 `constructor` property:
 
-    m.constructor.empty()
+    m.constructor['fantasy-land/empty']()
 
-1. `empty` must return a value of the same Monoid
+1. `fantasy-land/empty` must return a value of the same Monoid
 
 ### Group
 
 A value that implements the Group specification must also implement
 the [Monoid](#monoid) specification.
 
-1. `g.concat(g.invert())` is equivalent to `g.constructor.empty()` (right inverse)
-2. `g.invert().concat(g)` is equivalent to `g.constructor.empty()` (left inverse)
+1. `g['fantasy-land/concat'](g['fantasy-land/invert']())` is equivalent to `g.constructor['fantasy-land/empty']()` (right inverse)
+2. `g['fantasy-land/invert']()['fantasy-land/concat'](g)` is equivalent to `g.constructor['fantasy-land/empty']()` (left inverse)
 
-#### `invert` method
+<a name="invert-method"></a>
+
+#### `fantasy-land/invert` method
 
 ```hs
-invert :: Group g => g ~> () -> g
+fantasy-land/invert :: Group g => g ~> () -> g
 ```
 
-A value which has a Group must provide an `invert` method. The
-`invert` method takes no arguments:
+A value which has a Group must provide a `fantasy-land/invert` method. The
+`fantasy-land/invert` method takes no arguments:
 
-    g.invert()
+    g['fantasy-land/invert']()
 
-1. `invert` must return a value of the same Group.
+1. `fantasy-land/invert` must return a value of the same Group.
 
 ### Filterable
 
-1. `v.filter(x => p(x) && q(x))` is equivalent to `v.filter(p).filter(q)` (distributivity)
-2. `v.filter(x => true)` is equivalent to `v` (identity)
-3. `v.filter(x => false)` is equivalent to `w.filter(x => false)`
+1. `v['fantasy-land/filter'](x => p(x) && q(x))` is equivalent to `v['fantasy-land/filter'](p)['fantasy-land/filter'](q)` (distributivity)
+2. `v['fantasy-land/filter'](x => true)` is equivalent to `v` (identity)
+3. `v['fantasy-land/filter'](x => false)` is equivalent to `w['fantasy-land/filter'](x => false)`
    if `v` and `w` are values of the same Filterable (annihilation)
 
-#### `filter` method
+<a name="filter-method"></a>
+
+#### `fantasy-land/filter` method
 
 ```hs
-filter :: Filterable f => f a ~> (a -> Boolean) -> f a
+fantasy-land/filter :: Filterable f => f a ~> (a -> Boolean) -> f a
 ```
 
-A value which has a Filterable must provide a `filter` method. The `filter`
+A value which has a Filterable must provide a `fantasy-land/filter` method. The `fantasy-land/filter`
 method takes one argument:
 
-    v.filter(p)
+    v['fantasy-land/filter'](p)
 
 1. `p` must be a function.
 
-    1. If `p` is not a function, the behaviour of `filter` is unspecified.
+    1. If `p` is not a function, the behaviour of `fantasy-land/filter` is unspecified.
     2. `p` must return either `true` or `false`. If it returns any other value,
-       the behaviour of `filter` is unspecified.
+       the behaviour of `fantasy-land/filter` is unspecified.
 
-2. `filter` must return a value of the same Filterable.
+2. `fantasy-land/filter` must return a value of the same Filterable.
 
 ### Functor
 
-1. `u.map(a => a)` is equivalent to `u` (identity)
-2. `u.map(x => f(g(x)))` is equivalent to `u.map(g).map(f)` (composition)
+1. `u['fantasy-land/map'](a => a)` is equivalent to `u` (identity)
+2. `u['fantasy-land/map'](x => f(g(x)))` is equivalent to `u['fantasy-land/map'](g)['fantasy-land/map'](f)` (composition)
 
-#### `map` method
+<a name="map-method"></a>
+
+#### `fantasy-land/map` method
 
 ```hs
-map :: Functor f => f a ~> (a -> b) -> f b
+fantasy-land/map :: Functor f => f a ~> (a -> b) -> f b
 ```
 
-A value which has a Functor must provide a `map` method. The `map`
+A value which has a Functor must provide a `fantasy-land/map` method. The `fantasy-land/map`
 method takes one argument:
 
-    u.map(f)
+    u['fantasy-land/map'](f)
 
 1. `f` must be a function,
 
-    1. If `f` is not a function, the behaviour of `map` is
+    1. If `f` is not a function, the behaviour of `fantasy-land/map` is
        unspecified.
     2. `f` can return any value.
     3. No parts of `f`'s return value should be checked.
 
-2. `map` must return a value of the same Functor
+2. `fantasy-land/map` must return a value of the same Functor
 
 ### Contravariant
 
-1. `u.contramap(a => a)` is equivalent to `u` (identity)
-2. `u.contramap(x => f(g(x)))` is equivalent to `u.contramap(f).contramap(g)`
+1. `u['fantasy-land/contramap'](a => a)` is equivalent to `u` (identity)
+2. `u['fantasy-land/contramap'](x => f(g(x)))` is equivalent to `u['fantasy-land/contramap'](f)['fantasy-land/contramap'](g)`
 (composition)
 
-#### `contramap` method
+<a name="contramap-method"></a>
+
+#### `fantasy-land/contramap` method
 
 ```hs
-contramap :: Contravariant f => f a ~> (b -> a) -> f b
+fantasy-land/contramap :: Contravariant f => f a ~> (b -> a) -> f b
 ```
 
-A value which has a Contravariant must provide a `contramap` method. The
-`contramap` method takes one argument:
+A value which has a Contravariant must provide a `fantasy-land/contramap` method. The
+`fantasy-land/contramap` method takes one argument:
 
-    u.contramap(f)
+    u['fantasy-land/contramap'](f)
 
 1. `f` must be a function,
 
-    1. If `f` is not a function, the behaviour of `contramap` is
+    1. If `f` is not a function, the behaviour of `fantasy-land/contramap` is
        unspecified.
     2. `f` can return any value.
     3. No parts of `f`'s return value should be checked.
 
-2. `contramap` must return a value of the same Contravariant
+2. `fantasy-land/contramap` must return a value of the same Contravariant
 
 ### Apply
 
 A value that implements the Apply specification must also
 implement the [Functor](#functor) specification.
 
-1. `v.ap(u.ap(a.map(f => g => x => f(g(x)))))` is equivalent to `v.ap(u).ap(a)` (composition)
+1. `v['fantasy-land/ap'](u['fantasy-land/ap'](a['fantasy-land/map'](f => g => x => f(g(x)))))` is equivalent to `v['fantasy-land/ap'](u)['fantasy-land/ap'](a)` (composition)
 
-#### `ap` method
+<a name="ap-method"></a>
+
+#### `fantasy-land/ap` method
 
 ```hs
-ap :: Apply f => f a ~> f (a -> b) -> f b
+fantasy-land/ap :: Apply f => f a ~> f (a -> b) -> f b
 ```
 
-A value which has an Apply must provide an `ap` method. The `ap`
+A value which has an Apply must provide a `fantasy-land/ap` method. The `fantasy-land/ap`
 method takes one argument:
 
-    a.ap(b)
+    a['fantasy-land/ap'](b)
 
 1. `b` must be an Apply of a function
 
-    1. If `b` does not represent a function, the behaviour of `ap` is
+    1. If `b` does not represent a function, the behaviour of `fantasy-land/ap` is
        unspecified.
     2. `b` must be same Apply as `a`.
 
 2. `a` must be an Apply of any value
 
-3. `ap` must apply the function in Apply `b` to the value in
+3. `fantasy-land/ap` must apply the function in Apply `b` to the value in
    Apply `a`
 
    1. No parts of return value of that function should be checked.
 
-4. The `Apply` returned by `ap` must be the same as `a` and `b`
+4. The `Apply` returned by `fantasy-land/ap` must be the same as `a` and `b`
 
 ### Applicative
 
 A value that implements the Applicative specification must also
 implement the [Apply](#apply) specification.
 
-1. `v.ap(A.of(x => x))` is equivalent to `v` (identity)
-2. `A.of(x).ap(A.of(f))` is equivalent to `A.of(f(x))` (homomorphism)
-3. `A.of(y).ap(u)` is equivalent to `u.ap(A.of(f => f(y)))` (interchange)
+1. `v['fantasy-land/ap'](A['fantasy-land/of'](x => x))` is equivalent to `v` (identity)
+2. `A['fantasy-land/of'](x)['fantasy-land/ap'](A['fantasy-land/of'](f))` is equivalent to `A['fantasy-land/of'](f(x))` (homomorphism)
+3. `A['fantasy-land/of'](y)['fantasy-land/ap'](u)` is equivalent to `u['fantasy-land/ap'](A['fantasy-land/of'](f => f(y)))` (interchange)
 
-#### `of` method
+<a name="of-method"></a>
+
+#### `fantasy-land/of` method
 
 ```hs
-of :: Applicative f => a -> f a
+fantasy-land/of :: Applicative f => a -> f a
 ```
 
-A value which has an Applicative must provide an `of` function on its
-[type representative](#type-representatives). The `of` function takes
+A value which has an Applicative must provide a `fantasy-land/of` function on its
+[type representative](#type-representatives). The `fantasy-land/of` function takes
 one argument:
 
-    F.of(a)
+    F['fantasy-land/of'](a)
 
 Given a value `f`, one can access its type representative via the
 `constructor` property:
 
-    f.constructor.of(a)
+    f.constructor['fantasy-land/of'](a)
 
-1. `of` must provide a value of the same Applicative
+1. `fantasy-land/of` must provide a value of the same Applicative
 
     1. No parts of `a` should be checked
 
@@ -474,82 +471,88 @@ Given a value `f`, one can access its type representative via the
 A value that implements the Alt specification must also implement
 the [Functor](#functor) specification.
 
-1. `a.alt(b).alt(c)` is equivalent to `a.alt(b.alt(c))` (associativity)
-2. `a.alt(b).map(f)` is equivalent to `a.map(f).alt(b.map(f))` (distributivity)
+1. `a['fantasy-land/alt'](b)['fantasy-land/alt'](c)` is equivalent to `a['fantasy-land/alt'](b['fantasy-land/alt'](c))` (associativity)
+2. `a['fantasy-land/alt'](b)['fantasy-land/map'](f)` is equivalent to `a['fantasy-land/map'](f)['fantasy-land/alt'](b['fantasy-land/map'](f))` (distributivity)
 
-#### `alt` method
+<a name="alt-method"></a>
+
+#### `fantasy-land/alt` method
 
 ```hs
-alt :: Alt f => f a ~> f a -> f a
+fantasy-land/alt :: Alt f => f a ~> f a -> f a
 ```
 
-A value which has a Alt must provide a `alt` method. The
-`alt` method takes one argument:
+A value which has a Alt must provide a `fantasy-land/alt` method. The
+`fantasy-land/alt` method takes one argument:
 
-    a.alt(b)
+    a['fantasy-land/alt'](b)
 
 1. `b` must be a value of the same Alt
 
-    1. If `b` is not the same Alt, behaviour of `alt` is
+    1. If `b` is not the same Alt, behaviour of `fantasy-land/alt` is
        unspecified.
     2. `a` and `b` can contain any value of same type.
     3. No parts of `a`'s and `b`'s containing value should be checked.
 
-2. `alt` must return a value of the same Alt.
+2. `fantasy-land/alt` must return a value of the same Alt.
 
 ### Plus
 
 A value that implements the Plus specification must also implement
 the [Alt](#alt) specification.
 
-1. `x.alt(A.zero())` is equivalent to `x` (right identity)
-2. `A.zero().alt(x)` is equivalent to `x` (left identity)
-3. `A.zero().map(f)` is equivalent to `A.zero()` (annihilation)
+1. `x['fantasy-land/alt'](A['fantasy-land/zero']())` is equivalent to `x` (right identity)
+2. `A['fantasy-land/zero']()['fantasy-land/alt'](x)` is equivalent to `x` (left identity)
+3. `A['fantasy-land/zero']()['fantasy-land/map'](f)` is equivalent to `A['fantasy-land/zero']()` (annihilation)
 
-#### `zero` method
+<a name="zero-method"></a>
+
+#### `fantasy-land/zero` method
 
 ```hs
-zero :: Plus f => () -> f a
+fantasy-land/zero :: Plus f => () -> f a
 ```
 
-A value which has a Plus must provide an `zero` function on its
+A value which has a Plus must provide a `fantasy-land/zero` function on its
 [type representative](#type-representatives):
 
-    A.zero()
+    A['fantasy-land/zero']()
 
 Given a value `x`, one can access its type representative via the
 `constructor` property:
 
-    x.constructor.zero()
+    x.constructor['fantasy-land/zero']()
 
-1. `zero` must return a value of the same Plus
+1. `fantasy-land/zero` must return a value of the same Plus
 
 ### Alternative
 
 A value that implements the Alternative specification must also implement
 the [Applicative](#applicative) and [Plus](#plus) specifications.
 
-1. `x.ap(f.alt(g))` is equivalent to `x.ap(f).alt(x.ap(g))` (distributivity)
-2. `x.ap(A.zero())` is equivalent to `A.zero()` (annihilation)
+1. `x['fantasy-land/ap'](f['fantasy-land/alt'](g))` is equivalent to `x['fantasy-land/ap'](f)['fantasy-land/alt'](x['fantasy-land/ap'](g))` (distributivity)
+2. `x['fantasy-land/ap'](A['fantasy-land/zero']())` is equivalent to `A['fantasy-land/zero']()` (annihilation)
 
 ### Foldable
 
-1. `u.reduce` is equivalent to `u.reduce((acc, x) => acc.concat([x]), []).reduce`
+1. `u['fantasy-land/reduce']` is equivalent to `u['fantasy-land/reduce']((acc, x) => acc.concat([x]), []).reduce`
 
-#### `reduce` method
+<a name="reduce-method"></a>
+
+#### `fantasy-land/reduce` method
 
 ```hs
-reduce :: Foldable f => f a ~> ((b, a) -> b, b) -> b
+fantasy-land/reduce :: Foldable f => f a ~> ((b, a) -> b, b) -> b
 ```
 
-A value which has a Foldable must provide a `reduce` method. The `reduce`
+A value which has a Foldable must provide a `fantasy-land/reduce` method. The `fantasy-land/reduce`
 method takes two arguments:
 
-    u.reduce(f, x)
+    u['fantasy-land/reduce'](f, x)
 
 1. `f` must be a binary function
 
-    1. if `f` is not a function, the behaviour of `reduce` is unspecified.
+    1. if `f` is not a function, the behaviour of `fantasy-land/reduce` is unspecified.
     2. The first argument to `f` must be the same type as `x`.
     3. `f` must return a value of the same type as `x`.
     4. No parts of `f`'s return value should be checked.
@@ -563,14 +566,14 @@ method takes two arguments:
 A value that implements the Traversable specification must also
 implement the [Functor](#functor) and [Foldable](#foldable) specifications.
 
-1. `t(u.traverse(F, x => x))` is equivalent to `u.traverse(G, t)` for any
-   `t` such that `t(a).map(f)` is equivalent to `t(a.map(f))` (naturality)
+1. `t(u['fantasy-land/traverse'](F, x => x))` is equivalent to `u['fantasy-land/traverse'](G, t)` for any
+   `t` such that `t(a)['fantasy-land/map'](f)` is equivalent to `t(a['fantasy-land/map'](f))` (naturality)
 
-2. `u.traverse(F, F.of)` is equivalent to `F.of(u)` for any Applicative `F`
+2. `u['fantasy-land/traverse'](F, F['fantasy-land/of'])` is equivalent to `F['fantasy-land/of'](u)` for any Applicative `F`
    (identity)
 
-3. `u.traverse(Compose, x => new Compose(x))` is equivalent to
-   `new Compose(u.traverse(F, x => x).map(x => x.traverse(G, x => x)))` for
+3. `u['fantasy-land/traverse'](Compose, x => new Compose(x))` is equivalent to
+   `new Compose(u['fantasy-land/traverse'](F, x => x)['fantasy-land/map'](x => x['fantasy-land/traverse'](G, x => x)))` for
    `Compose` defined below and any Applicatives `F` and `G` (composition)
 
 ```js
@@ -578,321 +581,335 @@ var Compose = function(c) {
   this.c = c;
 };
 
-Compose.of = function(x) {
-  return new Compose(F.of(G.of(x)));
+Compose['fantasy-land/of'] = function(x) {
+  return new Compose(F['fantasy-land/of'](G['fantasy-land/of'](x)));
 };
 
-Compose.prototype.ap = function(f) {
-  return new Compose(this.c.ap(f.c.map(u => y => y.ap(u))));
+Compose.prototype['fantasy-land/ap'] = function(f) {
+  return new Compose(this.c['fantasy-land/ap'](f.c['fantasy-land/map'](u => y => y['fantasy-land/ap'](u))));
 };
 
-Compose.prototype.map = function(f) {
-  return new Compose(this.c.map(y => y.map(f)));
+Compose.prototype['fantasy-land/map'] = function(f) {
+  return new Compose(this.c['fantasy-land/map'](y => y['fantasy-land/map'](f)));
 };
 ```
 
-#### `traverse` method
+<a name="traverse-method"></a>
+
+#### `fantasy-land/traverse` method
 
 ```hs
-traverse :: Applicative f, Traversable t => t a ~> (TypeRep f, a -> f b) -> f (t b)
+fantasy-land/traverse :: Applicative f, Traversable t => t a ~> (TypeRep f, a -> f b) -> f (t b)
 ```
 
-A value which has a Traversable must provide a `traverse` method. The `traverse`
+A value which has a Traversable must provide a `fantasy-land/traverse` method. The `fantasy-land/traverse`
 method takes two arguments:
 
-    u.traverse(A, f)
+    u['fantasy-land/traverse'](A, f)
 
 1. `A` must be the [type representative](#type-representatives) of an
    Applicative.
 
 2. `f` must be a function which returns a value
 
-    1. If `f` is not a function, the behaviour of `traverse` is
+    1. If `f` is not a function, the behaviour of `fantasy-land/traverse` is
        unspecified.
     2. `f` must return a value of the type represented by `A`.
 
-3. `traverse` must return a value of the type represented by `A`.
+3. `fantasy-land/traverse` must return a value of the type represented by `A`.
 
 ### Chain
 
 A value that implements the Chain specification must also
 implement the [Apply](#apply) specification.
 
-1. `m.chain(f).chain(g)` is equivalent to `m.chain(x => f(x).chain(g))` (associativity)
+1. `m['fantasy-land/chain'](f)['fantasy-land/chain'](g)` is equivalent to `m['fantasy-land/chain'](x => f(x)['fantasy-land/chain'](g))` (associativity)
 
-#### `chain` method
+<a name="chain-method"></a>
+
+#### `fantasy-land/chain` method
 
 ```hs
-chain :: Chain m => m a ~> (a -> m b) -> m b
+fantasy-land/chain :: Chain m => m a ~> (a -> m b) -> m b
 ```
 
-A value which has a Chain must provide a `chain` method. The `chain`
+A value which has a Chain must provide a `fantasy-land/chain` method. The `fantasy-land/chain`
 method takes one argument:
 
-    m.chain(f)
+    m['fantasy-land/chain'](f)
 
 1. `f` must be a function which returns a value
 
-    1. If `f` is not a function, the behaviour of `chain` is
+    1. If `f` is not a function, the behaviour of `fantasy-land/chain` is
        unspecified.
     2. `f` must return a value of the same Chain
 
-2. `chain` must return a value of the same Chain
+2. `fantasy-land/chain` must return a value of the same Chain
 
 ### ChainRec
 
 A value that implements the ChainRec specification must also implement the [Chain](#chain) specification.
 
-1. `M.chainRec((next, done, v) => p(v) ? d(v).map(done) : n(v).map(next), i)`
+1. `M['fantasy-land/chainRec']((next, done, v) => p(v) ? d(v)['fantasy-land/map'](done) : n(v)['fantasy-land/map'](next), i)`
    is equivalent to
-   `(function step(v) { return p(v) ? d(v) : n(v).chain(step); }(i))` (equivalence)
-2. Stack usage of `M.chainRec(f, i)` must be at most a constant multiple of the stack usage of `f` itself.
+   `(function step(v) { return p(v) ? d(v) : n(v)['fantasy-land/chain'](step); }(i))` (equivalence)
+2. Stack usage of `M['fantasy-land/chainRec'](f, i)` must be at most a constant multiple of the stack usage of `f` itself.
 
-#### `chainRec` method
+<a name="chainRec-method"></a>
+
+#### `fantasy-land/chainRec` method
 
 ```hs
-chainRec :: ChainRec m => ((a -> c, b -> c, a) -> m c, a) -> m b
+fantasy-land/chainRec :: ChainRec m => ((a -> c, b -> c, a) -> m c, a) -> m b
 ```
 
-A Type which has a ChainRec must provide a `chainRec` function on its
-[type representative](#type-representatives). The `chainRec` function
+A Type which has a ChainRec must provide a `fantasy-land/chainRec` function on its
+[type representative](#type-representatives). The `fantasy-land/chainRec` function
 takes two arguments:
 
-    M.chainRec(f, i)
+    M['fantasy-land/chainRec'](f, i)
 
 Given a value `m`, one can access its type representative via the
 `constructor` property:
 
-    m.constructor.chainRec(f, i)
+    m.constructor['fantasy-land/chainRec'](f, i)
 
 1. `f` must be a function which returns a value
-    1. If `f` is not a function, the behaviour of `chainRec` is unspecified.
+    1. If `f` is not a function, the behaviour of `fantasy-land/chainRec` is unspecified.
     2. `f` takes three arguments `next`, `done`, `value`
         1. `next` is a function which takes one argument of same type as `i` and can return any value
         2. `done` is a function which takes one argument and returns the same type as the return value of `next`
         3. `value` is some value of the same type as `i`
     3. `f` must return a value of the same ChainRec which contains a value returned from either `done` or `next`
-2. `chainRec` must return a value of the same ChainRec which contains a value of same type as argument of `done`
+2. `fantasy-land/chainRec` must return a value of the same ChainRec which contains a value of same type as argument of `done`
 
 ### Monad
 
 A value that implements the Monad specification must also implement
 the [Applicative](#applicative) and [Chain](#chain) specifications.
 
-1. `M.of(a).chain(f)` is equivalent to `f(a)` (left identity)
-2. `m.chain(M.of)` is equivalent to `m` (right identity)
+1. `M['fantasy-land/of'](a)['fantasy-land/chain'](f)` is equivalent to `f(a)` (left identity)
+2. `m['fantasy-land/chain'](M['fantasy-land/of'])` is equivalent to `m` (right identity)
 
 ### Extend
 
 A value that implements the Extend specification must also implement the [Functor](#functor) specification.
 
-1. `w.extend(g).extend(f)` is equivalent to `w.extend(_w => f(_w.extend(g)))`
+1. `w['fantasy-land/extend'](g)['fantasy-land/extend'](f)` is equivalent to `w['fantasy-land/extend'](_w => f(_w['fantasy-land/extend'](g)))`
 
-#### `extend` method
+<a name="extend-method"></a>
+
+#### `fantasy-land/extend` method
 
 ```hs
-extend :: Extend w => w a ~> (w a -> b) -> w b
+fantasy-land/extend :: Extend w => w a ~> (w a -> b) -> w b
 ```
 
-An Extend must provide an `extend` method. The `extend`
+An Extend must provide a `fantasy-land/extend` method. The `fantasy-land/extend`
 method takes one argument:
 
-     w.extend(f)
+     w['fantasy-land/extend'](f)
 
 1. `f` must be a function which returns a value
 
-    1. If `f` is not a function, the behaviour of `extend` is
+    1. If `f` is not a function, the behaviour of `fantasy-land/extend` is
        unspecified.
     2. `f` must return a value of type `v`, for some variable `v` contained in `w`.
     3. No parts of `f`'s return value should be checked.
 
-2. `extend` must return a value of the same Extend.
+2. `fantasy-land/extend` must return a value of the same Extend.
 
 ### Comonad
 
 A value that implements the Comonad specification must also implement the [Extend](#extend) specification.
 
-1. `w.extend(_w => _w.extract())` is equivalent to `w` (left identity)
-2. `w.extend(f).extract()` is equivalent to `f(w)` (right identity)
+1. `w['fantasy-land/extend'](_w => _w['fantasy-land/extract']())` is equivalent to `w` (left identity)
+2. `w['fantasy-land/extend'](f)['fantasy-land/extract']()` is equivalent to `f(w)` (right identity)
 
-#### `extract` method
+<a name="extract-method"></a>
+
+#### `fantasy-land/extract` method
 
 ```hs
-extract :: Comonad w => w a ~> () -> a
+fantasy-land/extract :: Comonad w => w a ~> () -> a
 ```
 
-A value which has a Comonad must provide an `extract` method on itself.
-The `extract` method takes no arguments:
+A value which has a Comonad must provide a `fantasy-land/extract` method on itself.
+The `fantasy-land/extract` method takes no arguments:
 
-    w.extract()
+    w['fantasy-land/extract']()
 
-1. `extract` must return a value of type `v`, for some variable `v` contained in `w`.
-    1. `v` must have the same type that `f` returns in `extend`.
+1. `fantasy-land/extract` must return a value of type `v`, for some variable `v` contained in `w`.
+    1. `v` must have the same type that `f` returns in `fantasy-land/extend`.
 
 ### Bifunctor
 
 A value that implements the Bifunctor specification must also implement
 the [Functor](#functor) specification.
 
-1. `p.bimap(a => a, b => b)` is equivalent to `p` (identity)
-2. `p.bimap(a => f(g(a)), b => h(i(b))` is equivalent to `p.bimap(g, i).bimap(f, h)` (composition)
+1. `p['fantasy-land/bimap'](a => a, b => b)` is equivalent to `p` (identity)
+2. `p['fantasy-land/bimap'](a => f(g(a)), b => h(i(b))` is equivalent to `p['fantasy-land/bimap'](g, i)['fantasy-land/bimap'](f, h)` (composition)
 
-#### `bimap` method
+<a name="bimap-method"></a>
+
+#### `fantasy-land/bimap` method
 
 ```hs
-bimap :: Bifunctor f => f a c ~> (a -> b, c -> d) -> f b d
+fantasy-land/bimap :: Bifunctor f => f a c ~> (a -> b, c -> d) -> f b d
 ```
 
-A value which has a Bifunctor must provide a `bimap` method. The `bimap`
+A value which has a Bifunctor must provide a `fantasy-land/bimap` method. The `fantasy-land/bimap`
 method takes two arguments:
 
-    c.bimap(f, g)
+    c['fantasy-land/bimap'](f, g)
 
 1. `f` must be a function which returns a value
 
-    1. If `f` is not a function, the behaviour of `bimap` is unspecified.
+    1. If `f` is not a function, the behaviour of `fantasy-land/bimap` is unspecified.
     2. `f` can return any value.
     3. No parts of `f`'s return value should be checked.
 
 2. `g` must be a function which returns a value
 
-    1. If `g` is not a function, the behaviour of `bimap` is unspecified.
+    1. If `g` is not a function, the behaviour of `fantasy-land/bimap` is unspecified.
     2. `g` can return any value.
     3. No parts of `g`'s return value should be checked.
 
-3. `bimap` must return a value of the same Bifunctor.
+3. `fantasy-land/bimap` must return a value of the same Bifunctor.
 
 ### Profunctor
 
 A value that implements the Profunctor specification must also implement
 the [Functor](#functor) specification.
 
-1. `p.promap(a => a, b => b)` is equivalent to `p` (identity)
-2. `p.promap(a => f(g(a)), b => h(i(b)))` is equivalent to `p.promap(f, i).promap(g, h)` (composition)
+1. `p['fantasy-land/promap'](a => a, b => b)` is equivalent to `p` (identity)
+2. `p['fantasy-land/promap'](a => f(g(a)), b => h(i(b)))` is equivalent to `p['fantasy-land/promap'](f, i)['fantasy-land/promap'](g, h)` (composition)
 
-#### `promap` method
+<a name="promap-method"></a>
+
+#### `fantasy-land/promap` method
 
 ```hs
-promap :: Profunctor p => p b c ~> (a -> b, c -> d) -> p a d
+fantasy-land/promap :: Profunctor p => p b c ~> (a -> b, c -> d) -> p a d
 ```
 
-A value which has a Profunctor must provide a `promap` method.
+A value which has a Profunctor must provide a `fantasy-land/promap` method.
 
-The `promap` method takes two arguments:
+The `fantasy-land/promap` method takes two arguments:
 
-    c.promap(f, g)
+    c['fantasy-land/promap'](f, g)
 
 1. `f` must be a function which returns a value
 
-    1. If `f` is not a function, the behaviour of `promap` is unspecified.
+    1. If `f` is not a function, the behaviour of `fantasy-land/promap` is unspecified.
     2. `f` can return any value.
     3. No parts of `f`'s return value should be checked.
 
 2. `g` must be a function which returns a value
 
-    1. If `g` is not a function, the behaviour of `promap` is unspecified.
+    1. If `g` is not a function, the behaviour of `fantasy-land/promap` is unspecified.
     2. `g` can return any value.
     3. No parts of `g`'s return value should be checked.
 
-3. `promap` must return a value of the same Profunctor
+3. `fantasy-land/promap` must return a value of the same Profunctor
 
 ## Derivations
 
 When creating data types which satisfy multiple algebras, authors may choose
 to implement certain methods then derive the remaining methods. Derivations:
 
-  - [`equals`][] may be derived from [`lte`][]:
+  - [`fantasy-land/equals`][] may be derived from [`fantasy-land/lte`][]:
 
     ```js
-    function(other) { return this.lte(other) && other.lte(this); }
+    function(other) { return this['fantasy-land/lte'](other) && other['fantasy-land/lte'](this); }
     ```
 
-  - [`map`][] may be derived from [`ap`][] and [`of`][]:
+  - [`fantasy-land/map`][] may be derived from [`fantasy-land/ap`][] and [`fantasy-land/of`][]:
 
     ```js
-    function(f) { return this.ap(this.constructor.of(f)); }
+    function(f) { return this['fantasy-land/ap'](this.constructor['fantasy-land/of'](f)); }
     ```
 
-  - [`map`][] may be derived from [`chain`][] and [`of`][]:
+  - [`fantasy-land/map`][] may be derived from [`fantasy-land/chain`][] and [`fantasy-land/of`][]:
 
     ```js
-    function(f) { return this.chain(a => this.constructor.of(f(a))); }
+    function(f) { return this['fantasy-land/chain'](a => this.constructor['fantasy-land/of'](f(a))); }
     ```
 
-  - [`map`][] may be derived from [`bimap`][]:
+  - [`fantasy-land/map`][] may be derived from [`fantasy-land/bimap`][]:
 
     ```js
-    function(f) { return this.bimap(a => a, f); }
+    function(f) { return this['fantasy-land/bimap'](a => a, f); }
     ```
 
-  - [`map`][] may be derived from [`promap`][]:
+  - [`fantasy-land/map`][] may be derived from [`fantasy-land/promap`][]:
 
     ```js
-    function(f) { return this.promap(a => a, f); }
+    function(f) { return this['fantasy-land/promap'](a => a, f); }
     ```
 
-  - [`ap`][] may be derived from [`chain`][]:
+  - [`fantasy-land/ap`][] may be derived from [`fantasy-land/chain`][]:
 
     ```js
-    function(m) { return m.chain(f => this.map(f)); }
+    function(m) { return m['fantasy-land/chain'](f => this['fantasy-land/map'](f)); }
     ```
 
-  - [`reduce`][] may be derived as follows:
+  - [`fantasy-land/reduce`][] may be derived as follows:
 
     ```js
     function(f, acc) {
       function Const(value) {
         this.value = value;
       }
-      Const.of = function(_) {
+      Const['fantasy-land/of'] = function(_) {
         return new Const(acc);
       };
-      Const.prototype.map = function(_) {
+      Const.prototype['fantasy-land/map'] = function(_) {
         return this;
       };
-      Const.prototype.ap = function(b) {
+      Const.prototype['fantasy-land/ap'] = function(b) {
         return new Const(f(b.value, this.value));
       };
-      return this.traverse(x => new Const(x), Const.of).value;
+      return this['fantasy-land/traverse'](x => new Const(x), Const['fantasy-land/of']).value;
     }
     ```
 
-  - [`map`][] may be derived as follows:
+  - [`fantasy-land/map`][] may be derived as follows:
 
     ```js
     function(f) {
       function Id(value) {
         this.value = value;
       }
-      Id.of = function(x) {
+      Id['fantasy-land/of'] = function(x) {
         return new Id(x);
       };
-      Id.prototype.map = function(f) {
+      Id.prototype['fantasy-land/map'] = function(f) {
         return new Id(f(this.value));
       };
-      Id.prototype.ap = function(b) {
+      Id.prototype['fantasy-land/ap'] = function(b) {
         return new Id(this.value(b.value));
       };
-      return this.traverse(x => Id.of(f(x)), Id.of).value;
+      return this['fantasy-land/traverse'](x => Id['fantasy-land/of'](f(x)), Id['fantasy-land/of']).value;
     }
     ```
 
-  - [`filter`][] may be derived from [`of`][], [`chain`][], and [`zero`][]:
+  - [`fantasy-land/filter`][] may be derived from [`fantasy-land/of`][], [`fantasy-land/chain`][], and [`fantasy-land/zero`][]:
 
     ```js
     function(pred) {
       var F = this.constructor;
-      return this.chain(x => pred(x) ? F.of(x) : F.zero());
+      return this['fantasy-land/chain'](x => pred(x) ? F['fantasy-land/of'](x) : F['fantasy-land/zero']());
     }
     ```
 
-  - [`filter`][] may be derived from [`concat`][], [`of`][], [`zero`][], and
-    [`reduce`][]:
+  - [`fantasy-land/filter`][] may be derived from [`fantasy-land/concat`][], [`fantasy-land/of`][], [`fantasy-land/zero`][], and
+    [`fantasy-land/reduce`][]:
 
     ```js
     function(pred) {
       var F = this.constructor;
-      return this.reduce((f, x) => pred(x) ? f.concat(F.of(x)) : f, F.zero());
+      return this['fantasy-land/reduce']((f, x) => pred(x) ? f['fantasy-land/concat'](F['fantasy-land/of'](x)) : f, F['fantasy-land/zero']());
     }
     ```
 
@@ -911,18 +928,18 @@ be equivalent to that of the derivation (or derivations).
    [sanctuary-identity](https://github.com/sanctuary-js/sanctuary-identity).
 
 
-[`ap`]: #ap-method
-[`bimap`]: #bimap-method
-[`chain`]: #chain-method
-[`concat`]: #concat-method
-[`equals`]: #equals-method
-[`filter`]: #filter-method
-[`lte`]: #lte-method
-[`map`]: #map-method
-[`of`]: #of-method
-[`promap`]: #promap-method
-[`reduce`]: #reduce-method
-[`zero`]: #zero-method
+[`fantasy-land/ap`]: #ap-method
+[`fantasy-land/bimap`]: #bimap-method
+[`fantasy-land/chain`]: #chain-method
+[`fantasy-land/concat`]: #concat-method
+[`fantasy-land/equals`]: #equals-method
+[`fantasy-land/filter`]: #filter-method
+[`fantasy-land/lte`]: #lte-method
+[`fantasy-land/map`]: #map-method
+[`fantasy-land/of`]: #of-method
+[`fantasy-land/promap`]: #promap-method
+[`fantasy-land/reduce`]: #reduce-method
+[`fantasy-land/zero`]: #zero-method
 
 ## Alternatives
 
