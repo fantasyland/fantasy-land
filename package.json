@@ -1,7 +1,7 @@
 {
   "name": "fantasy-land",
   "author": "Brian McKenna",
-  "version": "3.5.0",
+  "version": "4.0.0",
   "description": "Specification for interoperability of common algebraic structures in JavaScript",
   "license": "MIT",
   "homepage": "https://github.com/fantasyland/fantasy-land",
