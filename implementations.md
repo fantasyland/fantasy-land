@@ -32,6 +32,7 @@ Here are a list of implementations that live in Fantasy Land:
 * [Ramda Adjunct](https://github.com/char0n/ramda-adjunct) is a community-maintained extension of Ramda
 * [Folktale](https://folktale.origamitower.com/) implements Maybe, Result, Validation, Task and Future as FL-compatible types.
 * [Monastic](https://github.com/wearereasonablepeople/monastic) implements a Fantasy Land 3 compliant State Monad.
+* [SodiumFRP](https://github.com/sodiumFRP/sodium-typescript) implements Functor and Monoid for Streams, as well as Monad and Comonad for Cells.
 
 Conforming implementations are encouraged to promote the Fantasy Land logo:
 
