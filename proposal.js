@@ -111,14 +111,11 @@ FL.String = {
 };
 
 //# FL.Array :: TypeRep a -> TypeRep (Array a)
-FL.Array = $1 => Object.assign (
-  {'@@show': () => 'Array (' + show ($1) + ')',
-   'concat': a1 => a2 => a1.concat (a2)},
-
-  FL.isMonoid ($1) ?
-  {'empty': () => []} :
-  {}
-);
+FL.Array = $1 => ({
+  '@@show': () => 'Array (' + show ($1) + ')',
+  'concat': a1 => a2 => a1.concat (a2),
+  'empty': () => [],
+});
 
 //# FL.typeRep :: a -> TypeRep a
 //.
@@ -290,5 +287,5 @@ eq (FL.empty (PAIR (STRING) (ARRAY (STRING))))
 eq (FL.empty (PAIR (STRING) (MAYBE (ARRAY (NUMBER)))))
    (Pair ('') (Maybe.Nothing));
 
-throws (() => { FL.empty (PAIR (STRING) (ARRAY (NUMBER))); })
-       (new TypeError ('Pair (String) (Array (Number)) does not satisfy Monoid constraint'));
+throws (() => { FL.empty (PAIR (STRING) (NUMBER)); })
+       (new TypeError ('Pair (String) (Number) does not satisfy Monoid constraint'));
