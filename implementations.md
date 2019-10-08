@@ -33,6 +33,7 @@ Here are a list of implementations that live in Fantasy Land:
 * [Folktale](https://folktale.origamitower.com/) implements Maybe, Result, Validation, Task and Future as FL-compatible types.
 * [Monastic](https://github.com/wearereasonablepeople/monastic) implements a Fantasy Land 3 compliant State Monad.
 * [SodiumFRP](https://github.com/sodiumFRP/sodium-typescript) implements Functor and Monoid for Streams, as well as Monad and Comonad for Cells.
+* [Zion](https://github.com/osstotalsoft/jsbb/tree/master/packages/zion) provides FL-compatible types like Maybe, List, Map, Reader, Step and polymorphic fns.
 
 Conforming implementations are encouraged to promote the Fantasy Land logo:
 
