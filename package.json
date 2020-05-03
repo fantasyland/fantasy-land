@@ -31,12 +31,15 @@
     "/README.md",
     "/index.d.ts",
     "/index.js",
+    "/index.mjs",
     "/package.json"
   ],
   "main": "index.js",
   "types": "index.d.ts",
+  "module": "index.mjs",
   "scripts": {
     "doctest": "sanctuary-doctest",
+    "generate-es": "scripts/generate-es",
     "generate-js": "scripts/generate-js",
     "generate-ts": "scripts/generate-ts",
     "lint": "sanctuary-lint",
