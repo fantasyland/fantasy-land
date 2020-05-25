@@ -8,4 +8,5 @@ When adding a type class to __README.md__, please update __names__ then run:
 ```console
 $ npm run generate-js
 $ npm run generate-ts
+$ npm run generate-es
 ```
