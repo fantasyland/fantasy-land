@@ -63,8 +63,8 @@ id="sanctuary-types-return">[1](#sanctuary-types)</sup>
 * `::` _"is a member of"._
     - `e :: t` can be read as: "the expression `e` is a member of type `t`".
     - `true :: Boolean` - "`true` is a member of type `Boolean`".
-    - `42 :: Integer, Number` - "`42` is a member of type `Integer and
-      Number`".
+    - `42 :: Integer, Number` - "`42` is a member of the `Integer` and
+      `Number` types".
 * _New types can be created via type constructors._
     - Type constructors can take zero or more type arguments.
     - `Array` is a type constructor which takes one type argument.
