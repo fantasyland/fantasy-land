@@ -35,8 +35,10 @@
     "/package.json"
   ],
   "main": "index.js",
-  "types": "index.d.ts",
-  "module": "index.mjs",
+  "exports": {
+    "require": "./index.js",
+    "import": "./index.mjs"
+  },
   "scripts": {
     "doctest": "sanctuary-doctest",
     "generate-es": "scripts/generate-es",
