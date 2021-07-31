@@ -10,6 +10,10 @@
         "no-undef": ["off"],
         "no-unused-vars": ["off"]
       }
+    },
+    {
+      "files": "index.js",
+      "globals": {"globalThis": false}
     }
   ]
 }
