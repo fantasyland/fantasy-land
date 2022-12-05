@@ -36,6 +36,7 @@
   ],
   "main": "index.js",
   "exports": {
+    "types": "./index.d.ts",
     "require": "./index.js",
     "import": "./index.mjs"
   },
