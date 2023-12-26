@@ -748,7 +748,7 @@ A value that implements the Bifunctor specification must also implement
 the [Functor](#functor) specification.
 
 1. `p['fantasy-land/bimap'](a => a, b => b)` is equivalent to `p` (identity)
-2. `p['fantasy-land/bimap'](a => f(g(a)), b => h(i(b))` is equivalent to `p['fantasy-land/bimap'](g, i)['fantasy-land/bimap'](f, h)` (composition)
+2. `p['fantasy-land/bimap'](a => f(g(a)), b => h(i(b)))` is equivalent to `p['fantasy-land/bimap'](g, i)['fantasy-land/bimap'](f, h)` (composition)
 
 <a name="bimap-method"></a>
 
