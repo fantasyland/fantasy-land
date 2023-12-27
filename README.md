@@ -813,6 +813,143 @@ The `fantasy-land/promap` method takes two arguments:
 
 3. `fantasy-land/promap` must return a value of the same Profunctor
 
+## Types
+
+In Fantasy Land, types are specified by an object containing a catamorphic
+method `cata`. `cata` has an arity matching the number of constructor functions
+belonging to each type. Each argument to `cata` is either:
+
+1. a value corresponding to a nullary constructor
+
+   1. Value arguments to `cata` must match the return type of `cata` itself.
+
+2. a function with an arity matching the number of arguments to the
+   corresponding constructor function
+
+   1. Function arguments to `cata` must return values of the same type as
+      `cata` itself.
+
+For example
+```hs
+Identity a = { cata :: (a -> b) -> b }
+'------' '             '------'    '
+ '       '              '          ' - return type
+ '       '              '
+ '       '              ' - destructor function
+ '       '
+ '       ' - type variable
+ '
+ ' - type name
+
+identity :: a -> Identity a
+'------'    '    '--------'
+ '          '     '
+ '          '     ' - return type
+ '          '
+ '          ' - constructor argument
+ '
+ ' - constructor name
+```
+
+Libraries conforming to this specification may provide custom data constructors
+corresponding with the constructor functions. No provided constructors are
+required to share the names of the constructor functions defined herein. For
+example, instead of `Identity`, the constructor could be named `Id`. If custom
+constructors _are_ provided, they must return values which contain a `cata`
+method. This method must exhibit the same behaviour as described above.
+
+For example
+```js
+var identity = require('fantasy-land/identity');
+
+function Id(x) {
+  this.x = x;
+}
+Id.prototype['fantasy-land/cata'] = function cata(f) {
+  return f(this.x);
+}
+
+// Alternatively
+Id.prototype['fantasy-land/cata'] = function cata(f) {
+  return identity(this.x).cata(f);
+}
+
+(new Id(42)).cata(x => x) === identity(42).cata(x => x);
+```
+
+### Maybe
+
+The `Maybe` type encodes the concept of optionality (Nothing and Just a).
+
+```hs
+Maybe a = { cata :: (b, a -> b) -> b }
+nothing :: Maybe a
+just :: a -> Maybe a
+```
+
+A value which conforms to the Maybe specification must provide a `cata` method.
+
+The `cata` method takes two arguments:
+
+    m.cata(f, g)
+
+1. `f` must be a nullary function. It is called in the `Nothing` case
+
+    1. If `f` is not a nullary function or the return value of `f` does not
+       match the return value of `cata`, the behaviour of `cata` is unspecified.
+
+2. `g` must be a unary function. It is called in the `Just` case
+
+    1. If `g` is not a unary function or the return value of `g` does not match
+       the return value of `cata`, the behaviour of `cata` is unspecified.
+
+### Either
+
+The `Either` type encodes the concept of binary possibility (Left a and Right b).
+
+```hs
+Either a b = { cata :: (a -> c, b -> c) -> c }
+left :: a -> Either a b
+right :: b -> Either a b
+```
+
+A value which conforms to the Either specification must provide a `cata` method.
+
+The `cata` method takes two arguments:
+
+    e.cata(f, g)
+
+1. `f` must be a unary function. It is called in the `Left` case
+
+    1. If `f` is not a unary function or the return value of `f` does not match
+       the return value of `cata`, the behaviour of `cata` is unspecified.
+
+2. `g` must be a unary function. It is called in the `Right` case
+
+    1. If `g` is not a unary function or the return value of `g` does not match
+       the return value of `cata`, the behaviour of `cata` is unspecified.
+
+### Tuple
+
+`Tuple` is the canonical product type and represents a structure containing two
+values (Tuple a b).
+
+```hs
+Tuple a b = { cata :: ((a, b) -> c) -> c }
+tuple :: (a, b) -> Tuple a b
+```
+
+A value which conforms to the Tuple specification must provide a `cata` method.
+
+The `cata` method takes a single argument:
+
+    t.cata(f)
+
+1. `f` must be a binary function
+
+    1. If `f` is not a binary function or the return value of `f` does not match
+       the return value of `cata`, the behaviour of `cata` is unspecified.
+
 ## Derivations
 
 When creating data types which satisfy multiple algebras, authors may choose
