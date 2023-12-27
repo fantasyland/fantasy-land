@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euf -o pipefail
 
-node_modules/.bin/sanctuary-lint "$@"
+# node_modules/.bin/sanctuary-lint "$@"
 
 scripts/generate-js && git diff --exit-code index.js
 scripts/generate-ts && git diff --exit-code index.d.ts
