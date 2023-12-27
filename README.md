@@ -813,6 +813,136 @@ The `fantasy-land/promap` method takes two arguments:
 
 3. `fantasy-land/promap` must return a value of the same Profunctor
 
+## Types
+
+In Fantasy Land, types are specified by a capitalized name and a catamorphic
+method of the same name, without capitalization. The method allows access to
+the values contained within the structure or the ability to provide a default
+value when the structure is nullary. When defined on a value, a method name
+contains the same 'fantasy-land/' as other methods described in the spec prefix.
+
+For example
+```hs
+identity :: Identity i => i a ~> (a -> b) -> b
+```
+
+Additionally, data constructors may be referenced in the specification by name
+and arity. Conforming data structures are not required to provide these
+constructors nor are any provided constructors required to share these names.
+Instead of `Just` and `Nothing`, the constructors could be named `Some` and
+`None`.
+
+For example
+```js
+function Some(x) {
+  if (!(this instanceof Some)) return new Some(x);
+  this.x = x;
+};
+Some.prototype['fantasy-land/maybe'] = function maybe(_, f) {
+  return f(this.x);
+};
+
+var None = {
+  'fantasy-land/maybe': function maybe(d, _) {
+    return d;
+  }
+};
+
+Array.prototype['fantasy-land/maybe'] = function maybe(d, f) {
+  return this.length === 0 ? d : f(this[0]);
+};
+
+function maybe(d, f, m) {
+  return m['fantasy-land/maybe'](d, f);
+}
+
+var head = maybe.bind(null, None, Some);
+
+var none = head([]);
+none // None
+
+var some = head([1, 2, 3]);
+some // Some(1);
+
+function fromMaybe(d, m) {
+  return maybe(d, x => x, m);
+}
+fromMaybe(0, none) // 0
+fromMaybe(0, some) // 1
+```
+
+### Maybe
+
+The `Maybe` type encodes the concept of optionality (Nothing and Just a).
+
+#### `maybe` method
+
+```hs
+maybe :: Maybe m => m a ~> (b, (a -> b)) -> b
+```
+
+A value which conforms to the Maybe specification must provide a `maybe` method.
+
+The `maybe` method takes two arguments:
+
+    m.maybe(x, f)
+
+1. `x` is the default value in the `Nothing` case
+
+    1. If `x` does not match the return value of `maybe`, the behaviour of
+       `maybe` is unspecified.
+
+2. `f` must be a unary function. It is called in the `Just` case
+
+    1. If `f` is not a unary function or the return value of `f` does not match
+       the return value of `maybe`, the behaviour of `maybe` is unspecified.
+ 
+### Either
+
+The `Either` type encodes the concept of binary possibility (Left a and Right b).
+
+#### `either` method
+
+```hs
+either :: Either e => e a b ~> ((a -> c), (b -> c)) -> c
+```
+
+A value which conforms to the Either specification must provide an `either` method.
+
+The `either` method takes two arguments:
+
+    e.either(f, g)
+
+1. `f` must be a unary function. It is called in the `Left` case
+
+    1. If `f` is not a unary function or the return value of `f` does not match
+       the return value of `either`, the behaviour of `either` is unspecified.
+
+2. `g` must be a unary function. It is called in the `Right` case
+
+    1. If `g` is not a unary function or the return value of `g` does not match
+       the return value of `either`, the behaviour of `either` is unspecified.
+
+### Pair
+
+`Pair` is the canonical product type and represents a structure containing two
+values (Pair a b).
+
+```hs
+pair :: Pair p => p a b ~> ((a, b) -> c) -> c
+```
+
+A value which conforms to the Pair specification must provide a `pair` method.
+
+The `pair` method takes a single argument:
+
+    p.pair(f)
+
+1. `f` must be a binary function
+
+    1. If `f` is not a binary function or the return value of `f` does not match
+       the return value of `pair`, the behaviour of `pair` is unspecified.
+
 ## Derivations
 
 When creating data types which satisfy multiple algebras, authors may choose
